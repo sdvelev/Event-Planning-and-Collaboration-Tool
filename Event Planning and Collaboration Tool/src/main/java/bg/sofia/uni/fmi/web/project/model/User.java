@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "planning-user")
 @Data
 @Builder
 @AllArgsConstructor
@@ -58,5 +58,4 @@ public class User {
 
     @OneToMany(mappedBy = "invitedUser")
     Set<Invitation> associatedInvites;
-
 }
