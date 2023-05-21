@@ -12,9 +12,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Collaborator {
@@ -37,6 +39,9 @@ public class Collaborator {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User associatedUser;
+
+    @OneToMany(mappedBy = "initiator")
+    private Set<Expense> associatedExpenses;
 
     @Override
     public boolean equals(Object o) {
