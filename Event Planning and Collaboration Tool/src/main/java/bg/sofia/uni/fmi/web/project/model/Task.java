@@ -30,9 +30,9 @@ public class Task {
     @Column
     private TaskProgress taskProgress;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "collaborator_id", nullable = false)
-    private Collaborator collaborator;
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "collaborator_id", nullable = false)
+//    private Collaborator collaborator;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)

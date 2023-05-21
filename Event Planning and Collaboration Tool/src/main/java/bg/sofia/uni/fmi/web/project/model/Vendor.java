@@ -24,6 +24,9 @@ public class Vendor {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "vendor")
     private Set<Contract> contracts;
 
+    @Column(length = 255, nullable = false, unique = true)
+    private String email;
+
     @Column(length = 255, nullable = false)
     private String description;
 
