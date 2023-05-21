@@ -36,7 +36,7 @@ public class Invitation {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "invitation_time", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "invitation_time")
     @NotNull
     private LocalDateTime invitationTime;
 
