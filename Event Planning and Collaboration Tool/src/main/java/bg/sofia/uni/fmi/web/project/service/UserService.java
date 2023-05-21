@@ -24,15 +24,28 @@ public class UserService {
         this.invitationRepository = invitationRepository;
     }
 
-    public User createUser(String username, String password, String email) {
-        User userToCreate = User.builder()
-            .username(username)
-            .password(password)
-            .email(email)
-            .build();
+    public User createUser(User userToSave) {
 
-        return userRepository.save(userToCreate);
+        if (userRepository.findByUsername(userToSave.getUsername()).isPresent()) {
+            return null;
+        }
+
+        if (userRepository.findByEmail(userToSave.getEmail()).isPresent()) {
+            return null;
+        }
+
+        return userRepository.save(userToSave);
     }
+
+//    public User createUser(String username, String password, String email) {
+//        User userToCreate = User.builder()
+//            .username(username)
+//            .password(password)
+//            .email(email)
+//            .build();
+//
+//        return userRepository.save(userToCreate);
+//    }
 
     public List<User> getUsers() {
         return userRepository.findAll();
