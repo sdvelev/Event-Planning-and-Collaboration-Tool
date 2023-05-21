@@ -14,40 +14,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Objects;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-public class Collaborator {
+public class Invitation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column(name = "invitation_time", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @NotNull
-    private CollaboratorRole role;
+    private LocalDateTime invitationTime;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "category")
+    @Column(name = "is-accepted")
     @NotNull
-    private CollaboratorCategory category;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User associatedUser;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Collaborator that = (Collaborator) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+    private boolean isAccepted;
 }
