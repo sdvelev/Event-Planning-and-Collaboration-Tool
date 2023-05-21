@@ -39,7 +39,7 @@ public class Expense {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "expense_time", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "expense_time")
     @NotNull
     private LocalDateTime expenseTime;
 
