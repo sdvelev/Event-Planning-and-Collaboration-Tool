@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
@@ -45,6 +46,7 @@ public class User {
     @OneToMany(mappedBy = "associatedUser")
     Set<Collaborator> collaboratorProfiles;
 
-
+    @OneToMany(mappedBy = "invitedUser")
+    Set<Invitation> associatedInvites;
 
 }
