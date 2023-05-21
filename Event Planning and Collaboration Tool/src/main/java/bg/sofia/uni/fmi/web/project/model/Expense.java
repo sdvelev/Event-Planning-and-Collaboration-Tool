@@ -29,6 +29,10 @@ public class Expense {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "expense_time", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @NotNull
+    private LocalDateTime expenseTime;
+
     @Column(name = "price")
     @NotNull
     private BigDecimal price;
