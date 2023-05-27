@@ -16,16 +16,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 
-
-@Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "tasks")
 @Table(name = "tasks")
+@DynamicUpdate
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,16 +47,16 @@ public class Task {
     @Column
     private LocalDateTime lastNotified;
 
-    // foreign keys
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
+    // private Event event;
     private EventStub event;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "participant_id", nullable = false)
+    // private Participant participant;
     private ParticipantStub participant;
 
-    // Audit fields
     @Column(length = 255, nullable = false)
     private String createdBy;
 
