@@ -172,7 +172,6 @@ public class UserService {
 
             userToDelete.setDeleted(true);
 
-            userRepository.delete(userToDelete);
             return true;
         }
 
