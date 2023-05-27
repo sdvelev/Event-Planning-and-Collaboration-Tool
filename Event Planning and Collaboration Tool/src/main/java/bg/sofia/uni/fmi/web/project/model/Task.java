@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.web.project.model;
 
+import bg.sofia.uni.fmi.web.project.model.stub.EventStub;
+import bg.sofia.uni.fmi.web.project.model.stub.ParticipantStub;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,16 +31,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "event_id", nullable = false)
-//    private Event event;
+    @Column(length = 255, nullable = false)
+    private String name;
+
+    @Column(length = 255, nullable = false)
+    private String description;
 
     @Column(nullable = false)
     private TaskProgress taskProgress;
-
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "participant_id", nullable = false)
-//    private Participant participant;
 
     @Column(nullable = false)
     private LocalDateTime dueDate;
@@ -46,12 +46,16 @@ public class Task {
     @Column
     private LocalDateTime lastNotified;
 
-    @Column(length = 255, nullable = false)
-    private String name;
+    // foreign keys
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id", nullable = false)
+    private EventStub event;
 
-    @Column(length = 255, nullable = false)
-    private String description;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "participant_id", nullable = false)
+    private ParticipantStub participant;
 
+    // Audit fields
     @Column(length = 255, nullable = false)
     private String createdBy;
 

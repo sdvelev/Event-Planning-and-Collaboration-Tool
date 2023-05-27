@@ -19,6 +19,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
      * Read tasks group
      */
     List<Task> findTasksByIdEquals(long id);
+    List<Task> findTasksByNameEquals(String name);
+
 
 
 
