@@ -1,13 +1,8 @@
 package bg.sofia.uni.fmi.web.project.dto;
 
-import bg.sofia.uni.fmi.web.project.model.Collaborator;
-import bg.sofia.uni.fmi.web.project.model.Invitation;
-import com.fasterxml.jackson.annotation.JacksonInject;
+import bg.sofia.uni.fmi.web.project.model.Participant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,8 +18,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserDto {
 
-    //@JsonProperty("id")
-    //private Long id;
+    @JsonProperty("id")
+    private Long id;
 
     @JsonProperty("username")
     private String username;
@@ -32,15 +27,24 @@ public class UserDto {
     @JsonProperty("password")
     private String password;
 
-    @JsonProperty("email")
-    private String email;
-
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("description")
-    private String description;
+    @JsonProperty("surname")
+    private String surname;
 
-    @JsonProperty("age")
-    private Integer age;
+    @JsonProperty("email")
+    private String email;
+
+//    @JsonProperty("description")
+//    private String description;
+
+    @JsonProperty("verified")
+    private boolean verified;
+
+    @JsonProperty("profile_photo_link")
+    private String profilePhotoLink;
+
+    @JsonProperty("address")
+    private String address;
 }
