@@ -7,15 +7,46 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
     /**
-     * CREATE Tasks
+     * CREATE tasks group
      */
     Task save(Task task);
 
-//    List<Task> saveAll(List<Task> tasks);
 
+
+
+
+    /**
+     * Read tasks group
+     */
     List<Task> findTasksByIdEquals(long id);
 
+
+
+
+
+
+
+    /**
+     * Update tasks group
+     */
+    //    List<Task> saveAll(List<Task> tasks);
+
+
+
+
+
+
+
+
+    /**
+     * Delete tasks group
+     */
     void deleteById(long id);
 
     void delete(Task entity);
+
+
+
+
+
 }
