@@ -72,8 +72,8 @@ public class User {
     @Column(name = "updated_by")
     private String updatedBy;
 
-    @Column(name = "last_updated_by")
-    private LocalDateTime lastUpdatedBy;
+    @Column(name = "last_updated_time")
+    private LocalDateTime lastUpdatedTime;
 
     //Soft Deletion
 
