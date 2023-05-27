@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.web.project.model;
 
-import bg.sofia.uni.fmi.web.project.enums.CollaboratorCategory;
-import bg.sofia.uni.fmi.web.project.enums.CollaboratorRole;
+import bg.sofia.uni.fmi.web.project.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,16 +18,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Table(name = "collaborator")
+@Table(name = "participant")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Collaborator {
+public class Participant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,25 +37,44 @@ public class Collaborator {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     @NotNull
-    private CollaboratorRole role;
+    private UserRole userRole;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "category")
+    //Audit fields
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "creation_time")
+    private LocalDateTime creationTime;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "last_updated_time")
+    private LocalDateTime lastUpdatedTime;
+
+    //Soft Deletion
+
+    @Column(name = "deleted")
     @NotNull
-    private CollaboratorCategory category;
+    private boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User associatedUser;
 
-    @OneToMany(mappedBy = "initiator")
-    private Set<Expense> associatedExpenses;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "event_id")
+//    private Event associatedEvent;
+
+//    @OneToMany(mappedBy = "initiator")
+//    private Set<Task> associatedTasks;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Collaborator that = (Collaborator) o;
+        Participant that = (Participant) o;
         return id.equals(that.id);
     }
 
