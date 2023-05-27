@@ -5,9 +5,11 @@ import bg.sofia.uni.fmi.web.project.model.Invitation;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.InvitationRepository;
 import bg.sofia.uni.fmi.web.project.repository.UserRepository;
+import jdk.incubator.vector.LongVector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,8 @@ public class UserService {
     }
 
     public User createUser(User userToSave) {
+
+        userToSave.setCreationTime(LocalDateTime.now());
 
         if (userRepository.findByUsername(userToSave.getUsername()).isPresent()) {
             return null;
@@ -73,6 +77,8 @@ public class UserService {
 
             userToChange.setUsername(newUserName);
 
+            userToChange.setLastUpdatedTime(LocalDateTime.now());
+
             userRepository.save(userToChange);
             return true;
         } else {
@@ -87,6 +93,8 @@ public class UserService {
             User userToChange = optionalUserToChange.get();
 
             userToChange.setName(name);
+
+            userToChange.setLastUpdatedTime(LocalDateTime.now());
 
             userRepository.save(userToChange);
             return true;
@@ -119,6 +127,8 @@ public class UserService {
 
             userToChange.setAddress(address);
 
+            userToChange.setLastUpdatedTime(LocalDateTime.now());
+
             userRepository.save(userToChange);
             return true;
         } else {
@@ -134,6 +144,8 @@ public class UserService {
             User userToChange = optionalUserToChange.get();
 
             userToChange.setPassword(password);
+
+            userToChange.setLastUpdatedTime(LocalDateTime.now());
 
             userRepository.save(userToChange);
             return true;
@@ -154,6 +166,10 @@ public class UserService {
 
                 //currentParticipant.getEvent().delete();
             }
+
+            userToDelete.setLastUpdatedTime(LocalDateTime.now());
+
+            userToDelete.setDeleted(true);
 
             userRepository.delete(userToDelete);
             return true;
