@@ -7,10 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +17,7 @@ import lombok.NoArgsConstructor;
 import java.util.Set;
 
 @Entity
-@Table(name = "planning-user")
+@Table(name = "user_planner")
 @Data
 @Builder
 @AllArgsConstructor
@@ -40,22 +37,29 @@ public class User {
     @NotNull
     private String password;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
+
     @Column(name = "email", unique = true)
     @NotNull
     private String email;
 
-    @Column(name = "name")
-    private String name;
+//    @Column(name = "description")
+//    private String description;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "verified")
+    @NotNull
+    private boolean verified;
 
-    @Column(name = "age")
-    private Integer age;
+    @Column(name = "profile_photo_link")
+    private String profilePhotoLink;
+
+    @Column(name = "address")
+    private String address;
 
     @OneToMany(mappedBy = "associatedUser")
-    Set<Collaborator> collaboratorProfiles;
-
-    @OneToMany(mappedBy = "invitedUser")
-    Set<Invitation> associatedInvites;
+    Set<Participant> participantProfiles;
 }
