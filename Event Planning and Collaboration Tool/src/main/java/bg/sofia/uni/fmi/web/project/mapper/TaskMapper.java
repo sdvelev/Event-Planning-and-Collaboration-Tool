@@ -4,9 +4,16 @@ import bg.sofia.uni.fmi.web.project.dto.TaskDto;
 import bg.sofia.uni.fmi.web.project.model.Task;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Collections;
+
 @Component
 public class TaskMapper {
     public TaskDto toDto(Task taskEntity) {
+        if (taskEntity == null) {
+            return null;
+        }
+
         return TaskDto.builder()
             .id(taskEntity.getId())
             .name(taskEntity.getName())
@@ -25,6 +32,9 @@ public class TaskMapper {
     }
 
     public Task toEntity(TaskDto taskDto) {
+        if (taskDto == null) {
+            return null;
+        }
         return Task.builder()
             .id(taskDto.getId())
             .name(taskDto.getName())
@@ -40,5 +50,25 @@ public class TaskMapper {
             .lastUpdatedTime(taskDto.getLastUpdatedTime())
             .deleted(taskDto.isDeleted())
             .build();
+    }
+
+    public Collection<TaskDto> toDtoCollection(Collection<Task> tasksEntities) {
+        if (tasksEntities == null) {
+            return Collections.emptyList();
+        }
+
+        return tasksEntities.stream()
+            .map(this::toDto)
+            .toList();
+    }
+
+    public Collection<Task> toEntityCollection(Collection<TaskDto> tasksDtos) {
+        if (tasksDtos == null) {
+            return Collections.emptyList();
+        }
+
+        return tasksDtos.stream()
+            .map(this::toEntity)
+            .toList();
     }
 }
