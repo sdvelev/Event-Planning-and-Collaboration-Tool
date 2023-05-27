@@ -10,24 +10,30 @@ public class UserMapper {
     public UserDto toDto(User entity) {
 
         return UserDto.builder()
+            .id(entity.getId())
             .username(entity.getUsername())
             .password(entity.getPassword())
-            .email(entity.getEmail())
             .name(entity.getName())
-            .description(entity.getDescription())
-            .age(entity.getAge())
+            .surname(entity.getSurname())
+            .email(entity.getEmail())
+            .profilePhotoLink(entity.getProfilePhotoLink())
+            .verified(entity.isVerified())
+            .address(entity.getAddress())
             .build();
     }
 
     public User toEntity(UserDto userDto) {
 
         return User.builder()
+            .id(userDto.getId())
             .username(userDto.getUsername())
             .password(userDto.getPassword())
-            .email(userDto.getEmail())
             .name(userDto.getName())
-            .description(userDto.getDescription())
-            .age(userDto.getAge())
+            .surname(userDto.getSurname())
+            .email(userDto.getEmail())
+            .profilePhotoLink(userDto.getProfilePhotoLink())
+            .verified(userDto.isVerified())
+            .address(userDto.getAddress())
             .build();
     }
 
