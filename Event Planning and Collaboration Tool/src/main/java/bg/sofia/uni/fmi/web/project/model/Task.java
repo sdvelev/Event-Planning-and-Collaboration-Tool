@@ -12,9 +12,7 @@ import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDateTime;
 
-/**
- *
- */
+
 @Entity
 public class Task {
     @Id
@@ -25,14 +23,14 @@ public class Task {
 //    @JoinColumn(name = "event_id", nullable = false)
 //    private Event event;
 
-    @Column
+    @Column(nullable = false)
     private TaskProgress taskProgress;
 
 //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "participant_id", nullable = false)
 //    private Participant participant;
 
-    @Column
+    @Column(nullable = false)
     private LocalDateTime dueDate;
 
     @Column
@@ -43,4 +41,19 @@ public class Task {
 
     @Column(length = 255, nullable = false)
     private String description;
+
+    @Column(length = 255, nullable = false)
+    private String createdBy;
+
+    @Column(nullable = false)
+    private LocalDateTime creationTime;
+
+    @Column(length = 255)
+    private String updatedBy;
+
+    @Column
+    private LocalDateTime lastUpdatedTime;
+
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean deleted;
 }
