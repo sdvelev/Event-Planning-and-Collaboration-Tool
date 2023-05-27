@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
-import bg.sofia.uni.fmi.web.project.model.Collaborator;
+import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.Invitation;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.InvitationRepository;
@@ -8,7 +8,6 @@ import bg.sofia.uni.fmi.web.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DecimalStyle;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,12 +15,10 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final InvitationRepository invitationRepository;
 
     @Autowired
     public UserService(UserRepository userRepository, InvitationRepository invitationRepository) {
         this.userRepository = userRepository;
-        this.invitationRepository = invitationRepository;
     }
 
     public User createUser(User userToSave) {
@@ -98,29 +95,29 @@ public class UserService {
         }
     }
 
-    public boolean setAgeById(Integer age, Long id) {
+//    public boolean setAgeById(Integer age, Long id) {
+//        Optional<User> optionalUserToChange = userRepository.findById(id);
+//
+//        if (optionalUserToChange.isPresent()) {
+//            User userToChange = optionalUserToChange.get();
+//
+//            userToChange.setAge(age);
+//
+//            userRepository.save(userToChange);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
+    public boolean setAddressById(String address, Long id) {
         Optional<User> optionalUserToChange = userRepository.findById(id);
 
         if (optionalUserToChange.isPresent()) {
-            User userToChange = optionalUserToChange.get();
-
-            userToChange.setAge(age);
-
-            userRepository.save(userToChange);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean setDescriptionById(String description, Long id) {
-        Optional<User> optionalUserToChange = userRepository.findById(id);
-
-        if (optionalUserToChange.isPresent()) {
 
             User userToChange = optionalUserToChange.get();
 
-            userToChange.setDescription(description);
+            userToChange.setAddress(address);
 
             userRepository.save(userToChange);
             return true;
@@ -153,13 +150,9 @@ public class UserService {
 
             User userToDelete = optionalUserToDelete.get();
 
-            for (Collaborator currentCollaborator : userToDelete.getCollaboratorProfiles()) {
+            for (Participant currentParticipant : userToDelete.getParticipantProfiles()) {
 
-                //currentCollaborator.getEvent().delete();
-            }
-
-            for (Invitation currentInvitation : userToDelete.getAssociatedInvites()) {
-                invitationRepository.delete(currentInvitation);
+                //currentParticipant.getEvent().delete();
             }
 
             userRepository.delete(userToDelete);
