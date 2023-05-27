@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 @Entity(name = "tasks")
 @Table(name = "tasks")
 @DynamicUpdate
+@DynamicInsert
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
