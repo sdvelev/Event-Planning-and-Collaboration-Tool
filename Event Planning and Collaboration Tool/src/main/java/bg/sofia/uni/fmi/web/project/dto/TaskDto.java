@@ -29,8 +29,10 @@ public class TaskDto {
     private TaskProgress taskProgress;
     private LocalDateTime dueDate;
     private LocalDateTime lastNotified;
-    private long eventId;
-    private long participantId;
+    // Event
+    private EventStub event;
+    // Participant
+    private ParticipantStub participant;
     private String createdBy;
     private LocalDateTime creationTime;
     private String updatedBy;
