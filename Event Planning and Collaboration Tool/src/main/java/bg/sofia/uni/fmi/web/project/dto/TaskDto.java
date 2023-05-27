@@ -38,14 +38,4 @@ public class TaskDto {
     private String updatedBy;
     private LocalDateTime lastUpdatedTime;
     private boolean deleted;
-
-    //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "event_id", nullable = false)
-//    // private Event event;
-//    private EventStub event;
-//
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "participant_id", nullable = false)
-//    // private Participant participant;
-//    private ParticipantStub participant;
 }

@@ -7,8 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    Task save(Task task);
-    Collection<Task> findTasksByIdEquals(long id);
+    Task findTaskByIdEquals(long id);
     Collection<Task> findTasksByNameEquals(String name);
     Collection<Task> findTasksByEventIdIs(long id);
     Collection<Task> findTasksByParticipantIdEquals(long id);
