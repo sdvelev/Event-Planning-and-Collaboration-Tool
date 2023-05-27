@@ -78,6 +78,7 @@ public class User {
     //Soft Deletion
 
     @Column(name = "deleted")
+    @NotNull
     private boolean deleted;
 
     @OneToMany(mappedBy = "associatedUser")

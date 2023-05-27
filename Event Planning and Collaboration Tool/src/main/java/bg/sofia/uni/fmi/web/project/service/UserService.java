@@ -5,7 +5,6 @@ import bg.sofia.uni.fmi.web.project.model.Invitation;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.InvitationRepository;
 import bg.sofia.uni.fmi.web.project.repository.UserRepository;
-import jdk.incubator.vector.LongVector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,8 @@ public class UserService {
     public User createUser(User userToSave) {
 
         userToSave.setCreationTime(LocalDateTime.now());
+
+        userToSave.setDeleted(false);
 
         if (userRepository.findByUsername(userToSave.getUsername()).isPresent()) {
             return null;
