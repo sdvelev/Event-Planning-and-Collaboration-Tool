@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -59,6 +60,25 @@ public class User {
 
     @Column(name = "address")
     private String address;
+
+    //Audit fields
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "creation_time")
+    private LocalDateTime creationTime;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "last_updated_by")
+    private LocalDateTime lastUpdatedBy;
+
+    //Soft Deletion
+
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @OneToMany(mappedBy = "associatedUser")
     Set<Participant> participantProfiles;
