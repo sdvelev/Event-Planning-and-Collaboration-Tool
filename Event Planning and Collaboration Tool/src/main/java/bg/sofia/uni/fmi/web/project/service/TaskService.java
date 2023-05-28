@@ -3,12 +3,9 @@ package bg.sofia.uni.fmi.web.project.service;
 import bg.sofia.uni.fmi.web.project.mapper.TaskMapper;
 import bg.sofia.uni.fmi.web.project.model.Task;
 import bg.sofia.uni.fmi.web.project.model.TaskProgress;
-import bg.sofia.uni.fmi.web.project.model.stub.EventStub;
-import bg.sofia.uni.fmi.web.project.model.stub.ParticipantStub;
+import bg.sofia.uni.fmi.web.project.stub.EventStub;
+import bg.sofia.uni.fmi.web.project.stub.ParticipantStub;
 import bg.sofia.uni.fmi.web.project.repository.TaskRepository;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ValidationException;
-import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class TaskService {

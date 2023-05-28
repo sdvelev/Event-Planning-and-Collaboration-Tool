@@ -1,7 +1,7 @@
 package bg.sofia.uni.fmi.web.project.model;
 
-import bg.sofia.uni.fmi.web.project.model.stub.EventStub;
-import bg.sofia.uni.fmi.web.project.model.stub.ParticipantStub;
+import bg.sofia.uni.fmi.web.project.stub.EventStub;
+import bg.sofia.uni.fmi.web.project.stub.ParticipantStub;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

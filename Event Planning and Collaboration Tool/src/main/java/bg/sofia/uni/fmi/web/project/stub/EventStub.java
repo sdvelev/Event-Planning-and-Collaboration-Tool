@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.web.project.model.stub;
+package bg.sofia.uni.fmi.web.project.stub;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
