@@ -35,6 +35,7 @@ public class TaskMapper {
         if (taskDto == null) {
             return null;
         }
+
         return Task.builder()
             .id(taskDto.getId())
             .name(taskDto.getName())
