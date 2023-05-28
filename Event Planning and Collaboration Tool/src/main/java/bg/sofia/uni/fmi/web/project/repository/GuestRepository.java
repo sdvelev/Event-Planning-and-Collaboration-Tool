@@ -19,7 +19,7 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
 
     Collection<Guest> findGuestByNameAndSurnameEquals(String name, String surname);
 
-    Collection<Guest> findGuestByEventIdIs(long id);
+    Collection<Guest> findGuestByEventIdEquals(long id);
 
     Collection<Guest> findGuestsByGuestTypeEquals(GuestType guestType);
 

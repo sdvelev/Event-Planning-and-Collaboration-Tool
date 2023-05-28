@@ -40,7 +40,9 @@ public class TaskService {
     }
 
     public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+        return taskRepository.findAll().parallelStream()
+            .filter(t -> !t.isDeleted())
+            .toList();
     }
 
     public Task getTaskById(@Positive(message = "The given ID cannot be less than zero!") long id) {
@@ -51,37 +53,51 @@ public class TaskService {
                                            @NotEmpty(message = "The name cannot be empty!")
                                            @NotBlank(message = "The name cannot be blank!")
                                            String name) {
-        return taskRepository.findTasksByNameEquals(name);
+        return taskRepository.findTasksByNameEquals(name).parallelStream()
+            .filter(t -> !t.isDeleted())
+            .toList();
     }
 
     public Collection<Task> getTasksByEventId(@Positive(message = "The given ID cannot be less than zero!")
                                               long eventId) {
-        return taskRepository.findTasksByEventIdIs(eventId);
+        return taskRepository.findTasksByEventIdIs(eventId).parallelStream()
+            .filter(t -> !t.isDeleted())
+            .toList();
     }
 
     public Collection<Task> getTasksByParticipantId(@Positive(message = "The given ID cannot be less than zero!")
                                                     long participantId) {
-        return taskRepository.findTasksByParticipantIdEquals(participantId);
+        return taskRepository.findTasksByParticipantIdEquals(participantId).parallelStream()
+            .filter(t -> !t.isDeleted())
+            .toList();
     }
 
     public Collection<Task> getTasksByCreatedBy(@NotNull(message = "The name cannot be null!")
                                                 @NotEmpty(message = "The name cannot be empty!")
                                                 @NotBlank(message = "The name cannot be blank!")
                                                 String name) {
-        return taskRepository.findTaskByCreatedByEquals(name);
+        return taskRepository.findTaskByCreatedByEquals(name).parallelStream()
+            .filter(t -> !t.isDeleted())
+            .toList();
     }
 
     public Collection<Task> getTaskByDueDateAfter(LocalDateTime localDateTime) {
-        return taskRepository.findTaskByDueDateAfter(localDateTime);
+        return taskRepository.findTaskByDueDateAfter(localDateTime).parallelStream()
+            .filter(t -> !t.isDeleted())
+            .toList();
     }
 
     public Collection<Task> getTaskByDueDateBefore(LocalDateTime localDateTime) {
-        return taskRepository.findTaskByDueDateBefore(localDateTime);
+        return taskRepository.findTaskByDueDateBefore(localDateTime).parallelStream()
+            .filter(t -> !t.isDeleted())
+            .toList();
     }
 
     public Collection<Task> findTaskByDueDateBetween(LocalDateTime localDateTimeAfter,
                                                      LocalDateTime localDateTimeBefore) {
-        return taskRepository.findTaskByDueDateBetween(localDateTimeAfter, localDateTimeBefore);
+        return taskRepository.findTaskByDueDateBetween(localDateTimeAfter, localDateTimeBefore).parallelStream()
+            .filter(t -> !t.isDeleted())
+            .toList();
     }
 
     public void updateName(
