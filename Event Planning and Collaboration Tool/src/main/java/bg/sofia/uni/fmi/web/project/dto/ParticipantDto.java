@@ -18,4 +18,7 @@ public class ParticipantDto {
 
     @JsonProperty("user_role")
     private UserRole userRole;
+
+    @JsonProperty("associated_user")
+    private UserDto associatedUserDto;
 }
