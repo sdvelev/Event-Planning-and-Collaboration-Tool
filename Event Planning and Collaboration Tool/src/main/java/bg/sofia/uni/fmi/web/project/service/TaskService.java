@@ -53,7 +53,6 @@ public class TaskService {
 //    }
 
 
-
     public List<Task> getAllTasks() {
         return taskRepository.findAll().parallelStream()
             .filter(t -> !t.isDeleted())
