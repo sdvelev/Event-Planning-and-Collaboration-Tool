@@ -30,7 +30,7 @@ import java.util.Objects;
 public class Participant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
@@ -55,8 +55,8 @@ public class Participant {
 
     //Soft Deletion
 
-    @Column(name = "deleted")
-    @NotNull
+    @Column(name = "deleted", columnDefinition = "boolean default false")
+//    @NotNull
     private boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)

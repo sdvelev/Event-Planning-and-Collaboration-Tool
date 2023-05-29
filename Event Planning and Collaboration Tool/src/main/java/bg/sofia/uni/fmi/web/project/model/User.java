@@ -26,7 +26,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
@@ -51,8 +51,8 @@ public class User {
 //    @Column(name = "description")
 //    private String description;
 
-    @Column(name = "verified")
-    @NotNull
+    @Column(name = "verified", columnDefinition = "boolean default false")
+//    @NotNull
     private boolean verified;
 
     @Column(name = "profile_photo_link")
@@ -77,8 +77,8 @@ public class User {
 
     //Soft Deletion
 
-    @Column(name = "deleted")
-    @NotNull
+    @Column(name = "deleted", columnDefinition = "boolean default false")
+//    @NotNull
     private boolean deleted;
 
     @OneToMany(mappedBy = "associatedUser")
