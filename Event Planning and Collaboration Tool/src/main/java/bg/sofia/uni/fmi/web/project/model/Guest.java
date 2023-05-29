@@ -41,7 +41,7 @@ public class Guest {
     @Column(length = 255, nullable = false)
     private String surname;
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)

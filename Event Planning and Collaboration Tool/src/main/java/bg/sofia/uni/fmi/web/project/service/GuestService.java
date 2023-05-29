@@ -7,11 +7,13 @@ import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
 import java.util.List;
 
 @Service
+@Validated
 public class GuestService {
     private final GuestRepository guestRepository;
     private final GuestMapper guestMapper;
