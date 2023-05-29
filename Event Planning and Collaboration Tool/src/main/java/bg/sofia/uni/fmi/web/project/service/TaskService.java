@@ -32,14 +32,28 @@ public class TaskService {
     }
 
     public long addTask(@NotNull(message = "The given task cannot be null!") Task task) {
-        return taskRepository.save(task).getId();
+        if (validateForExistingTask(task)) {
+            return taskRepository.save(task).getId();
+        }
+
+        return -1;
     }
 
-    public List<Long> addTasks(@NotNull(message = "The given task list cannot be null!") List<Task> taskList) {
-        return taskRepository.saveAll(taskList).stream()
-            .map(Task::getId)
-            .toList();
+    private boolean validateForExistingTask(Task task) {
+        long foundTasks = taskRepository.findTasksByNameEquals(task.getName()).stream()
+            .filter(t -> t.equals(task))
+            .count();
+
+        return foundTasks == 0;
     }
+
+//    public List<Long> addTasks(@NotNull(message = "The given task list cannot be null!") List<Task> taskList) {
+//        return taskRepository.saveAll(taskList).stream()
+//            .map(Task::getId)
+//            .toList();
+//    }
+
+
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll().parallelStream()
@@ -113,7 +127,7 @@ public class TaskService {
                            @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setName(name);
             taskRepository.save(task);
         }
@@ -126,7 +140,7 @@ public class TaskService {
                                   @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setDescription(description);
             taskRepository.save(task);
         }
@@ -136,7 +150,7 @@ public class TaskService {
                                    @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setTaskProgress(taskProgress);
             taskRepository.save(task);
         }
@@ -146,7 +160,7 @@ public class TaskService {
                               @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setDueDate(dueDate);
             taskRepository.save(task);
         }
@@ -158,7 +172,7 @@ public class TaskService {
                                    long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setLastNotified(lastNotified);
             taskRepository.save(task);
         }
@@ -168,7 +182,7 @@ public class TaskService {
                             @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setEvent(event);
             taskRepository.save(task);
         }
@@ -178,7 +192,7 @@ public class TaskService {
                                   @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setParticipant(participant);
             taskRepository.save(task);
         }
@@ -191,7 +205,7 @@ public class TaskService {
                                 @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setCreatedBy(createdBy);
             taskRepository.save(task);
         }
@@ -201,7 +215,7 @@ public class TaskService {
                                    @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setCreationTime(creationTime);
             taskRepository.save(task);
         }
@@ -214,7 +228,7 @@ public class TaskService {
                                 @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setUpdatedBy(updatedBy);
             taskRepository.save(task);
         }
@@ -225,7 +239,7 @@ public class TaskService {
                                       @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setLastUpdatedTime(lastUpdatedTime);
             taskRepository.save(task);
         }
@@ -235,7 +249,7 @@ public class TaskService {
                        @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
-        if (!task.isDeleted()) {
+        if (task != null && !task.isDeleted()) {
             task.setDeleted(deleted);
             taskRepository.save(task);
         }
