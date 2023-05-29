@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.mapper.TaskMapper;
 import bg.sofia.uni.fmi.web.project.model.Task;
-import bg.sofia.uni.fmi.web.project.model.TaskProgress;
+import bg.sofia.uni.fmi.web.project.enums.TaskProgress;
 import bg.sofia.uni.fmi.web.project.repository.TaskRepository;
 import bg.sofia.uni.fmi.web.project.stub.EventStub;
 import bg.sofia.uni.fmi.web.project.stub.ParticipantStub;

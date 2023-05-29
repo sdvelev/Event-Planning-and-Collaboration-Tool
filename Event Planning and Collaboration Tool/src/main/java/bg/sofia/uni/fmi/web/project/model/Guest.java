@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.web.project.model;
 
+import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
+import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.stub.EventStub;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

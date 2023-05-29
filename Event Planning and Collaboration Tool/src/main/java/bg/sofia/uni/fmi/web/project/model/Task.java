@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.web.project.model;
 
+import bg.sofia.uni.fmi.web.project.enums.TaskProgress;
 import bg.sofia.uni.fmi.web.project.stub.EventStub;
 import bg.sofia.uni.fmi.web.project.stub.ParticipantStub;
 import jakarta.persistence.CascadeType;

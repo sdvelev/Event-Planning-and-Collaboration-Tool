@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.web.project.dto;
 
-import bg.sofia.uni.fmi.web.project.model.TaskProgress;
+import bg.sofia.uni.fmi.web.project.enums.TaskProgress;
 import bg.sofia.uni.fmi.web.project.stub.EventStub;
 import bg.sofia.uni.fmi.web.project.stub.ParticipantStub;
 import jakarta.validation.constraints.NotBlank;

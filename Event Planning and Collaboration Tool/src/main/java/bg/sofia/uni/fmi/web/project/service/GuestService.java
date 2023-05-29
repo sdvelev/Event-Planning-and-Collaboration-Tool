@@ -1,9 +1,9 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.mapper.GuestMapper;
-import bg.sofia.uni.fmi.web.project.model.AttendanceType;
+import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.model.Guest;
-import bg.sofia.uni.fmi.web.project.model.GuestType;
+import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
