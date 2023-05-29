@@ -25,8 +25,7 @@ public class TaskService {
     private final TaskMapper taskMapper;
 
     @Autowired
-    public TaskService(@NotNull(message = "The tasks repository cannot be null!") TaskRepository taskRepository,
-                       @NotNull(message = "The tasks mapper!") TaskMapper taskMapper) {
+    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
     }
@@ -62,7 +61,13 @@ public class TaskService {
     }
 
     public Task getTaskById(@Positive(message = "The given ID cannot be less than zero!") long id) {
-        return taskRepository.findTaskByIdEquals(id);
+        Task task = taskRepository.findTaskByIdEquals(id);
+
+        if (task != null && !task.isDeleted()) {
+            return task;
+        }
+
+        return null;
     }
 
     public Collection<Task> getTasksByName(@NotNull(message = "The name cannot be null!")
