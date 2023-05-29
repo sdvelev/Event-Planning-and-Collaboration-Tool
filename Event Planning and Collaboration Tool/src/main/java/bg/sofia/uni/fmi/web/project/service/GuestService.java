@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,15 +21,10 @@ import java.util.List;
 
 @Service
 @Validated
+@AllArgsConstructor
 public class GuestService {
     private final GuestRepository guestRepository;
     private final GuestMapper guestMapper;
-
-    @Autowired
-    public GuestService(GuestRepository guestRepository, GuestMapper guestMapper) {
-        this.guestRepository = guestRepository;
-        this.guestMapper = guestMapper;
-    }
 
     public long addGuest(@NotNull(message = "The given guest cannot be null!") Guest guest) {
         if (validateForExistingGuest(guest)) {

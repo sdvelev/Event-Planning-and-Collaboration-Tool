@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,15 +21,10 @@ import java.util.List;
 
 @Service
 @Validated
+@AllArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
-
-    @Autowired
-    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper) {
-        this.taskRepository = taskRepository;
-        this.taskMapper = taskMapper;
-    }
 
     public long addTask(@NotNull(message = "The given task cannot be null!") Task task) {
         if (validateForExistingTask(task)) {
