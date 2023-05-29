@@ -9,6 +9,10 @@ public class UserMapper {
 
     public UserDto toDto(User entity) {
 
+        if (entity == null) {
+            return null;
+        }
+
         return UserDto.builder()
             .id(entity.getId())
             .username(entity.getUsername())
@@ -23,6 +27,10 @@ public class UserMapper {
     }
 
     public User toEntity(UserDto userDto) {
+
+        if (userDto == null) {
+            return null;
+        }
 
         return User.builder()
             .id(userDto.getId())
