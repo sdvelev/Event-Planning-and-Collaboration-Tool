@@ -30,7 +30,7 @@ public class GuestService {
 
     public long addGuest(@NotNull(message = "The given guest cannot be null!") Guest guest) {
         if (validateForExistingGuest(guest)) {
-            guestRepository.save(guest).getId();
+            return guestRepository.save(guest).getId();
         }
 
         return -1;

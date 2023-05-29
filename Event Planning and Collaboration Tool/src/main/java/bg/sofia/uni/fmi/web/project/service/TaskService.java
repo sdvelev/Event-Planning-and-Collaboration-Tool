@@ -129,7 +129,8 @@ public class TaskService {
                            @NotEmpty(message = "The name cannot be empty!")
                            @NotBlank(message = "The name cannot be blank!")
                            String name,
-                           @Positive(message = "The given ID cannot be less than zero!") long taskId) {
+                           @Positive(message = "The given ID cannot be less than zero!")
+                           long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
@@ -142,7 +143,8 @@ public class TaskService {
                                   @NotEmpty(message = "The description cannot be empty!")
                                   @NotBlank(message = "The description cannot be blank!")
                                   String description,
-                                  @Positive(message = "The given ID cannot be less than zero!") long taskId) {
+                                  @Positive(message = "The given ID cannot be less than zero!")
+                                  long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
@@ -207,7 +209,8 @@ public class TaskService {
                                 @NotEmpty(message = "The createdBy cannot be empty!")
                                 @NotBlank(message = "The createdBy cannot be blank!")
                                 String createdBy,
-                                @Positive(message = "The given ID cannot be less than zero!") long taskId) {
+                                @Positive(message = "The given ID cannot be less than zero!")
+                                long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
@@ -230,7 +233,8 @@ public class TaskService {
                                 @NotEmpty(message = "The updatedBy cannot be empty!")
                                 @NotBlank(message = "The updatedBy cannot be blank!")
                                 String updatedBy,
-                                @Positive(message = "The given ID cannot be less than zero!") long taskId) {
+                                @Positive(message = "The given ID cannot be less than zero!")
+                                long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
@@ -241,7 +245,8 @@ public class TaskService {
 
     public void updateLastUpdatedTime(@NotNull(message = "The last updated time cannot be null!")
                                       LocalDateTime lastUpdatedTime,
-                                      @Positive(message = "The given ID cannot be less than zero!") long taskId) {
+                                      @Positive(message = "The given ID cannot be less than zero!")
+                                      long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
