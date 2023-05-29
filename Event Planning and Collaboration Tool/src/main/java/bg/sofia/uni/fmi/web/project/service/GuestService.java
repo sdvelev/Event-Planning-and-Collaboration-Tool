@@ -4,7 +4,6 @@ import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.mapper.GuestMapper;
 import bg.sofia.uni.fmi.web.project.model.Guest;
-import bg.sofia.uni.fmi.web.project.model.Task;
 import bg.sofia.uni.fmi.web.project.repository.GuestRepository;
 import bg.sofia.uni.fmi.web.project.stub.EventStub;
 import jakarta.validation.constraints.NotBlank;
@@ -134,11 +133,11 @@ public class GuestService {
     }
 
     public void updateSurname(@NotNull(message = "The surname cannot be null!")
-                           @NotEmpty(message = "The surname cannot be empty!")
-                           @NotBlank(message = "The surname cannot be blank!")
-                           String surname,
-                           @Positive(message = "The given ID cannot be less than zero!")
-                           long guestId) {
+                              @NotEmpty(message = "The surname cannot be empty!")
+                              @NotBlank(message = "The surname cannot be blank!")
+                              String surname,
+                              @Positive(message = "The given ID cannot be less than zero!")
+                              long guestId) {
         Guest guest = guestRepository.findGuestByIdEquals(guestId);
 
         if (guest != null && !guest.isDeleted()) {
@@ -148,11 +147,11 @@ public class GuestService {
     }
 
     public void updateEmail(@NotNull(message = "The email cannot be null!")
-                              @NotEmpty(message = "The email cannot be empty!")
-                              @NotBlank(message = "The email cannot be blank!")
-                              String email,
-                              @Positive(message = "The given ID cannot be less than zero!")
-                              long guestId) {
+                            @NotEmpty(message = "The email cannot be empty!")
+                            @NotBlank(message = "The email cannot be blank!")
+                            String email,
+                            @Positive(message = "The given ID cannot be less than zero!")
+                            long guestId) {
         Guest guest = guestRepository.findGuestByIdEquals(guestId);
 
         if (guest != null && !guest.isDeleted()) {
@@ -162,9 +161,9 @@ public class GuestService {
     }
 
     public void updateGuestType(@NotNull(message = "The guest type cannot be null!")
-                            GuestType guestType,
-                            @Positive(message = "The given ID cannot be less than zero!")
-                            long guestId) {
+                                GuestType guestType,
+                                @Positive(message = "The given ID cannot be less than zero!")
+                                long guestId) {
         Guest guest = guestRepository.findGuestByIdEquals(guestId);
 
         if (guest != null && !guest.isDeleted()) {
@@ -175,8 +174,8 @@ public class GuestService {
 
     public void updateAttendanceType(@NotNull(message = "The attendance type cannot be null!")
                                      AttendanceType attendanceType,
-                                @Positive(message = "The given ID cannot be less than zero!")
-                                long guestId) {
+                                     @Positive(message = "The given ID cannot be less than zero!")
+                                     long guestId) {
         Guest guest = guestRepository.findGuestByIdEquals(guestId);
 
         if (guest != null && !guest.isDeleted()) {
@@ -186,7 +185,7 @@ public class GuestService {
     }
 
     public void updateInvitationIsSent(boolean isSent,
-                       @Positive(message = "The given ID cannot be less than zero!") long guestId) {
+                                       @Positive(message = "The given ID cannot be less than zero!") long guestId) {
         Guest guest = guestRepository.findGuestByIdEquals(guestId);
 
         if (guest != null && !guest.isDeleted()) {
