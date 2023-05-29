@@ -81,19 +81,23 @@ public class TaskService {
             .toList();
     }
 
-    public Collection<Task> getTaskByDueDateAfter(LocalDateTime localDateTime) {
-        return taskRepository.findTaskByDueDateAfter(localDateTime).parallelStream()
+    public Collection<Task> getTaskByDueDateAfter(@NotNull(message = "The date after cannot be null!")
+                                                  LocalDateTime localDateTimeAfter) {
+        return taskRepository.findTaskByDueDateAfter(localDateTimeAfter).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
     }
 
-    public Collection<Task> getTaskByDueDateBefore(LocalDateTime localDateTime) {
-        return taskRepository.findTaskByDueDateBefore(localDateTime).parallelStream()
+    public Collection<Task> getTaskByDueDateBefore(@NotNull(message = "The date before cannot be null!")
+                                                   LocalDateTime localDateTimeBefore) {
+        return taskRepository.findTaskByDueDateBefore(localDateTimeBefore).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
     }
 
-    public Collection<Task> findTaskByDueDateBetween(LocalDateTime localDateTimeAfter,
+    public Collection<Task> findTaskByDueDateBetween(@NotNull(message = "The date after cannot be null!")
+                                                     LocalDateTime localDateTimeAfter,
+                                                     @NotNull(message = "The date before cannot be null!")
                                                      LocalDateTime localDateTimeBefore) {
         return taskRepository.findTaskByDueDateBetween(localDateTimeAfter, localDateTimeBefore).parallelStream()
             .filter(t -> !t.isDeleted())
@@ -105,7 +109,6 @@ public class TaskService {
                            @NotBlank(message = "The name cannot be blank!")
                            String name,
                            @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -119,7 +122,6 @@ public class TaskService {
                                   @NotBlank(message = "The description cannot be blank!")
                                   String description,
                                   @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task.isDeleted()) {
@@ -130,7 +132,6 @@ public class TaskService {
 
     public void updateTaskProgress(@NotNull(message = "The task progress cannot be null!") TaskProgress taskProgress,
                                    @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -139,9 +140,8 @@ public class TaskService {
         }
     }
 
-    public void updateDueDate(LocalDateTime dueDate,
+    public void updateDueDate(@NotNull(message = "The due date cannot be null!") LocalDateTime dueDate,
                               @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -150,9 +150,10 @@ public class TaskService {
         }
     }
 
-    public void updateLastNotified(LocalDateTime lastNotified,
-                                   @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
+    public void updateLastNotified(@NotNull(message = "The last notified date cannot be null!")
+                                   LocalDateTime lastNotified,
+                                   @Positive(message = "The given ID cannot be less than zero!")
+                                   long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -161,9 +162,8 @@ public class TaskService {
         }
     }
 
-    public void updateEvent(EventStub event,
+    public void updateEvent(@NotNull(message = "The event cannot be null!") EventStub event,
                             @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -172,9 +172,8 @@ public class TaskService {
         }
     }
 
-    public void updateParticipant(ParticipantStub participant,
+    public void updateParticipant(@NotNull(message = "The participant cannot be null!") ParticipantStub participant,
                                   @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -188,7 +187,6 @@ public class TaskService {
                                 @NotBlank(message = "The createdBy cannot be blank!")
                                 String createdBy,
                                 @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -197,9 +195,8 @@ public class TaskService {
         }
     }
 
-    public void updateCreationTime(LocalDateTime creationTime,
+    public void updateCreationTime(@NotNull(message = "The creation date cannot be null!") LocalDateTime creationTime,
                                    @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -213,7 +210,6 @@ public class TaskService {
                                 @NotBlank(message = "The updatedBy cannot be blank!")
                                 String updatedBy,
                                 @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -222,9 +218,9 @@ public class TaskService {
         }
     }
 
-    public void updateLastUpdatedTime(LocalDateTime lastUpdatedTime,
+    public void updateLastUpdatedTime(@NotNull(message = "The last updated time cannot be null!")
+                                      LocalDateTime lastUpdatedTime,
                                       @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
@@ -233,8 +229,8 @@ public class TaskService {
         }
     }
 
-    public void delete(boolean deleted, @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-
+    public void delete(boolean deleted,
+                       @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (!task.isDeleted()) {
