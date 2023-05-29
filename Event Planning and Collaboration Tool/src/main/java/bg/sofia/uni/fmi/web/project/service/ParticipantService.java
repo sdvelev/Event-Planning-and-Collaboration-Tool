@@ -5,15 +5,23 @@ import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.ParticipantRepository;
 import bg.sofia.uni.fmi.web.project.repository.UserRepository;
+import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@Validated
 public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
@@ -25,45 +33,75 @@ public class ParticipantService {
         this.userRepository = userRepository;
     }
 
-    public Participant createParticipant(Participant participantToSave, Long userIdToAssociate) {
+    public Participant createParticipant(
+        @NotNull(message = "Participant cannot be null")
+        Participant participantToSave,
+        @NotNull(message = "Associated userId cannot be null")
+        @Positive(message = "Associated userId must be positive.")
+        Long userIdToAssociate) {
 
 
         Optional<User> potentialUserToAssociate = userRepository.findById(userIdToAssociate);
 
-        if (potentialUserToAssociate.isEmpty()) {
-            return null;
+//        if (potentialUserToAssociate.isEmpty()) {
+//            throw new ApiBadRequest("There is no such user");
+//        }
+
+        if (potentialUserToAssociate.isPresent() && !potentialUserToAssociate.get().isDeleted()) {
+
+            participantToSave.setAssociatedUser(potentialUserToAssociate.get());;
+
+            participantToSave.setCreationTime(LocalDateTime.now());
+
+            participantToSave.setDeleted(false);
+
+            return participantRepository.save(participantToSave);
         }
 
-        participantToSave.setAssociatedUser(potentialUserToAssociate.get());;
-
-        participantToSave.setCreationTime(LocalDateTime.now());
-
-        participantToSave.setDeleted(false);
-
-        return participantRepository.save(participantToSave);
+        throw new ApiBadRequest("There is no such associated user");
     }
 
     public List<Participant> getParticipants() {
-        return participantRepository.findAll();
+        return participantRepository.findAll()
+            .parallelStream()
+            .filter(participant -> !participant.isDeleted())
+            .collect(Collectors.toList());
     }
 
-    public Optional<Participant> getParticipantById(Long id) {
-        return participantRepository.findById(id);
+    public Optional<Participant> getParticipantById(
+        @NotNull(message = "Id cannot be null")
+        @Positive(message = "Id userId must be positive.")
+        Long id) {
+
+        Optional<Participant> potentialParticipantToReturn = participantRepository.findById(id);
+
+        if (potentialParticipantToReturn.isPresent() && !potentialParticipantToReturn.get().isDeleted()) {
+            return potentialParticipantToReturn;
+        }
+
+        throw new ResourceNotFoundException("Participant with such an id cannot be found");
     }
 
-    public UserRole getUserRoleByParticipantId(Long id) {
+    public UserRole getUserRoleByParticipantId(
+        @NotNull(message = "Id cannot be null")
+        @Positive(message = "Id must be positive.")
+        Long id) {
 
         Optional<Participant> potentialParticipant  = this.getParticipantById(id);
 
         if (potentialParticipant.isPresent()) {
             return potentialParticipant.get().getUserRole();
         }
+
         return null;
     }
 
-    public User getUserByParticipantId(Long id) {
+    public User getUserByParticipantId(
+        @NotNull(message = "Id cannot be null")
+        @Positive(message = "Id must be positive.")
+        Long id) {
 
-        Optional<Participant> optionalParticipant = participantRepository.findById(id);
+        Optional<Participant> optionalParticipant = this.getParticipantById(id);;
 
         if (optionalParticipant.isPresent()) {
             return optionalParticipant.get().getAssociatedUser();
@@ -81,7 +119,12 @@ public class ParticipantService {
 //        return null;
 //    }
 
-    public boolean setUserRoleByParticipantId(Long id, UserRole userRoleToSet) {
+    public boolean setUserRoleByParticipantId(
+        @NotNull(message = "Associated userId cannot be null")
+        @Positive(message = "Id must be positive.")
+        Long id,
+        @NotNull(message = "User role cannot be null")
+        UserRole userRoleToSet) {
 
         Optional<Participant> optionalParticipant = this.getParticipantById(id);
 
@@ -89,7 +132,10 @@ public class ParticipantService {
 
             optionalParticipant.get().setUserRole(userRoleToSet);
 
-            optionalParticipant.get().setUpdatedBy(this.getUserByParticipantId(id).getEmail());
+            if (this.getUserByParticipantId(id) != null) {
+                optionalParticipant.get().setUpdatedBy(this.getUserByParticipantId(id).getEmail());
+            }
+
             optionalParticipant.get().setLastUpdatedTime(LocalDateTime.now());
 
             participantRepository.save(optionalParticipant.get());
@@ -99,7 +145,10 @@ public class ParticipantService {
     }
 
 
-    public boolean deleteParticipant(Long participantById) {
+    public boolean deleteParticipant(
+        @NotNull(message = "Id cannot be null")
+        @Positive(message = "Id must be positive.")
+        Long participantById) {
 
         Optional<Participant> optionalParticipantToDelete = participantRepository.findById(participantById);
 
