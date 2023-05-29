@@ -21,6 +21,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -35,7 +36,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(length = 255, nullable = false, unique = true)
+    @Column(length = 255, nullable = false)
     private String name;
 
     @Column(length = 255, nullable = false)
@@ -74,4 +75,23 @@ public class Task {
 
     @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean deleted;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(name, task.name) &&
+            Objects.equals(description, task.description) &&
+            Objects.equals(dueDate, task.dueDate) &&
+            Objects.equals(event, task.event) &&
+            Objects.equals(participant, task.participant) &&
+            Objects.equals(createdBy, task.createdBy) &&
+            Objects.equals(creationTime, task.creationTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, dueDate, event, participant, createdBy, creationTime);
+    }
 }

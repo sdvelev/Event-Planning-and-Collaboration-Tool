@@ -21,6 +21,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -72,4 +73,25 @@ public class Guest {
 
     @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean deleted;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Guest guest = (Guest) o;
+        return Objects.equals(name, guest.name) &&
+            Objects.equals(surname, guest.surname) &&
+            Objects.equals(email, guest.email) &&
+            guestType == guest.guestType &&
+            attendanceType == guest.attendanceType &&
+            Objects.equals(event, guest.event) &&
+            Objects.equals(createdBy, guest.createdBy) &&
+            Objects.equals(creationTime, guest.creationTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, email, guestType, attendanceType, event, createdBy,
+            creationTime);
+    }
 }
