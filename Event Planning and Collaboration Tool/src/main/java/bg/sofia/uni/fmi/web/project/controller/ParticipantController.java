@@ -65,6 +65,9 @@ public class ParticipantController {
                                @Valid @NotNull @RequestParam("assigned_user_id") Long assignedUserId,
                                @Valid @NotNull @RequestParam("assigned_event_id") Long assignedEventId) {
 
+        //TODO: This method will be similar to the "invite collaborator" method. However, we will use
+        //      authorization to get the user id. Moreover, confirmation by email might be required
+
         Participant potentialParticipantToCreate = participantService
             .createParticipant(participantMapper.toEntity(participantDto), assignedUserId, assignedEventId);
 
@@ -84,6 +87,8 @@ public class ParticipantController {
     @PutMapping("/role")
     public boolean setUserRoleByParticipantId(@RequestParam("participant_id") Long participantId,
                                               @RequestParam("user_role") UserRole userRole) {
+        //TODO: This method is similar to the desired functionality of managing user roles. However, user
+        //      authorization will be used so that we can check if user has the right to change someone's role
         return participantService.setUserRoleByParticipantId(participantId, userRole);
     }
 }
