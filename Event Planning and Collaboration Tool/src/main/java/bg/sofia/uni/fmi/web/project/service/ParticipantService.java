@@ -159,7 +159,7 @@ public class ParticipantService {
 
         Optional<Participant> optionalParticipantToDelete = participantRepository.findById(participantById);
 
-        if (optionalParticipantToDelete.isPresent()) {
+        if (optionalParticipantToDelete.isPresent() && !optionalParticipantToDelete.get().isDeleted()) {
 
             Participant participantToDelete = optionalParticipantToDelete.get();
 
@@ -170,7 +170,7 @@ public class ParticipantService {
             return true;
         }
 
-        return false;
+        throw new ResourceNotFoundException("There is not a participant with such an id");
     }
 
 
