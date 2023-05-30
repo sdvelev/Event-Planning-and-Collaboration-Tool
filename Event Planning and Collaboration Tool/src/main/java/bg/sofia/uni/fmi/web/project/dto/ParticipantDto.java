@@ -21,4 +21,7 @@ public class ParticipantDto {
 
     @JsonProperty("associated_user")
     private UserDto associatedUserDto;
+
+    @JsonProperty("associated_event")
+    private EventDto associatedEventDto;
 }
