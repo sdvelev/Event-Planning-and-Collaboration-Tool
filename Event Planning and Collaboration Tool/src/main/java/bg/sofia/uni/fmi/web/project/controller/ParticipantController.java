@@ -84,7 +84,7 @@ public class ParticipantController {
         return participantService.deleteParticipant(participantId);
     }
 
-    @PutMapping("/role")
+    @PatchMapping("/role")
     public boolean setUserRoleByParticipantId(@RequestParam("participant_id") Long participantId,
                                               @RequestParam("user_role") UserRole userRole) {
         //TODO: This method is similar to the desired functionality of managing user roles. However, user
