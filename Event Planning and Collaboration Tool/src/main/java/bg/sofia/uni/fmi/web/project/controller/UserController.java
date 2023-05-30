@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,7 +53,6 @@ public class UserController {
 
     @PostMapping
     public Long addUser(@NotNull(message = "UserDto cannot be null") @RequestBody UserDto userDto) {
-
         User potentialUserToCreate = userService.createUser(userMapper.toEntity(userDto));
 
         if (potentialUserToCreate != null) {
@@ -137,7 +137,7 @@ public class UserController {
         //return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping(value = "/settings", params = {"new_username", "old_username", "password"})
+    @PutMapping(value = "/settings", params = {"new_username", "old_username", "password"})
     public boolean setUsernameByProvidingOldUsernameAndPassword(
         @NotNull(message = "The new username cannot be null")
         @NotBlank(message = "The new username cannot be blank")
@@ -152,7 +152,7 @@ public class UserController {
         return userService.setUsernameByProvidingOldUsernameAndPassword(newUsername, oldUsername, password);
     }
 
-    @PatchMapping(value = "/settings", params = {"new_password", "username", "old_password"})
+    @PutMapping(value = "/settings", params = {"new_password", "username", "old_password"})
     public boolean setPasswordByProvidingUsernameAndOldPassword(
         @NotNull(message = "New password cannot be null")
         @NotBlank(message = "New password cannot be empty or blank")

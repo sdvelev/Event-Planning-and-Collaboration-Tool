@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,10 +62,11 @@ public class ParticipantController {
 
     @PostMapping
     public Long addParticipant(@Valid @NotNull @RequestBody ParticipantDto participantDto,
-                               @Valid @NotNull @RequestParam("assigned_user_id") Long assignedUserId) {
+                               @Valid @NotNull @RequestParam("assigned_user_id") Long assignedUserId,
+                               @Valid @NotNull @RequestParam("assigned_event_id") Long assignedEventId) {
 
         Participant potentialParticipantToCreate = participantService
-            .createParticipant(participantMapper.toEntity(participantDto), assignedUserId);
+            .createParticipant(participantMapper.toEntity(participantDto), assignedUserId, assignedEventId);
 
         if (potentialParticipantToCreate != null) {
 
@@ -79,7 +81,7 @@ public class ParticipantController {
         return participantService.deleteParticipant(participantId);
     }
 
-    @PatchMapping("/role")
+    @PutMapping("/role")
     public boolean setUserRoleByParticipantId(@RequestParam("participant_id") Long participantId,
                                               @RequestParam("user_role") UserRole userRole) {
         return participantService.setUserRoleByParticipantId(participantId, userRole);
