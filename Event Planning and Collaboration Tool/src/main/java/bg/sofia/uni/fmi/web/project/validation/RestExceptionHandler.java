@@ -16,19 +16,19 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler({ ResourceNotFoundException.class })
-    public ResponseEntity<?> handleBadRequest(ResourceNotFoundException exception) {
+    public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException exception) {
         // ApiErrorDto -> message, code
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler({ MethodArgumentNotValidException.class })
-    public ResponseEntity<?> handleBadRequest(MethodArgumentNotValidException exception) {
+    public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {
         // ApiErrorDto -> message, code
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
 
     @ExceptionHandler({ ConstraintViolationException.class })
-    public ResponseEntity<?> handleBadRequest(ConstraintViolationException exception) {
+    public ResponseEntity<?> handleConstraintViolation(ConstraintViolationException exception) {
         // ApiErrorDto -> message, code
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
