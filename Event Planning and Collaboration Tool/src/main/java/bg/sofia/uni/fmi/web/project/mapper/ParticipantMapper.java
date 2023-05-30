@@ -2,12 +2,24 @@ package bg.sofia.uni.fmi.web.project.mapper;
 
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
 import bg.sofia.uni.fmi.web.project.dto.ParticipantDto;
+import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.AccessType;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ParticipantMapper {
+
+    final private UserMapper userMapper;
+    final private EventMapper eventMapper;
+
+    @Autowired
+    public ParticipantMapper(UserMapper userMapper, EventMapper eventMapper) {
+        this.userMapper = userMapper;
+        this.eventMapper = eventMapper;
+    }
 
     public ParticipantDto toDto(Participant entity) {
 
@@ -29,11 +41,25 @@ public class ParticipantMapper {
 
     public Participant toEntity(ParticipantDto participantDto) {
 
-        return Participant.builder()
-            .id(participantDto.getId())
-            .userRole(participantDto.getUserRole())
-            .associatedUser(new UserMapper().toEntity(participantDto.getAssociatedUserDto()))
-            .associatedEvent(new EventMapper().toEntity(participantDto.getAssociatedEventDto()))
-            .build();
+        Participant toReturnEntity = new Participant();
+
+        toReturnEntity.setId(participantDto.getId());
+        toReturnEntity.setUserRole(participantDto.getUserRole());
+
+        if (participantDto.getAssociatedUserDto() != null) {
+            toReturnEntity.setAssociatedUser(userMapper.toEntity(participantDto.getAssociatedUserDto()));
+        }
+
+        if (participantDto.getAssociatedEventDto() != null) {
+            toReturnEntity.setAssociatedEvent(eventMapper.toEntity(participantDto.getAssociatedEventDto()));
+        }
+
+        return toReturnEntity;
+//        return Participant.builder()
+//            .id(participantDto.getId())
+//            .userRole(participantDto.getUserRole())
+//            .associatedUser(userMapper.toEntity(participantDto.getAssociatedUserDto()))
+//            .associatedEvent(eventMapper.toEntity(participantDto.getAssociatedEventDto()))
+//            .build();
     }
 }
