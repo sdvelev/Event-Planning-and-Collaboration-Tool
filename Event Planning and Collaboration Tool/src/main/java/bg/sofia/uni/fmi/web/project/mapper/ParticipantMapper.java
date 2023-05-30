@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.web.project.mapper;
 
+import bg.sofia.uni.fmi.web.project.dto.EventDto;
 import bg.sofia.uni.fmi.web.project.dto.ParticipantDto;
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.User;
@@ -16,6 +17,10 @@ public class ParticipantMapper {
             toReturnDto.setAssociatedUserDto(new UserMapper().toDto(entity.getAssociatedUser()));
         }
 
+        if (entity.getAssociatedEvent() != null) {
+            toReturnDto.setAssociatedEventDto(new EventMapper().toDto(entity.getAssociatedEvent()));
+        }
+
         toReturnDto.setId(entity.getId());
         toReturnDto.setUserRole(entity.getUserRole());
 
@@ -28,6 +33,7 @@ public class ParticipantMapper {
             .id(participantDto.getId())
             .userRole(participantDto.getUserRole())
             .associatedUser(new UserMapper().toEntity(participantDto.getAssociatedUserDto()))
+            .associatedEvent(new EventMapper().toEntity(participantDto.getAssociatedEventDto()))
             .build();
     }
 }

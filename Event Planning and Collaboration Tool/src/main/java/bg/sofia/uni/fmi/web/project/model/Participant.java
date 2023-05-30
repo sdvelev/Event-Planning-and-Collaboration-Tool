@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.web.project.model;
 
 import bg.sofia.uni.fmi.web.project.enums.UserRole;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -59,15 +60,15 @@ public class Participant {
 //    @NotNull
     private boolean deleted;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User associatedUser;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "event_id")
-//    private Event associatedEvent;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Event associatedEvent;
 
-//    @OneToMany(mappedBy = "initiator")
+//    @OneToMany(mappedBy = "participant")
 //    private Set<Task> associatedTasks;
 
     @Override

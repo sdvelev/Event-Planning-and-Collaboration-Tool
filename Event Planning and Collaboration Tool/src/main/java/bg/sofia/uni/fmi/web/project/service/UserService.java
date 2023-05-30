@@ -1,14 +1,10 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.model.Participant;
-import bg.sofia.uni.fmi.web.project.model.Invitation;
 import bg.sofia.uni.fmi.web.project.model.User;
-import bg.sofia.uni.fmi.web.project.repository.InvitationRepository;
-import bg.sofia.uni.fmi.web.project.repository.ParticipantRepository;
 import bg.sofia.uni.fmi.web.project.repository.UserRepository;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -308,21 +304,15 @@ public class UserService {
             if (!currentUser.isDeleted()) {
 
                 for (Participant currentParticipant : currentUser.getParticipantProfiles()) {
-
                     participantService.deleteParticipant(currentParticipant.getId());
-
                     //currentParticipant.getEvent().delete();
                 }
 
                 currentUser.setLastUpdatedTime(LocalDateTime.now());
-
                 currentUser.setDeleted(true);
-
                 userRepository.save(currentUser);
-
                 return true;
             }
-
         }
 
         throw new ResourceNotFoundException("User with such a username and password cannot be found");

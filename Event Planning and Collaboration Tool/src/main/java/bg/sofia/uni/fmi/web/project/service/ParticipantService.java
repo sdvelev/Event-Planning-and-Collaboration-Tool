@@ -1,8 +1,10 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.enums.UserRole;
+import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.User;
+import bg.sofia.uni.fmi.web.project.repository.EventRepository;
 import bg.sofia.uni.fmi.web.project.repository.ParticipantRepository;
 import bg.sofia.uni.fmi.web.project.repository.UserRepository;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
@@ -26,11 +28,14 @@ public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
     private final UserRepository userRepository;
+    private final EventRepository eventRepository;
 
     @Autowired
-    public ParticipantService(ParticipantRepository participantRepository, UserRepository userRepository) {
+    public ParticipantService(ParticipantRepository participantRepository, UserRepository userRepository,
+                              EventRepository eventRepository) {
         this.participantRepository = participantRepository;
         this.userRepository = userRepository;
+        this.eventRepository = eventRepository;
     }
 
     public Participant createParticipant(
@@ -38,27 +43,31 @@ public class ParticipantService {
         Participant participantToSave,
         @NotNull(message = "Associated userId cannot be null")
         @Positive(message = "Associated userId must be positive.")
-        Long userIdToAssociate) {
+        Long userIdToAssociate,
+        @NotNull(message = "Associated event Id cannot be null")
+        @Positive(message = "Associated event Id must be positive.")
+        Long eventIdToAssociate) {
 
 
         Optional<User> potentialUserToAssociate = userRepository.findById(userIdToAssociate);
+        Optional<Event> potentialEventToAssociate = eventRepository.findById(eventIdToAssociate);
 
-//        if (potentialUserToAssociate.isEmpty()) {
+        //        if (potentialUserToAssociate.isEmpty()) {
 //            throw new ApiBadRequest("There is no such user");
 //        }
 
-        if (potentialUserToAssociate.isPresent() && !potentialUserToAssociate.get().isDeleted()) {
+        if (potentialUserToAssociate.isPresent() && !potentialUserToAssociate.get().isDeleted() &&
+        potentialEventToAssociate.isPresent() && !potentialEventToAssociate.get().isDeleted()) {
 
             participantToSave.setAssociatedUser(potentialUserToAssociate.get());;
-
+            participantToSave.setAssociatedEvent(potentialEventToAssociate.get());
+            participantToSave.setCreatedBy(potentialUserToAssociate.get().getEmail());
             participantToSave.setCreationTime(LocalDateTime.now());
-
             participantToSave.setDeleted(false);
-
             return participantRepository.save(participantToSave);
         }
 
-        throw new ApiBadRequest("There is no such associated user");
+        throw new ApiBadRequest("There is no such associated user or event");
     }
 
     public List<Participant> getParticipants() {
@@ -109,15 +118,15 @@ public class ParticipantService {
         return null;
     }
 
-//    public Event getEventByParticipantId(Long id) {
-//
-//        Optional<Participant> optionalParticipant = participantRepository.findById(id);
-//
-//        if (optionalParticipant.isPresent()) {
-//            return optionalParticipant.get().getAssociatedEvent();
-//        }
-//        return null;
-//    }
+    public Event getEventByParticipantId(Long id) {
+
+        Optional<Participant> optionalParticipant = participantRepository.findById(id);
+
+        if (optionalParticipant.isPresent()) {
+            return optionalParticipant.get().getAssociatedEvent();
+        }
+        return null;
+    }
 
     public boolean setUserRoleByParticipantId(
         @NotNull(message = "Associated userId cannot be null")
@@ -137,13 +146,11 @@ public class ParticipantService {
             }
 
             optionalParticipant.get().setLastUpdatedTime(LocalDateTime.now());
-
             participantRepository.save(optionalParticipant.get());
             return true;
         }
         return false;
     }
-
 
     public boolean deleteParticipant(
         @NotNull(message = "Id cannot be null")
@@ -159,9 +166,7 @@ public class ParticipantService {
             participantToDelete.setLastUpdatedTime(LocalDateTime.now());
 
             participantToDelete.setDeleted(true);
-
             participantRepository.save(participantToDelete);
-
             return true;
         }
 
