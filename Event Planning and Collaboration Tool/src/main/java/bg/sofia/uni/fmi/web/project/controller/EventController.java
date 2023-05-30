@@ -8,16 +8,21 @@ import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.service.EventService;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,6 +60,11 @@ public class EventController {
 
     @PostMapping
     public Long addEvent(@NotNull(message = "EventDto cannot be null") @RequestBody EventDto eventDto) {
+
+        //TODO: Only if authorized, user will be able to create an event.
+        //      For now, everybody can create events and createdBy field will not be filled
+        //      When user creates event, record in participant table with user role CREATOR will be created
+
         Event potentialEventToCreate = eventService.createEvent(eventMapper.toEntity(eventDto));
 
         if (potentialEventToCreate != null) {
@@ -65,7 +75,10 @@ public class EventController {
     }
 
     @DeleteMapping
-    public boolean removeEventById(@RequestParam("id") Long eventId) {
+    public boolean removeEventById(@RequestParam("event_id")
+                                       @NotNull(message = "Event id cannot be null")
+                                       @Positive(message = "Event id must be positive")
+                                       Long eventId) {
         return eventService.deleteEvent(eventId);
     }
 
@@ -147,15 +160,54 @@ public class EventController {
             potentialEventsToReturn.stream().map(eventMapper::toDto).collect(Collectors.toList()));
     }
 
-    @PutMapping("/name")
-    public boolean setEventNameByEventId(@RequestParam("event_id") Long eventId,
-                                              @RequestParam("event_name") String eventName) {
+    @PatchMapping(value = "/name/{event_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean setEventNameByEventId(@PathVariable("event_id")
+                                             @NotNull(message = "Event id cannot be null")
+                                             @Positive(message = "Event id must be positive")
+                                             Long eventId,
+                                             @RequestParam("event_name")
+                                             @NotNull(message = "New event name cannot be null")
+                                             @NotBlank(message = "Event name cannot be blank")
+                                             String eventName) {
+        //TODO: Authorization in order to update event name
         return eventService.updateNameById(eventName, eventId);
     }
 
-    @PutMapping("/location")
-    public boolean setLocationByEventId(@RequestParam("event_id") Long eventId,
-                                         @RequestParam("event_location") String eventLocation) {
+    @PatchMapping("/date/{event_id}")
+    public boolean setDateByEventId(@PathVariable("event_id")
+                                        @NotNull(message = "Event id cannot be null")
+                                        @Positive(message = "Event id must be positive")
+                                        Long eventId,
+                                        @RequestParam("event_date")
+                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                                        @NotNull(message = "Event date cannot be null")
+                                        LocalDateTime eventDate) {
+        //TODO: Authorization in order to update event date
+        return eventService.updateDateById(eventDate, eventId);
+    }
+
+    @PatchMapping("/location/{event_id}")
+    public boolean setLocationByEventId(@PathVariable("event_id")
+                                            @NotNull(message = "Event id cannot be null")
+                                            @Positive(message = "Event id must be positive")
+                                            Long eventId,
+                                            @RequestParam("event_location")
+                                            @NotNull(message = "Event location cannot be null")
+                                            @NotBlank(message = "Event location cannot be blank")
+                                            String eventLocation) {
+        //TODO: Authorization in order to update event location
         return eventService.updateLocationById(eventLocation, eventId);
+    }
+
+    @PutMapping("/update")
+    public boolean setNewEventByEventId(@RequestParam("event_id")
+                                            @NotNull(message = "Event id cannot be null")
+                                            @Positive(message = "Event id must be positive")
+                                            Long eventId,
+                                        @RequestBody
+                                            @NotNull(message = "Event record cannot be null")
+                                            EventDto eventToUpdate) {
+        //TODO: Authorization in order to update event
+        return eventService.updateEventById(eventToUpdate, eventId);
     }
 }
