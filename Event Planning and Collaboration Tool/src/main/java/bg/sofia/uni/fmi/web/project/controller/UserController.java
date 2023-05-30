@@ -137,7 +137,7 @@ public class UserController {
         //return ResponseEntity.notFound().build();
     }
 
-    @PutMapping(value = "/settings", params = {"new_username", "old_username", "password"})
+    @PatchMapping(value = "/settings", params = {"new_username", "old_username", "password"})
     public boolean setUsernameByProvidingOldUsernameAndPassword(
         @NotNull(message = "The new username cannot be null")
         @NotBlank(message = "The new username cannot be blank")
@@ -152,7 +152,7 @@ public class UserController {
         return userService.setUsernameByProvidingOldUsernameAndPassword(newUsername, oldUsername, password);
     }
 
-    @PutMapping(value = "/settings", params = {"new_password", "username", "old_password"})
+    @PatchMapping(value = "/settings", params = {"new_password", "username", "old_password"})
     public boolean setPasswordByProvidingUsernameAndOldPassword(
         @NotNull(message = "New password cannot be null")
         @NotBlank(message = "New password cannot be empty or blank")
