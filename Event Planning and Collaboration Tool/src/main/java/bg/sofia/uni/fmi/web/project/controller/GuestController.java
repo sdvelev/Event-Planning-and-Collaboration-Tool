@@ -74,8 +74,8 @@ public class GuestController {
     @GetMapping(value = "/search", params = {"event_id"})
     public ResponseEntity<List<GuestDto>> findByEventId(@RequestParam("event_id")
                                                         @Positive(message = "The given id cannot be 0 or less!")
-                                                        long event_id) {
-        return ResponseEntity.ok(mapper.toDtoCollection(guestService.getGuestByEventId(event_id)));
+                                                        long eventId) {
+        return ResponseEntity.ok(mapper.toDtoCollection(guestService.getGuestByEventId(eventId)));
     }
 
     @GetMapping(value = "/search", params = {"guest_type"})
@@ -91,6 +91,7 @@ public class GuestController {
                                                                AttendanceType attendanceType) {
         return ResponseEntity.ok(mapper.toDtoCollection(guestService.getGuestsBytAttendanceType(attendanceType)));
     }
+
 
     @PatchMapping(value = "/settings", params = {"name", "id"})
     public boolean updateName(@NotNull(message = "The name cannot be null!")

@@ -65,7 +65,7 @@ public class TaskService {
         return null;
     }
 
-    public Collection<Task> getTasksByName(@NotNull(message = "The name cannot be null!")
+    public List<Task> getTasksByName(@NotNull(message = "The name cannot be null!")
                                            @NotEmpty(message = "The name cannot be empty!")
                                            @NotBlank(message = "The name cannot be blank!")
                                            String name) {
@@ -74,21 +74,21 @@ public class TaskService {
             .toList();
     }
 
-    public Collection<Task> getTasksByEventId(@Positive(message = "The given ID cannot be less than zero!")
+    public List<Task> getTasksByEventId(@Positive(message = "The given ID cannot be less than zero!")
                                               long eventId) {
         return taskRepository.findTasksByEventIdIs(eventId).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
     }
 
-    public Collection<Task> getTasksByParticipantId(@Positive(message = "The given ID cannot be less than zero!")
+    public List<Task> getTasksByParticipantId(@Positive(message = "The given ID cannot be less than zero!")
                                                     long participantId) {
         return taskRepository.findTasksByParticipantIdEquals(participantId).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
     }
 
-    public Collection<Task> getTasksByCreatedBy(@NotNull(message = "The name cannot be null!")
+    public List<Task> getTasksByCreatedBy(@NotNull(message = "The name cannot be null!")
                                                 @NotEmpty(message = "The name cannot be empty!")
                                                 @NotBlank(message = "The name cannot be blank!")
                                                 String name) {
@@ -97,21 +97,21 @@ public class TaskService {
             .toList();
     }
 
-    public Collection<Task> getTaskByDueDateAfter(@NotNull(message = "The date after cannot be null!")
+    public List<Task> getTaskByDueDateAfter(@NotNull(message = "The date after cannot be null!")
                                                   LocalDateTime localDateTimeAfter) {
         return taskRepository.findTaskByDueDateAfter(localDateTimeAfter).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
     }
 
-    public Collection<Task> getTaskByDueDateBefore(@NotNull(message = "The date before cannot be null!")
+    public List<Task> getTaskByDueDateBefore(@NotNull(message = "The date before cannot be null!")
                                                    LocalDateTime localDateTimeBefore) {
         return taskRepository.findTaskByDueDateBefore(localDateTimeBefore).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
     }
 
-    public Collection<Task> findTaskByDueDateBetween(@NotNull(message = "The date after cannot be null!")
+    public List<Task> getTaskByDueDateBetween(@NotNull(message = "The date after cannot be null!")
                                                      LocalDateTime localDateTimeAfter,
                                                      @NotNull(message = "The date before cannot be null!")
                                                      LocalDateTime localDateTimeBefore) {
@@ -120,7 +120,7 @@ public class TaskService {
             .toList();
     }
 
-    public void updateName(@NotNull(message = "The name cannot be null!")
+    public boolean updateName(@NotNull(message = "The name cannot be null!")
                            @NotEmpty(message = "The name cannot be empty!")
                            @NotBlank(message = "The name cannot be blank!")
                            String name,
@@ -131,10 +131,13 @@ public class TaskService {
         if (task != null && !task.isDeleted()) {
             task.setName(name);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateDescription(@NotNull(message = "The description cannot be null!")
+    public boolean updateDescription(@NotNull(message = "The description cannot be null!")
                                   @NotEmpty(message = "The description cannot be empty!")
                                   @NotBlank(message = "The description cannot be blank!")
                                   String description,
@@ -145,30 +148,39 @@ public class TaskService {
         if (task != null && !task.isDeleted()) {
             task.setDescription(description);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateTaskProgress(@NotNull(message = "The task progress cannot be null!") TaskProgress taskProgress,
+    public boolean updateTaskProgress(@NotNull(message = "The task progress cannot be null!") TaskProgress taskProgress,
                                    @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
             task.setTaskProgress(taskProgress);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateDueDate(@NotNull(message = "The due date cannot be null!") LocalDateTime dueDate,
+    public boolean updateDueDate(@NotNull(message = "The due date cannot be null!") LocalDateTime dueDate,
                               @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
             task.setDueDate(dueDate);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateLastNotified(@NotNull(message = "The last notified date cannot be null!")
+    public boolean updateLastNotified(@NotNull(message = "The last notified date cannot be null!")
                                    LocalDateTime lastNotified,
                                    @Positive(message = "The given ID cannot be less than zero!")
                                    long taskId) {
@@ -177,30 +189,39 @@ public class TaskService {
         if (task != null && !task.isDeleted()) {
             task.setLastNotified(lastNotified);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateEvent(@NotNull(message = "The event cannot be null!") EventStub event,
+    public boolean updateEvent(@NotNull(message = "The event cannot be null!") EventStub event,
                             @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
             task.setEvent(event);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateParticipant(@NotNull(message = "The participant cannot be null!") ParticipantStub participant,
+    public boolean updateParticipant(@NotNull(message = "The participant cannot be null!") ParticipantStub participant,
                                   @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
             task.setParticipant(participant);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateCreatedBy(@NotNull(message = "The createdBy cannot be null!")
+    public boolean updateCreatedBy(@NotNull(message = "The createdBy cannot be null!")
                                 @NotEmpty(message = "The createdBy cannot be empty!")
                                 @NotBlank(message = "The createdBy cannot be blank!")
                                 String createdBy,
@@ -211,20 +232,26 @@ public class TaskService {
         if (task != null && !task.isDeleted()) {
             task.setCreatedBy(createdBy);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateCreationTime(@NotNull(message = "The creation date cannot be null!") LocalDateTime creationTime,
+    public boolean updateCreationTime(@NotNull(message = "The creation date cannot be null!") LocalDateTime creationTime,
                                    @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
             task.setCreationTime(creationTime);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateUpdatedBy(@NotNull(message = "The updatedBy cannot be null!")
+    public boolean updateUpdatedBy(@NotNull(message = "The updatedBy cannot be null!")
                                 @NotEmpty(message = "The updatedBy cannot be empty!")
                                 @NotBlank(message = "The updatedBy cannot be blank!")
                                 String updatedBy,
@@ -235,10 +262,13 @@ public class TaskService {
         if (task != null && !task.isDeleted()) {
             task.setUpdatedBy(updatedBy);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void updateLastUpdatedTime(@NotNull(message = "The last updated time cannot be null!")
+    public boolean updateLastUpdatedTime(@NotNull(message = "The last updated time cannot be null!")
                                       LocalDateTime lastUpdatedTime,
                                       @Positive(message = "The given ID cannot be less than zero!")
                                       long taskId) {
@@ -247,16 +277,22 @@ public class TaskService {
         if (task != null && !task.isDeleted()) {
             task.setLastUpdatedTime(lastUpdatedTime);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 
-    public void delete(boolean deleted,
+    public boolean delete(boolean deleted,
                        @Positive(message = "The given ID cannot be less than zero!") long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
 
         if (task != null && !task.isDeleted()) {
             task.setDeleted(deleted);
             taskRepository.save(task);
+            return true;
         }
+
+        return false;
     }
 }

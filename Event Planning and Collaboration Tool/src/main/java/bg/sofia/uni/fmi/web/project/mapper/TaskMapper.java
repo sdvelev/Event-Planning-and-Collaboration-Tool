@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 public class TaskMapper {
@@ -53,7 +54,7 @@ public class TaskMapper {
             .build();
     }
 
-    public Collection<TaskDto> toDtoCollection(Collection<Task> tasksEntities) {
+    public List<TaskDto> toDtoCollection(Collection<Task> tasksEntities) {
         if (tasksEntities == null) {
             return Collections.emptyList();
         }
@@ -63,7 +64,7 @@ public class TaskMapper {
             .toList();
     }
 
-    public Collection<Task> toEntityCollection(Collection<TaskDto> tasksDtos) {
+    public List<Task> toEntityCollection(Collection<TaskDto> tasksDtos) {
         if (tasksDtos == null) {
             return Collections.emptyList();
         }
