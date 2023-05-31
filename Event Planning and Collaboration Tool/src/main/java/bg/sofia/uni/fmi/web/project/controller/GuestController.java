@@ -58,7 +58,7 @@ public class GuestController {
 
 
     @GetMapping(value = "/search", params = {"name", "surname"})
-    public ResponseEntity<List<GuestDto>> findbyNameAndSurname(@RequestParam("name")
+    public ResponseEntity<List<GuestDto>> findByNameAndSurname(@RequestParam("name")
                                                                @NotNull(message = "The given name cannot be null!")
                                                                @NotEmpty(message = "The given name cannot be empty!")
                                                                @NotBlank(message = "The given name cannot be blank!")
@@ -73,23 +73,29 @@ public class GuestController {
 
     @GetMapping(value = "/search", params = {"event_id"})
     public ResponseEntity<List<GuestDto>> findByEventId(@RequestParam("event_id")
-                                                        @Positive(message = "The given id cannot be 0 or less!")
+                                                        @Positive(message = "The given event id cannot be 0 or less!")
                                                         long eventId) {
         return ResponseEntity.ok(mapper.toDtoCollection(guestService.getGuestByEventId(eventId)));
     }
 
     @GetMapping(value = "/search", params = {"guest_type"})
     public ResponseEntity<List<GuestDto>> findByGuestType(@RequestParam("guest_type")
+                                                          @NotEmpty(message = "The given guest type cannot be empty!")
+                                                          @NotBlank(message = "The given guest type cannot be blank!")
                                                           @NotNull(message = "The given guest type cannot be null!")
-                                                          GuestType guestType) {
-        return ResponseEntity.ok(mapper.toDtoCollection(guestService.getGuestsByGuestType(guestType)));
+                                                          String guestType) {
+        return ResponseEntity.ok(
+            mapper.toDtoCollection(guestService.getGuestsByGuestType(GuestType.valueOf(guestType.toUpperCase()))));
     }
 
     @GetMapping(value = "/search", params = {"attendance_type"})
     public ResponseEntity<List<GuestDto>> findByAttendanceType(@RequestParam("attendance_type")
+                                                               @NotEmpty(message = "The given attendance type cannot be empty!")
+                                                               @NotBlank(message = "The given attendance type cannot be blank!")
                                                                @NotNull(message = "The given attendance type cannot be null!")
-                                                               AttendanceType attendanceType) {
-        return ResponseEntity.ok(mapper.toDtoCollection(guestService.getGuestsBytAttendanceType(attendanceType)));
+                                                               String attendanceType) {
+        return ResponseEntity.ok(mapper.toDtoCollection(
+            guestService.getGuestsBytAttendanceType(AttendanceType.valueOf(attendanceType.toUpperCase()))));
     }
 
 
@@ -105,7 +111,7 @@ public class GuestController {
         return guestService.updateName(name, guestId);
     }
 
-    @PatchMapping(value = "/settings", params = {"surnmae", "id"})
+    @PatchMapping(value = "/settings", params = {"surname", "id"})
     public boolean updateSurname(@NotNull(message = "The surname cannot be null!")
                                  @NotEmpty(message = "The surname cannot be empty!")
                                  @NotBlank(message = "The surname cannot be blank!")
@@ -131,22 +137,26 @@ public class GuestController {
 
     @PatchMapping(value = "/settings", params = {"guest_type", "id"})
     public boolean updateGuestType(@NotNull(message = "The guest type cannot be null!")
+                                   @NotEmpty(message = "The guest type cannot be empty!")
+                                   @NotBlank(message = "The guest type cannot be blank!")
                                    @RequestParam("guest_type")
-                                   GuestType guestType,
+                                   String guestType,
                                    @Positive(message = "The given ID cannot be less than zero!")
                                    @RequestParam("id")
                                    long guestId) {
-        return guestService.updateGuestType(guestType, guestId);
+        return guestService.updateGuestType(GuestType.valueOf(guestType.toUpperCase()), guestId);
     }
 
     @PatchMapping(value = "/settings", params = {"attendance_type", "id"})
     public boolean updateAttendanceType(@NotNull(message = "The attendance type cannot be null!")
+                                        @NotEmpty(message = "The attendance type cannot be empty!")
+                                        @NotBlank(message = "The attendance type cannot be blank!")
                                         @RequestParam("attendance_type")
-                                        AttendanceType attendanceType,
+                                        String attendanceType,
                                         @Positive(message = "The given ID cannot be less than zero!")
                                         @RequestParam("id")
                                         long guestId) {
-        return guestService.updateAttendanceType(attendanceType, guestId);
+        return guestService.updateAttendanceType(AttendanceType.valueOf(attendanceType.toUpperCase()), guestId);
     }
 
     @PatchMapping(value = "/settings", params = {"is_sent", "id"})
@@ -157,14 +167,6 @@ public class GuestController {
                                           long guestId) {
         return guestService.updateInvitationIsSent(isSent, guestId);
     }
-
-//    @PatchMapping(value = "/settings", params = {"is_sent", "id"})
-//    public boolean updateEvent(@NotNull(message = "The event cannot be null!")
-//                                   long event,
-//                               @Positive(message = "The given ID cannot be less than zero!")
-//                               long guestId) {
-//        return guestService.updateInvitationIsSent(isSent, guestId);
-//    }
 
     @PatchMapping(value = "/settings", params = {"created_by", "id"})
     public boolean updateCreatedBy(@RequestParam("created_by")
@@ -204,9 +206,9 @@ public class GuestController {
     }
 
     @PatchMapping(value = "/settings", params = {"last_updated_time", "id"})
-    public boolean updateLastUpdatedTime(@NotNull(message = "The creation_time cannot be null!")
-                                         @NotEmpty(message = "The creation_time cannot be empty!")
-                                         @NotBlank(message = "The creation_time cannot be blank!")
+    public boolean updateLastUpdatedTime(@NotNull(message = "The last_updated_time cannot be null!")
+                                         @NotEmpty(message = "The last_updated_time cannot be empty!")
+                                         @NotBlank(message = "The last_updated_time cannot be blank!")
                                          @RequestParam("last_updated_time")
                                          String lastUpdatedTime,
                                          @Positive(message = "The given ID cannot be less than zero!")

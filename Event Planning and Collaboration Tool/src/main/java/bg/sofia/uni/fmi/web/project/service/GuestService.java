@@ -207,19 +207,6 @@ public class GuestService {
         return false;
     }
 
-    public boolean updateEvent(@NotNull(message = "The event cannot be null!") EventStub event,
-                            @Positive(message = "The given ID cannot be less than zero!") long guestId) {
-        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-
-        if (guest != null && !guest.isDeleted()) {
-            guest.setEvent(event);
-            guestRepository.save(guest);
-            return true;
-        }
-
-        return false;
-    }
-
     public boolean updateCreatedBy(@NotNull(message = "The createdBy cannot be null!")
                                 @NotEmpty(message = "The createdBy cannot be empty!")
                                 @NotBlank(message = "The createdBy cannot be blank!")

@@ -57,22 +57,22 @@ public class TaskController {
 
     @GetMapping(value = "/search", params = {"event_id"})
     public ResponseEntity<List<TaskDto>> findByEventId(@RequestParam("event_id")
-                                                       @Positive(message = "The given id cannot be 0 or less!")
+                                                       @Positive(message = "The given event id cannot be 0 or less!")
                                                        long eventId) {
         return ResponseEntity.ok(mapper.toDtoCollection(taskService.getTasksByEventId(eventId)));
     }
 
     @GetMapping(value = "/search", params = {"participant_id"})
     public ResponseEntity<List<TaskDto>> findByParticipantId(@RequestParam("participant_id")
-                                                             @Positive(message = "The given id cannot be 0 or less!")
+                                                             @Positive(message = "The given participant id cannot be 0 or less!")
                                                              long participantId) {
         return ResponseEntity.ok(mapper.toDtoCollection(taskService.getTasksByParticipantId(participantId)));
     }
 
     @GetMapping(value = "/search", params = {"created_by"})
-    public ResponseEntity<List<TaskDto>> getTasksByCreatedBy(@NotNull(message = "The name cannot be null!")
-                                                             @NotEmpty(message = "The name cannot be empty!")
-                                                             @NotBlank(message = "The name cannot be blank!")
+    public ResponseEntity<List<TaskDto>> getTasksByCreatedBy(@NotNull(message = "The created by cannot be null!")
+                                                             @NotEmpty(message = "The created by cannot be empty!")
+                                                             @NotBlank(message = "The created by cannot be blank!")
                                                              @RequestParam("created_by")
                                                              String createdBy) {
         return ResponseEntity.ok(mapper.toDtoCollection(taskService.getTasksByCreatedBy(createdBy)));
@@ -97,9 +97,9 @@ public class TaskController {
         @NotBlank(message = "The due date after cannot be blank!")
         @RequestParam("due_date_after")
         String dueDateAfter,
-        @NotNull(message = "The due date after cannot be null!")
-        @NotEmpty(message = "The due date after cannot be empty!")
-        @NotBlank(message = "The due date after cannot be blank!")
+        @NotNull(message = "The due date before cannot be null!")
+        @NotEmpty(message = "The due date before cannot be empty!")
+        @NotBlank(message = "The due date before cannot be blank!")
         @RequestParam("due_date_before")
         String dueDateBefore) {
 
@@ -111,9 +111,9 @@ public class TaskController {
 
     @GetMapping(value = "/search", params = {"due_date_before"})
     public ResponseEntity<List<TaskDto>> getTasksByDueDateBefore(
-        @NotNull(message = "The due date after cannot be null!")
-        @NotEmpty(message = "The due date after cannot be empty!")
-        @NotBlank(message = "The due date after cannot be blank!")
+        @NotNull(message = "The due date before cannot be null!")
+        @NotEmpty(message = "The due date before cannot be empty!")
+        @NotBlank(message = "The due date before cannot be blank!")
         @RequestParam("due_date_before")
         String dueDateBefore) {
 
@@ -123,9 +123,9 @@ public class TaskController {
     }
 
     @PatchMapping(value = "/settings", params = {"name", "id"})
-    public boolean updateName(@NotNull(message = "The name cannot be null!")
-                              @NotEmpty(message = "The name cannot be empty!")
-                              @NotBlank(message = "The name cannot be blank!")
+    public boolean updateName(@NotNull(message = "The task name cannot be null!")
+                              @NotEmpty(message = "The task name cannot be empty!")
+                              @NotBlank(message = "The task name cannot be blank!")
                               @RequestParam("name")
                               String name,
                               @Positive(message = "The given ID cannot be less than zero!")
@@ -147,18 +147,20 @@ public class TaskController {
 
     @PatchMapping(value = "/settings", params = {"task_progress", "id"})
     public boolean updateTaskProgress(@NotNull(message = "The task progress cannot be null!")
+                                      @NotEmpty(message = "The task progress cannot be empty!")
+                                      @NotBlank(message = "The task progress cannot be blank!")
                                       @RequestParam("task_progress")
-                                      TaskProgress taskProgress,
+                                      String taskProgress,
                                       @Positive(message = "The given ID cannot be less than zero!")
                                       @RequestParam("id")
                                       long taskId) {
-        return taskService.updateTaskProgress(taskProgress, taskId);
+        return taskService.updateTaskProgress(TaskProgress.valueOf(taskProgress.toUpperCase()), taskId);
     }
 
     @PatchMapping(value = "/settings", params = {"due_date", "id"})
-    public boolean updateDueDate(@NotNull(message = "The description cannot be null!")
-                                 @NotEmpty(message = "The description cannot be empty!")
-                                 @NotBlank(message = "The description cannot be blank!")
+    public boolean updateDueDate(@NotNull(message = "The due date cannot be null!")
+                                 @NotEmpty(message = "The due date cannot be empty!")
+                                 @NotBlank(message = "The due date cannot be blank!")
                                  @RequestParam("due_date")
                                  String dueDate,
                                  @Positive(message = "The given ID cannot be less than zero!")
@@ -169,9 +171,9 @@ public class TaskController {
     }
 
     @PatchMapping(value = "/settings", params = {"last_notified", "id"})
-    public boolean updateLastNotified(@NotNull(message = "The description cannot be null!")
-                                      @NotEmpty(message = "The description cannot be empty!")
-                                      @NotBlank(message = "The description cannot be blank!")
+    public boolean updateLastNotified(@NotNull(message = "The last notified cannot be null!")
+                                      @NotEmpty(message = "The last notified cannot be empty!")
+                                      @NotBlank(message = "The last notified cannot be blank!")
                                       @RequestParam("last_notified")
                                       String lastNotified,
                                       @Positive(message = "The given ID cannot be less than zero!")
@@ -183,9 +185,9 @@ public class TaskController {
 
     @PatchMapping(value = "/settings", params = {"created_by", "id"})
     public boolean updateCreatedBy(@RequestParam("created_by")
-                                   @NotNull(message = "The createdBy cannot be null!")
-                                   @NotEmpty(message = "The createdBy cannot be empty!")
-                                   @NotBlank(message = "The createdBy cannot be blank!")
+                                   @NotNull(message = "The created by cannot be null!")
+                                   @NotEmpty(message = "The created by cannot be empty!")
+                                   @NotBlank(message = "The created by cannot be blank!")
                                    String createdBy,
                                    @Positive(message = "The given ID cannot be less than zero!")
                                    @RequestParam("id")
@@ -193,13 +195,10 @@ public class TaskController {
         return taskService.updateCreatedBy(createdBy, taskId);
     }
 
-    ///////////////////// UPDATE EVENT
-    ///////////////////// UPDATE PARTICIPANT
-
     @PatchMapping(value = "/settings", params = {"creation_time", "id"})
-    public boolean updateCreationTime(@NotNull(message = "The creation_time cannot be null!")
-                                      @NotEmpty(message = "The creation_time cannot be empty!")
-                                      @NotBlank(message = "The creation_time cannot be blank!")
+    public boolean updateCreationTime(@NotNull(message = "The creation time cannot be null!")
+                                      @NotEmpty(message = "The creation time cannot be empty!")
+                                      @NotBlank(message = "The creation time cannot be blank!")
                                       @RequestParam("created_by")
                                       String creationTime,
                                       @Positive(message = "The given ID cannot be less than zero!")
@@ -210,9 +209,9 @@ public class TaskController {
     }
 
     @PatchMapping(value = "/settings", params = {"created_by", "id"})
-    public boolean updateUpdatedBy(@NotNull(message = "The updatedBy cannot be null!")
-                                   @NotEmpty(message = "The updatedBy cannot be empty!")
-                                   @NotBlank(message = "The updatedBy cannot be blank!")
+    public boolean updateUpdatedBy(@NotNull(message = "The updated by cannot be null!")
+                                   @NotEmpty(message = "The updated by cannot be empty!")
+                                   @NotBlank(message = "The updated by cannot be blank!")
                                    @RequestParam("updated_by")
                                    String updatedBy,
                                    @Positive(message = "The given ID cannot be less than zero!")
@@ -222,9 +221,9 @@ public class TaskController {
     }
 
     @PatchMapping(value = "/settings", params = {"last_updated_time", "id"})
-    public boolean updateLastUpdatedTime(@NotNull(message = "The creation_time cannot be null!")
-                                         @NotEmpty(message = "The creation_time cannot be empty!")
-                                         @NotBlank(message = "The creation_time cannot be blank!")
+    public boolean updateLastUpdatedTime(@NotNull(message = "The last_updated_time cannot be null!")
+                                         @NotEmpty(message = "The last_updated_time cannot be empty!")
+                                         @NotBlank(message = "The last_updated_time cannot be blank!")
                                          @RequestParam("last_updated_time")
                                          String lastUpdatedTime,
                                          @Positive(message = "The given ID cannot be less than zero!")
@@ -242,6 +241,4 @@ public class TaskController {
                                long taskId) {
         return taskService.delete(deleted, taskId);
     }
-
-
 }
