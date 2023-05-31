@@ -17,7 +17,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.w3c.dom.events.Event;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
