@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 public class GuestMapper {
@@ -53,7 +54,7 @@ public class GuestMapper {
             .build();
     }
 
-    public Collection<GuestDto> toDtoCollection(Collection<Guest> guestsEntities) {
+    public List<GuestDto> toDtoCollection(Collection<Guest> guestsEntities) {
         if (guestsEntities == null) {
             return Collections.emptyList();
         }
@@ -63,7 +64,7 @@ public class GuestMapper {
             .toList();
     }
 
-    public Collection<Guest> toEntityCollection(Collection<GuestDto> guestDtos) {
+    public List<Guest> toEntityCollection(Collection<GuestDto> guestDtos) {
         if (guestDtos == null) {
             return Collections.emptyList();
         }
