@@ -1,8 +1,6 @@
 package bg.sofia.uni.fmi.web.project.model;
 
 import bg.sofia.uni.fmi.web.project.enums.TaskProgress;
-import bg.sofia.uni.fmi.web.project.stub.EventStub;
-import bg.sofia.uni.fmi.web.project.stub.ParticipantStub;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +17,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.w3c.dom.events.Event;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -54,12 +53,12 @@ public class Task {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
     // private Event event;
-    private EventStub event;
+    private Event event;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "participant_id", nullable = false)
     // private Participant participant;
-    private ParticipantStub participant;
+    private Participant participant;
 
     @Column(length = 255, nullable = false)
     private String createdBy;

@@ -1,8 +1,6 @@
 package bg.sofia.uni.fmi.web.project.dto;
 
 import bg.sofia.uni.fmi.web.project.enums.TaskProgress;
-import bg.sofia.uni.fmi.web.project.stub.EventStub;
-import bg.sofia.uni.fmi.web.project.stub.ParticipantStub;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -43,11 +41,11 @@ public class TaskDto {
 
     // Event
     @NotNull(message = "The event ID cannot be null!")
-    private EventStub event;
+    private Event event;
 
     // Participant
     @NotNull(message = "The participant ID cannot be null!")
-    private ParticipantStub participant;
+    private Participant participant;
 
     @NotNull(message = "The created by cannot be null!")
     @NotEmpty(message = "The created by cannot be empty!")
