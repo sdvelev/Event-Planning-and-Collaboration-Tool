@@ -1,15 +1,10 @@
 package bg.sofia.uni.fmi.web.project.controller;
 
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
-import bg.sofia.uni.fmi.web.project.dto.UserDto;
-import bg.sofia.uni.fmi.web.project.enums.UserRole;
 import bg.sofia.uni.fmi.web.project.mapper.EventMapper;
 import bg.sofia.uni.fmi.web.project.model.Event;
-import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.service.EventService;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

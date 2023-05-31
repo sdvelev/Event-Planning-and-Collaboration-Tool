@@ -50,16 +50,6 @@ public class UserService {
         return userRepository.save(userToSave);
     }
 
-//    public User createUser(String username, String password, String email) {
-//        User userToCreate = User.builder()
-//            .username(username)
-//            .password(password)
-//            .email(email)
-//            .build();
-//
-//        return userRepository.save(userToCreate);
-//    }
-
     public List<User> getUsers() {
         return userRepository.findAll()
             .parallelStream()
@@ -78,7 +68,6 @@ public class UserService {
         }
 
         throw new ResourceNotFoundException("User with such an id cannot be found");
-//        return Optional.empty();
     }
 
     public User getUserByEmail(@NotNull(message = "Email cannot be null")
@@ -94,7 +83,6 @@ public class UserService {
         }
 
         throw new ResourceNotFoundException("User with such an email cannot be found");
-//        return Optional.empty();
     }
 
     public User getUserByUsername(@NotNull(message = "Username cannot be null")
@@ -110,7 +98,6 @@ public class UserService {
         }
 
         throw new ResourceNotFoundException("User with such a username cannot be found");
-//        return Optional.empty();
     }
 
     public User getUserByUsernameAndPassword(@NotNull(message = "Username cannot be null")
@@ -130,7 +117,6 @@ public class UserService {
         }
 
         throw new ResourceNotFoundException("User with such a username and password cannot be found");
-//        return Optional.empty();
     }
 
     public boolean setUsernameByProvidingOldUsernameAndPassword(@NotNull(message = "New username cannot be null")
@@ -150,19 +136,14 @@ public class UserService {
             if (!currentUser.isDeleted()) {
 
                 for (User user : userRepository.findByUsername(newUserName)) {
-
                     if (!user.isDeleted()) {
                         throw new ApiBadRequest("The new username is already taken");
                     }
-
                 }
 
                 currentUser.setUsername(newUserName);
-
                 currentUser.setUpdatedBy(currentUser.getEmail());
-
                 currentUser.setLastUpdatedTime(LocalDateTime.now());
-
                 userRepository.save(currentUser);
                 return true;
             }
@@ -186,13 +167,9 @@ public class UserService {
         for (User currentUser : optionalUsersToChange) {
 
             if (!currentUser.isDeleted()) {
-
                 currentUser.setPassword(newPassword);
-
                 currentUser.setUpdatedBy(currentUser.getEmail());
-
                 currentUser.setLastUpdatedTime(LocalDateTime.now());
-
                 userRepository.save(currentUser);
                 return true;
             }
@@ -216,32 +193,13 @@ public class UserService {
             User userToChange = optionalUserToChange.get();
 
             userToChange.setName(name);
-
             userToChange.setSurname(surname);
-
             userToChange.setLastUpdatedTime(LocalDateTime.now());
-
             userRepository.save(userToChange);
             return true;
         }
-
         throw new ResourceNotFoundException("User with such an id cannot be found");
     }
-
-//    public boolean setAgeById(Integer age, Long id) {
-//        Optional<User> optionalUserToChange = userRepository.findById(id);
-//
-//        if (optionalUserToChange.isPresent()) {
-//            User userToChange = optionalUserToChange.get();
-//
-//            userToChange.setAge(age);
-//
-//            userRepository.save(userToChange);
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
 
     public boolean setAddressById(@NotNull(message = "Address cannot be null")
                                   @NotBlank(message = "Address cannot be empty or blank")
@@ -254,11 +212,8 @@ public class UserService {
         if (optionalUserToChange.isPresent() && !optionalUserToChange.get().isDeleted()) {
 
             User userToChange = optionalUserToChange.get();
-
             userToChange.setAddress(address);
-
             userToChange.setLastUpdatedTime(LocalDateTime.now());
-
             userRepository.save(userToChange);
             return true;
         }
@@ -275,13 +230,9 @@ public class UserService {
         Optional<User> optionalUserToChange = userRepository.findById(id);
 
         if (optionalUserToChange.isPresent() && !optionalUserToChange.get().isDeleted()) {
-
             User userToChange = optionalUserToChange.get();
-
             userToChange.setPassword(password);
-
             userToChange.setLastUpdatedTime(LocalDateTime.now());
-
             userRepository.save(userToChange);
             return true;
         }
@@ -302,10 +253,8 @@ public class UserService {
         for (User currentUser : optionalUsersToDelete) {
 
             if (!currentUser.isDeleted()) {
-
                 for (Participant currentParticipant : currentUser.getParticipantProfiles()) {
                     participantService.deleteParticipant(currentParticipant.getId());
-                    //currentParticipant.getEvent().delete();
                 }
 
                 currentUser.setLastUpdatedTime(LocalDateTime.now());

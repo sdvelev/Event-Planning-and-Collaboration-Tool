@@ -1,12 +1,8 @@
 package bg.sofia.uni.fmi.web.project.mapper;
 
-import bg.sofia.uni.fmi.web.project.dto.EventDto;
 import bg.sofia.uni.fmi.web.project.dto.ParticipantDto;
-import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Participant;
-import bg.sofia.uni.fmi.web.project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -55,11 +51,5 @@ public class ParticipantMapper {
         }
 
         return toReturnEntity;
-//        return Participant.builder()
-//            .id(participantDto.getId())
-//            .userRole(participantDto.getUserRole())
-//            .associatedUser(userMapper.toEntity(participantDto.getAssociatedUserDto()))
-//            .associatedEvent(eventMapper.toEntity(participantDto.getAssociatedEventDto()))
-//            .build();
     }
 }

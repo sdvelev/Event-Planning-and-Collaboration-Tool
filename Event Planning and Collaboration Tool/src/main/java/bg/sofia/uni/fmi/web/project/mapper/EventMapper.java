@@ -1,9 +1,7 @@
 package bg.sofia.uni.fmi.web.project.mapper;
 
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
-import bg.sofia.uni.fmi.web.project.dto.ParticipantDto;
 import bg.sofia.uni.fmi.web.project.model.Event;
-import bg.sofia.uni.fmi.web.project.model.Participant;
 import org.springframework.stereotype.Component;
 
 @Component

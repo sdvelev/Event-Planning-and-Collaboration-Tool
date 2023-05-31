@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.web.project.controller;
 
 import bg.sofia.uni.fmi.web.project.dto.UserDto;
-import bg.sofia.uni.fmi.web.project.enums.UserRole;
 import bg.sofia.uni.fmi.web.project.mapper.UserMapper;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.service.UserService;
@@ -11,14 +10,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -84,8 +81,6 @@ public class UserController {
         User userToReturn = userService.getUserByUsernameAndPassword(username, password);
 
         return ResponseEntity.ok(userMapper.toDto(userToReturn));
-
-        //return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/search", params = {"id"})
@@ -101,8 +96,6 @@ public class UserController {
         }
 
         throw new ResourceNotFoundException("User with such a username and password cannot be found");
-
-        //return ResponseEntity.notFound().build();
     }
 
     @GetMapping(value = "/search", params = {"username"})
@@ -115,10 +108,6 @@ public class UserController {
         User potentialUserToReturn = userService.getUserByUsername(username);
 
         return ResponseEntity.ok(userMapper.toDto(potentialUserToReturn));
-
-//        throw new ResourceNotFoundException("User with such a username and password cannot be found");
-
-        //return ResponseEntity.notFound().build();
     }
 
     @GetMapping(value = "/search", params = {"email"})
@@ -131,10 +120,6 @@ public class UserController {
         User potentialUserToReturn = userService.getUserByEmail(email);
 
         return ResponseEntity.ok(userMapper.toDto(potentialUserToReturn));
-
-//        throw new ResourceNotFoundException("User with such a username and password cannot be found");
-
-        //return ResponseEntity.notFound().build();
     }
 
     @PatchMapping(value = "/settings", params = {"new_username", "old_username", "password"})
@@ -168,5 +153,4 @@ public class UserController {
         String oldPassword) {
         return userService.setPasswordByProvidingUsernameAndOldPassword(newPassword, username, oldPassword);
     }
-
 }

@@ -9,14 +9,12 @@ import bg.sofia.uni.fmi.web.project.repository.ParticipantRepository;
 import bg.sofia.uni.fmi.web.project.repository.UserRepository;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -51,10 +49,6 @@ public class ParticipantService {
 
         Optional<User> potentialUserToAssociate = userRepository.findById(userIdToAssociate);
         Optional<Event> potentialEventToAssociate = eventRepository.findById(eventIdToAssociate);
-
-        //        if (potentialUserToAssociate.isEmpty()) {
-//            throw new ApiBadRequest("There is no such user");
-//        }
 
         if (potentialUserToAssociate.isPresent() && !potentialUserToAssociate.get().isDeleted() &&
         potentialEventToAssociate.isPresent() && !potentialEventToAssociate.get().isDeleted()) {
@@ -174,6 +168,5 @@ public class ParticipantService {
 
         throw new ResourceNotFoundException("There is not a participant with such an id");
     }
-
 
 }
