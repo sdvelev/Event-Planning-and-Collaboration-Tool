@@ -1,0 +1,565 @@
+{
+	"info": {
+		"_postman_id": "ebde0521-ba6b-40ec-9b6a-3323ff9f33a4",
+		"name": "Evant Planning and Collaboration Tool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "GetUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"sdvelev\",\r\n    \"password\" : \"sdvelev\",\r\n    \"email\" : \"sdvelev@gmail.com\",\r\n    \"name\" : \"Stefan\",\r\n    \"surname\" : \"Velev\",\r\n    \"address\" : \"Sofia\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users?username=sdvelev&password=sdvelev",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "sdvelev"
+								},
+								{
+									"key": "password",
+									"value": "sdvelev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchUserByUsernameAndPassword",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/search?username=sdvelev&password=sdvelev",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "sdvelev"
+								},
+								{
+									"key": "password",
+									"value": "sdvelev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchUserById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/search?id=54",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "54"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchUserByIdNegative",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/search?id=-6",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "-6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetUsernameByOldUsernameAndPassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/settings?new_username=SDVELEV&old_username=sdvelev&password=sdvelev",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"settings"
+							],
+							"query": [
+								{
+									"key": "new_username",
+									"value": "SDVELEV"
+								},
+								{
+									"key": "old_username",
+									"value": "sdvelev"
+								},
+								{
+									"key": "password",
+									"value": "sdvelev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetPasswordByUsernameAndOldPassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/settings?new_password=SDVELEV&username=sdvelev&old_password=sdvelev",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"settings"
+							],
+							"query": [
+								{
+									"key": "new_password",
+									"value": "SDVELEV"
+								},
+								{
+									"key": "username",
+									"value": "sdvelev"
+								},
+								{
+									"key": "old_password",
+									"value": "sdvelev"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Participants",
+			"item": [
+				{
+					"name": "GetParticipants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/participants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddParticipant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_role\" : \"CREATOR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/participants?assigned_user_id=1&assigned_event_id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants"
+							],
+							"query": [
+								{
+									"key": "assigned_user_id",
+									"value": "1"
+								},
+								{
+									"key": "assigned_event_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetParticipantById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/participants/search?id=9",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteParticipant",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/participants?id=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetUserRoleByParticipantId",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/participants/role?participant_id=102&user_role=PLANNER",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants",
+								"role"
+							],
+							"query": [
+								{
+									"key": "participant_id",
+									"value": "102"
+								},
+								{
+									"key": "user_role",
+									"value": "PLANNER"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "GetEvents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddEvent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Trip to London\",\r\n    \"date\" : \"2023-10-30 10:00:00\",\r\n    \"location\" : \"London\",\r\n    \"description\" : \"Travelling to UK with visit of London and some other cities\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/events",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetEventNameById",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events/name/102?event_name=Trip%20To%20UK",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"name",
+								"102"
+							],
+							"query": [
+								{
+									"key": "event_name",
+									"value": "Trip%20To%20UK"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetEventById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Trip to New York\",\r\n    \"date\" : \"2023-02-05 18:00:00\",\r\n    \"location\" : \"New York\",\r\n    \"description\" : \"Travelling to USA with visit of New York and some other cities\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/events/update?event_id=102",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"update"
+							],
+							"query": [
+								{
+									"key": "event_id",
+									"value": "102"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetEventLocationById",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events/location/102?event_location=UK",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"location",
+								"102"
+							],
+							"query": [
+								{
+									"key": "event_location",
+									"value": "UK"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetEventDateById",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events/date/102?event_date=2023-10-30%2009:00:00",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"date",
+								"102"
+							],
+							"query": [
+								{
+									"key": "event_date",
+									"value": "2023-10-30%2009:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteEvent",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events?event_id=102",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "event_id",
+									"value": "102"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
