@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.web.project.dto;
 
 import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
+import bg.sofia.uni.fmi.web.project.model.Event;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
