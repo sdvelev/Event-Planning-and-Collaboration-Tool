@@ -184,7 +184,7 @@ public class GuestController {
     public boolean updateCreationTime(@NotNull(message = "The creation_time cannot be null!")
                                       @NotEmpty(message = "The creation_time cannot be empty!")
                                       @NotBlank(message = "The creation_time cannot be blank!")
-                                      @RequestParam("created_by")
+                                      @RequestParam("creation_time")
                                       String creationTime,
                                       @Positive(message = "The given ID cannot be less than zero!")
                                       @RequestParam("id")
@@ -193,7 +193,7 @@ public class GuestController {
         return guestService.updateCreationTime(LocalDateTime.parse(creationTime, formatter), guestId);
     }
 
-    @PatchMapping(value = "/settings", params = {"created_by", "id"})
+    @PatchMapping(value = "/settings", params = {"updated_бy", "id"})
     public boolean updateUpdatedBy(@NotNull(message = "The updatedBy cannot be null!")
                                    @NotEmpty(message = "The updatedBy cannot be empty!")
                                    @NotBlank(message = "The updatedBy cannot be blank!")

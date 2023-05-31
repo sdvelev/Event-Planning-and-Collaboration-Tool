@@ -199,7 +199,7 @@ public class TaskController {
     public boolean updateCreationTime(@NotNull(message = "The creation time cannot be null!")
                                       @NotEmpty(message = "The creation time cannot be empty!")
                                       @NotBlank(message = "The creation time cannot be blank!")
-                                      @RequestParam("created_by")
+                                      @RequestParam("creation_time")
                                       String creationTime,
                                       @Positive(message = "The given ID cannot be less than zero!")
                                       @RequestParam("id")
@@ -208,7 +208,7 @@ public class TaskController {
         return taskService.updateCreationTime(LocalDateTime.parse(creationTime, formatter), taskId);
     }
 
-    @PatchMapping(value = "/settings", params = {"created_by", "id"})
+    @PatchMapping(value = "/settings", params = {"updated_by", "id"})
     public boolean updateUpdatedBy(@NotNull(message = "The updated by cannot be null!")
                                    @NotEmpty(message = "The updated by cannot be empty!")
                                    @NotBlank(message = "The updated by cannot be blank!")
