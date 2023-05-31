@@ -58,12 +58,14 @@ public class ParticipantService {
 
         if (potentialUserToAssociate.isPresent() && !potentialUserToAssociate.get().isDeleted() &&
         potentialEventToAssociate.isPresent() && !potentialEventToAssociate.get().isDeleted()) {
-
             participantToSave.setAssociatedUser(potentialUserToAssociate.get());;
             participantToSave.setAssociatedEvent(potentialEventToAssociate.get());
             participantToSave.setCreatedBy(potentialUserToAssociate.get().getEmail());
             participantToSave.setCreationTime(LocalDateTime.now());
             participantToSave.setDeleted(false);
+
+            potentialUserToAssociate.get().getParticipantProfiles().add(participantToSave);
+            potentialEventToAssociate.get().getAssociatedParticipants().add(participantToSave);
             return participantRepository.save(participantToSave);
         }
 
