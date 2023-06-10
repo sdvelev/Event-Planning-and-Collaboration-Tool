@@ -15,21 +15,34 @@ public class TaskMapper {
             return null;
         }
 
-        return TaskDto.builder()
-            .id(taskEntity.getId())
-            .name(taskEntity.getName())
-            .description(taskEntity.getDescription())
-            .taskProgress(taskEntity.getTaskProgress())
-            .dueDate(taskEntity.getDueDate())
-            .lastNotified(taskEntity.getLastNotified())
-            .event(taskEntity.getEvent())
-            .participant(taskEntity.getParticipant())
-            .createdBy(taskEntity.getCreatedBy())
-            .creationTime(taskEntity.getCreationTime())
-            .updatedBy(taskEntity.getUpdatedBy())
-            .lastUpdatedTime(taskEntity.getLastUpdatedTime())
-            .deleted(taskEntity.isDeleted())
-            .build();
+        TaskDto newTaskDto = new TaskDto();
+        newTaskDto.setId((taskEntity.getId()));
+        newTaskDto.setName(taskEntity.getName());
+        newTaskDto.setDescription(taskEntity.getDescription());
+
+        if (taskEntity.getTaskProgress() != null) {
+            newTaskDto.setTaskProgress(taskEntity.getTaskProgress());
+        }
+
+        if (taskEntity.getDueDate() != null) {
+            newTaskDto.setDueDate(taskEntity.getDueDate());
+        }
+
+        if (taskEntity.getLastNotified() != null) {
+            newTaskDto.setLastNotified(taskEntity.getLastNotified());
+        }
+
+        if (taskEntity.getEvent() != null) {
+            newTaskDto.setAssociatedEventDto(new EventMapper().toDto(taskEntity.getEvent()));
+        }
+
+        if (taskEntity.getParticipant() != null) {
+            newTaskDto.setAssociatedParticipantDto(
+                new ParticipantMapper(new UserMapper(), new EventMapper())
+                    .toDto(taskEntity.getParticipant()));
+        }
+
+        return newTaskDto;
     }
 
     public Task toEntity(TaskDto taskDto) {
@@ -37,21 +50,34 @@ public class TaskMapper {
             return null;
         }
 
-        return Task.builder()
-            .id(taskDto.getId())
-            .name(taskDto.getName())
-            .description(taskDto.getDescription())
-            .taskProgress(taskDto.getTaskProgress())
-            .dueDate(taskDto.getDueDate())
-            .lastNotified(taskDto.getLastNotified())
-            .event(taskDto.getEvent())
-            .participant(taskDto.getParticipant())
-            .createdBy(taskDto.getCreatedBy())
-            .creationTime(taskDto.getCreationTime())
-            .updatedBy(taskDto.getUpdatedBy())
-            .lastUpdatedTime(taskDto.getLastUpdatedTime())
-            .deleted(taskDto.isDeleted())
-            .build();
+        Task newTaskEntity = new Task();
+        newTaskEntity.setId((taskDto.getId()));
+        newTaskEntity.setName(taskDto.getName());
+        newTaskEntity.setDescription(taskDto.getDescription());
+
+        if (taskDto.getTaskProgress() != null) {
+            newTaskEntity.setTaskProgress(taskDto.getTaskProgress());
+        }
+
+        if (taskDto.getDueDate() != null) {
+            newTaskEntity.setDueDate(taskDto.getDueDate());
+        }
+
+        if (taskDto.getLastNotified() != null) {
+            newTaskEntity.setLastNotified(taskDto.getLastNotified());
+        }
+
+        if (taskDto.getAssociatedEventDto() != null) {
+            newTaskEntity.setEvent(new EventMapper().toEntity(taskDto.getAssociatedEventDto()));
+        }
+
+        if (taskDto.getAssociatedParticipantDto() != null) {
+            newTaskEntity.setParticipant(
+                new ParticipantMapper(new UserMapper(), new EventMapper())
+                    .toEntity(taskDto.getAssociatedParticipantDto()));
+        }
+
+        return newTaskEntity;
     }
 
     public List<TaskDto> toDtoCollection(Collection<Task> tasksEntities) {

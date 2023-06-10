@@ -12,11 +12,11 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long> {
     Task findTaskByIdEquals(long id);
     List<Task> findAll();
-    Collection<Task> findTasksByNameEquals(String name);
-    Collection<Task> findTasksByEventIdIs(long id);
-    Collection<Task> findTasksByParticipantIdEquals(long id);
-    Collection<Task> findTaskByCreatedByEquals(String name);
-    Collection<Task> findTaskByDueDateAfter(LocalDateTime localDateTime);
-    Collection<Task> findTaskByDueDateBefore(LocalDateTime localDateTime);
-    Collection<Task> findTaskByDueDateBetween(LocalDateTime localDateTimeAfter, LocalDateTime localDateTimeBefore);
+    List<Task> findTasksByNameEquals(String name);
+    List<Task> findTasksByEventIdIs(long id);
+    List<Task> findTasksByParticipantIdEquals(long id);
+    List<Task> findTaskByCreatedByEquals(String name);
+    List<Task> findTaskByDueDateAfter(LocalDateTime localDateTime);
+    List<Task> findTaskByDueDateBefore(LocalDateTime localDateTime);
+    List<Task> findTaskByDueDateBetween(LocalDateTime localDateTimeAfter, LocalDateTime localDateTimeBefore);
 }

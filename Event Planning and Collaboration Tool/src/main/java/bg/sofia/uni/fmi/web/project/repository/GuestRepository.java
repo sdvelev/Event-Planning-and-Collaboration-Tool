@@ -17,11 +17,11 @@ public interface GuestRepository extends JpaRepository<Guest, Long> {
 
     List<Guest> findAll();
 
-    Collection<Guest> findGuestByNameAndSurnameEquals(String name, String surname);
+    List<Guest> findGuestByNameAndSurnameEquals(String name, String surname);
 
-    Collection<Guest> findGuestByEventIdEquals(long id);
+    List<Guest> findGuestByEventIdEquals(long id);
 
-    Collection<Guest> findGuestsByGuestTypeEquals(GuestType guestType);
+    List<Guest> findGuestsByGuestTypeEquals(GuestType guestType);
 
-    Collection<Guest> findGuestsByAttendanceTypeEquals(AttendanceType attendanceType);
+    List<Guest> findGuestsByAttendanceTypeEquals(AttendanceType attendanceType);
 }

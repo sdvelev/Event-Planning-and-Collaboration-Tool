@@ -3,8 +3,10 @@ package bg.sofia.uni.fmi.web.project.service;
 import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.mapper.GuestMapper;
+import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Guest;
 import bg.sofia.uni.fmi.web.project.repository.GuestRepository;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +14,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,22 +24,57 @@ import java.util.List;
 @AllArgsConstructor
 public class GuestService {
     private final GuestRepository guestRepository;
+    private final EventService eventService;
+
     private final GuestMapper guestMapper;
 
-    public long addGuest(@NotNull(message = "The given guest cannot be null!") Guest guest) {
-        if (validateForExistingGuest(guest)) {
-            return guestRepository.save(guest).getId();
-        }
+    public long addGuest(@NotNull(message = "The given guest cannot be null!")
+                         Guest guestToSave,
+                         @NotNull(message = "The event id cannot be null!")
+                         Long eventId,
+                         @NotNull(message = "The guest type cannot be null!")
+                         @NotEmpty(message = "The guest type cannot be empty!")
+                         @NotBlank(message = "The guest type cannot be blank!")
+                         String guestType,
+                         @NotNull(message = "The attendance type cannot be null!")
+                         @NotEmpty(message = "The attendance type cannot be empty!")
+                         @NotBlank(message = "The attendance type cannot be blank!")
+                         String attendanceType) {
+//        if (!validateForExistingGuestByNameAndSurname(guestToSave) || !validateForExistingGuestByEventId(guestToSave)) {
+//            throw new ApiBadRequest("There is already a guest with the same credentials");
+//        }
 
-        return -1;
+        GuestType newGuestType = GuestType.valueOf(guestType.toUpperCase());
+        AttendanceType newAttendanceType = AttendanceType.valueOf(attendanceType.toUpperCase());
+        Event event = eventService.getEventById(eventId);
+
+//        if (event == null) {
+//            throw new ApiBadRequest("There is no such event with this ID!");
+//        }
+
+        guestToSave.setGuestType(newGuestType);
+        guestToSave.setAttendanceType(newAttendanceType);
+        guestToSave.setEvent(event);
+        guestToSave.setCreatedBy("a");
+        guestToSave.setCreationTime(LocalDateTime.now());
+        guestToSave.setDeleted(false);
+        return guestRepository.save(guestToSave).getId();
     }
 
-    private boolean validateForExistingGuest(Guest guest) {
-        long foundTasks = guestRepository.findGuestByNameAndSurnameEquals(guest.getName(), guest.getSurname()).stream()
+    private boolean validateForExistingGuestByNameAndSurname(Guest guest) {
+        long foundGuests = guestRepository.findGuestByNameAndSurnameEquals(guest.getName(), guest.getSurname()).stream()
             .filter(g -> g.equals(guest))
             .count();
 
-        return foundTasks == 0;
+        return foundGuests == 0;
+    }
+
+    private boolean validateForExistingGuestByEventId(Guest guest) {
+        long foundGuests = guestRepository.findGuestByEventIdEquals(guest.getEvent().getId()).stream()
+            .filter(g -> g.equals(guest))
+            .count();
+
+        return foundGuests == 0;
     }
 
 //    public List<Long> addGuests(List<Guest> guestList) {

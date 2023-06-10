@@ -5,6 +5,8 @@ import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,13 +43,15 @@ public class Guest {
     @Column(length = 255, nullable = false)
     private String surname;
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "ENUM('FAMILY', 'FRIENDS', 'COLLEAGUES', 'CO_WORKERS', 'PARTNER')", nullable = false)
+    @Enumerated(EnumType.STRING)
     private GuestType guestType;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "ENUM('GOING', 'NOT_GOING', 'CONSIDERING', 'ATTENDING')", nullable = false)
+    @Enumerated(EnumType.STRING)
     private AttendanceType attendanceType;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
@@ -55,7 +59,6 @@ public class Guest {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
-    // private Event event;
     private Event event;
 
     @Column(length = 255, nullable = false)
