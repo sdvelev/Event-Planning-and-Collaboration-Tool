@@ -22,13 +22,11 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
-    private final ParticipantService participantService;
 
     @Autowired
-    public EventService(EventRepository eventRepository, EventMapper eventMapper, ParticipantService participantService) {
+    public EventService(EventRepository eventRepository, EventMapper eventMapper) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
-        this.participantService = participantService;
     }
 
     public Event createEvent(@NotNull(message = "Event cannot be null") Event eventToSave) {
@@ -196,7 +194,7 @@ public class EventService {
         throw new ResourceNotFoundException("There is not an event with such an id");
     }
 
-    public boolean deleteEvent(
+    public Event deleteEvent(
         @NotNull(message = "Id cannot be null")
         @Positive(message = "Id must be positive.")
         Long eventToDeleteId) {
@@ -207,20 +205,20 @@ public class EventService {
 
             Event eventToDelete = optionalEventToDelete.get();
 
-            List<Participant> participantsCopy = eventToDelete.getAssociatedParticipants().stream().toList();
-
-            for (Participant currentParticipant : participantsCopy) {
-                try {
-                    if (participantService.getParticipantById(currentParticipant.getId()).isPresent()) {
-                        participantService.deleteParticipant(currentParticipant.getId());
-                    }
-                } catch (ResourceNotFoundException ignored) {}
-            }
+//            List<Participant> participantsCopy = eventToDelete.getAssociatedParticipants().stream().toList();
+//
+//            for (Participant currentParticipant : participantsCopy) {
+//                try {
+//                    if (participantService.getParticipantById(currentParticipant.getId()).isPresent()) {
+//                        participantService.deleteParticipant(currentParticipant.getId());
+//                    }
+//                } catch (ResourceNotFoundException ignored) {}
+//            }
 
             eventToDelete.setLastUpdatedTime(LocalDateTime.now());
             eventToDelete.setDeleted(true);
             eventRepository.save(eventToDelete);
-            return true;
+            return eventToDelete;
         }
 
         throw new ResourceNotFoundException("There is not an event with such an id");
