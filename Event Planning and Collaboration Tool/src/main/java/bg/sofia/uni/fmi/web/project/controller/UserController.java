@@ -1,8 +1,10 @@
 package bg.sofia.uni.fmi.web.project.controller;
 
+import bg.sofia.uni.fmi.web.project.dto.EventDto;
 import bg.sofia.uni.fmi.web.project.dto.UserDto;
 import bg.sofia.uni.fmi.web.project.mapper.UserMapper;
 import bg.sofia.uni.fmi.web.project.model.User;
+import bg.sofia.uni.fmi.web.project.service.UserParticipantFacadeService;
 import bg.sofia.uni.fmi.web.project.service.UserService;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.Valid;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,11 +34,13 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
+    private final UserParticipantFacadeService userParticipantFacadeService;
     private final UserMapper userMapper;
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService, UserParticipantFacadeService userParticipantFacadeService, UserMapper userMapper) {
         this.userService = userService;
+        this.userParticipantFacadeService = userParticipantFacadeService;
         this.userMapper = userMapper;
     }
 
@@ -67,7 +72,7 @@ public class UserController {
         @NotNull(message = "Password cannot be null")
         @NotBlank(message = "Password cannot be blank")
         @RequestParam("password") String password) {
-       return userService.deleteUser(username, password);
+       return userParticipantFacadeService.deleteUserWithParticipants(username, password);
     }
 
     @GetMapping(value = "/search", params = {"username", "password"})
@@ -120,6 +125,18 @@ public class UserController {
         User potentialUserToReturn = userService.getUserByEmail(email);
 
         return ResponseEntity.ok(userMapper.toDto(potentialUserToReturn));
+    }
+
+    @PutMapping("/set")
+    public boolean setNewUserByUserId(@RequestParam("event_id")
+                                        @NotNull(message = "User id cannot be null")
+                                        @Positive(message = "User id must be positive")
+                                        Long userId,
+                                        @RequestBody
+                                        @NotNull(message = "User record cannot be null")
+                                        UserDto userToUpdate) {
+        //TODO: Authorization in order to update event
+        return userService.setUserById(userToUpdate, userId);
     }
 
     @PatchMapping(value = "/settings", params = {"new_username", "old_username", "password"})
