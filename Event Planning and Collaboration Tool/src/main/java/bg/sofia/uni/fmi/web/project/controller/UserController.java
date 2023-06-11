@@ -1,6 +1,5 @@
 package bg.sofia.uni.fmi.web.project.controller;
 
-import bg.sofia.uni.fmi.web.project.dto.EventDto;
 import bg.sofia.uni.fmi.web.project.dto.UserDto;
 import bg.sofia.uni.fmi.web.project.mapper.UserMapper;
 import bg.sofia.uni.fmi.web.project.model.User;
@@ -128,7 +127,7 @@ public class UserController {
     }
 
     @PutMapping("/set")
-    public boolean setNewUserByUserId(@RequestParam("event_id")
+    public boolean setUserByUserId(@RequestParam("user_id")
                                         @NotNull(message = "User id cannot be null")
                                         @Positive(message = "User id must be positive")
                                         Long userId,
