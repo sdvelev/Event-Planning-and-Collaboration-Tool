@@ -2,25 +2,22 @@ package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Participant;
-import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class EventFacadeService {
+public class EventParticipantFacadeService {
 
     private EventService eventService;
     private ParticipantService participantService;
 
     @Autowired
-    public EventFacadeService(EventService eventService, ParticipantService participantService) {
+    public EventParticipantFacadeService(EventService eventService, ParticipantService participantService) {
         this.eventService = eventService;
         this.participantService = participantService;
     }
@@ -42,7 +39,6 @@ public class EventFacadeService {
         }
 
         return true;
-//        throw new ResourceNotFoundException("There is not an event with such an id");
     }
 
 }
