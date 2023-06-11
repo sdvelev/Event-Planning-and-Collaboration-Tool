@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
-import bg.sofia.uni.fmi.web.project.model.Participant;
+import bg.sofia.uni.fmi.web.project.dto.UserDto;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.UserRepository;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
@@ -74,7 +74,6 @@ public class UserService {
                                          @NotBlank(message = "Email cannot be empty or blank")
                                          String email) {
         List<User> potentialUsersToReturn = userRepository.findByEmail(email);
-
 
         for (User currentUser : potentialUsersToReturn) {
             if (!currentUser.isDeleted()) {
@@ -178,69 +177,53 @@ public class UserService {
         throw new ResourceNotFoundException("User with such a username and password cannot be found");
     }
 
-    public boolean setNameById(@NotNull(message = "Name cannot be null")
-                               @NotBlank(message = "Name cannot be empty or blank")
-                               String name,
-                               @NotNull(message = "Surname cannot be null")
-                               @NotBlank(message = "Surname cannot be empty or blank")
-                               String surname,
-                               @NotNull(message = "Id cannot be null")
-                               @Positive(message = "Id must be positive")
-                               Long id) {
-        Optional<User> optionalUserToChange = userRepository.findById(id);
+    private User setUserNonNullFields(UserDto userFieldsToChange, User userToUpdate) {
 
-        if (optionalUserToChange.isPresent() && !optionalUserToChange.get().isDeleted()) {
-            User userToChange = optionalUserToChange.get();
-
-            userToChange.setName(name);
-            userToChange.setSurname(surname);
-            userToChange.setLastUpdatedTime(LocalDateTime.now());
-            userRepository.save(userToChange);
-            return true;
-        }
-        throw new ResourceNotFoundException("User with such an id cannot be found");
-    }
-
-    public boolean setAddressById(@NotNull(message = "Address cannot be null")
-                                  @NotBlank(message = "Address cannot be empty or blank")
-                                  String address,
-                                  @NotNull(message = "UserID cannot be null")
-                                  @Positive(message = "UserID must be positive")
-                                  Long id) {
-        Optional<User> optionalUserToChange = userRepository.findById(id);
-
-        if (optionalUserToChange.isPresent() && !optionalUserToChange.get().isDeleted()) {
-
-            User userToChange = optionalUserToChange.get();
-            userToChange.setAddress(address);
-            userToChange.setLastUpdatedTime(LocalDateTime.now());
-            userRepository.save(userToChange);
-            return true;
+        if (userFieldsToChange.getName() != null) {
+            userToUpdate.setName(userFieldsToChange.getName());
         }
 
-        throw new ResourceNotFoundException("User with such an id cannot be found");
+        if (userFieldsToChange.getSurname() != null) {
+            userToUpdate.setSurname(userFieldsToChange.getSurname());
+        }
+
+        if (userFieldsToChange.getEmail() != null) {
+            userToUpdate.setEmail(userFieldsToChange.getEmail());
+        }
+
+        if (userFieldsToChange.getProfilePhotoLink() != null) {
+            userToUpdate.setProfilePhotoLink(userFieldsToChange.getProfilePhotoLink());
+        }
+
+        if (userFieldsToChange.getAddress() != null) {
+            userToUpdate.setAddress(userFieldsToChange.getAddress());
+        }
+
+        return userToUpdate;
     }
 
-    public boolean setPasswordById(@NotNull(message = "Password cannot be null")
-                                   @NotBlank(message = "Password cannot be empty or blank")
-                                   String password,
-                                   @NotNull(message = "UserID cannot be null")
-                                   @Positive(message = "UserID must be positive")
-                                   Long id) {
-        Optional<User> optionalUserToChange = userRepository.findById(id);
+    public boolean setUserById(
+        @NotNull(message = "User record cannot be null")
+        @NotBlank(message = "User record cannot be blank")
+        UserDto userFieldsToChange,
+        @NotNull(message = "User id cannot be null")
+        @Positive(message = "User id must be positive")
+        Long userId) {
 
-        if (optionalUserToChange.isPresent() && !optionalUserToChange.get().isDeleted()) {
-            User userToChange = optionalUserToChange.get();
-            userToChange.setPassword(password);
-            userToChange.setLastUpdatedTime(LocalDateTime.now());
-            userRepository.save(userToChange);
+        Optional<User> optionalUserToUpdate = userRepository.findById(userId);
+
+        if (optionalUserToUpdate.isPresent() && !optionalUserToUpdate.get().isDeleted()) {
+
+            User userToUpdate = setUserNonNullFields(userFieldsToChange, optionalUserToUpdate.get());;
+            userToUpdate.setLastUpdatedTime(LocalDateTime.now());
+            userRepository.save(userToUpdate);
             return true;
         }
 
-        throw new ResourceNotFoundException("User with such an id cannot be found");
+        throw new ResourceNotFoundException("There is not a user with such an id");
     }
 
-    public boolean deleteUser(
+    public User deleteUser(
         @NotNull(message = "Username cannot be null")
         @NotBlank(message = "Username cannot be empty or blank")
         String username,
@@ -253,14 +236,10 @@ public class UserService {
         for (User currentUser : optionalUsersToDelete) {
 
             if (!currentUser.isDeleted()) {
-                for (Participant currentParticipant : currentUser.getParticipantProfiles()) {
-                    participantService.deleteParticipant(currentParticipant.getId());
-                }
-
                 currentUser.setLastUpdatedTime(LocalDateTime.now());
                 currentUser.setDeleted(true);
                 userRepository.save(currentUser);
-                return true;
+                return currentUser;
             }
         }
 
