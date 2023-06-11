@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.dto.UserDto;
+import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.UserRepository;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
@@ -22,12 +23,10 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ParticipantService participantService;
 
     @Autowired
-    public UserService(UserRepository userRepository, ParticipantService participantService) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.participantService = participantService;
     }
 
     public User createUser(@NotNull(message = "User cannot be null") User userToSave) {
@@ -133,7 +132,6 @@ public class UserService {
         for (User currentUser : optionalUsersToChange) {
 
             if (!currentUser.isDeleted()) {
-
                 for (User user : userRepository.findByUsername(newUserName)) {
                     if (!user.isDeleted()) {
                         throw new ApiBadRequest("The new username is already taken");
@@ -204,7 +202,6 @@ public class UserService {
 
     public boolean setUserById(
         @NotNull(message = "User record cannot be null")
-        @NotBlank(message = "User record cannot be blank")
         UserDto userFieldsToChange,
         @NotNull(message = "User id cannot be null")
         @Positive(message = "User id must be positive")
