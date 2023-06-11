@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface VendorRepository extends JpaRepository<Vendor, Long> {
-    Vendor findReviewByIdEquals(long id);
+    Vendor findVendorByIdEquals(long id);
 
     Vendor findVendorByPhoneNumberEquals(String phoneNumber);
 
