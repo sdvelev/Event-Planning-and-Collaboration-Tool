@@ -15,8 +15,6 @@ import org.springframework.stereotype.Component;
 public interface ParticipantMapper {
 
     ParticipantMapper INSTANCE = Mappers.getMapper(ParticipantMapper.class);
-
     ParticipantDto toDto (Participant model);
-
     Participant toEntity(ParticipantDto dto);
 }

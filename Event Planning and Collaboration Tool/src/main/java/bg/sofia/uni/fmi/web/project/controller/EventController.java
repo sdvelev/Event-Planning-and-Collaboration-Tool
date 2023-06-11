@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -81,9 +82,9 @@ public class EventController {
         @NotNull(message = "EventID cannot be null")
         @Positive(message = "EventID must be positive")
         @RequestParam("id") Long id) {
-        Event optionalEventToReturn = eventService.getEventById(id);
+        Optional<Event> optionalEventToReturn = eventService.getEventById(id);
 
-        return ResponseEntity.ok(eventMapper.toDto(optionalEventToReturn));
+        return ResponseEntity.ok(eventMapper.toDto(optionalEventToReturn.get()));
     }
 
     @GetMapping(value = "/search", params = {"name"})
@@ -154,7 +155,7 @@ public class EventController {
     }
 
     @PutMapping("/set")
-    public boolean setNewEventByEventId(@RequestParam("event_id")
+    public boolean setEventByEventId(@RequestParam("event_id")
                                             @NotNull(message = "Event id cannot be null")
                                             @Positive(message = "Event id must be positive")
                                             Long eventId,
