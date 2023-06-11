@@ -45,6 +45,9 @@ public class Event {
     @OneToMany(mappedBy = "associatedEvent")
     private Set<Participant> associatedParticipants;
 
+    @OneToMany(mappedBy = "associatedEvent")
+    private Set<Expense> associatedExpenses;
+
     //Audit fields
 
     @Column(name = "created_by")
