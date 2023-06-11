@@ -1,9 +1,7 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
-import bg.sofia.uni.fmi.web.project.mapper.EventMapper;
 import bg.sofia.uni.fmi.web.project.model.Event;
-import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.repository.EventRepository;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotBlank;
@@ -21,12 +19,10 @@ import java.util.stream.Collectors;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final EventMapper eventMapper;
 
     @Autowired
-    public EventService(EventRepository eventRepository, EventMapper eventMapper) {
+    public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
-        this.eventMapper = eventMapper;
     }
 
     public Event createEvent(@NotNull(message = "Event cannot be null") Event eventToSave) {
@@ -105,87 +101,40 @@ public class EventService {
             .collect(Collectors.toList());
     }
 
-    public boolean updateNameById(
-        @NotNull(message = "New event name cannot be null")
-        @NotBlank(message = "New event name cannot be blank")
-        String eventName,
-        @NotNull(message = "Event id cannot be null")
-        @Positive(message = "Event id must be positive")
-        Long eventId) {
+    private Event setNonNullFields(EventDto eventFieldsToChange, Event eventToUpdate) {
 
-        Optional<Event> optionalEvent = eventRepository.findById(eventId);
-
-        if (optionalEvent.isPresent() && !optionalEvent.get().isDeleted()) {
-
-            Event eventToUpdate = optionalEvent.get();
-            eventToUpdate.setName(eventName);
-            eventToUpdate.setLastUpdatedTime(LocalDateTime.now());
-            eventRepository.save(eventToUpdate);
-            return true;
+        if (eventFieldsToChange.getName() != null) {
+            eventToUpdate.setName(eventFieldsToChange.getName());
         }
 
-        throw new ResourceNotFoundException("There is not an event with such an id");
-    }
-
-    public boolean updateDateById(
-        @NotNull(message = "Event date cannot be null")
-        @NotBlank(message = "Event date cannot be blank")
-        LocalDateTime eventDate,
-        @NotNull(message = "Event id cannot be null")
-        @Positive(message = "Event id must be positive")
-        Long eventId) {
-
-        Optional<Event> optionalEvent = eventRepository.findById(eventId);
-
-        if (optionalEvent.isPresent() && !optionalEvent.get().isDeleted()) {
-
-            Event eventToUpdate = optionalEvent.get();
-            eventToUpdate.setDate(eventDate);
-            eventToUpdate.setLastUpdatedTime(LocalDateTime.now());
-            eventRepository.save(eventToUpdate);
-            return true;
+        if (eventFieldsToChange.getDate() != null) {
+            eventToUpdate.setDate(eventFieldsToChange.getDate());
         }
 
-        throw new ResourceNotFoundException("There is not an event with such an id");
-    }
-
-    public boolean updateLocationById(
-        @NotNull(message = "Event location name cannot be null")
-        @NotBlank(message = "Event location name cannot be blank")
-        String eventLocation,
-        @NotNull(message = "Event id cannot be null")
-        @Positive(message = "Event id must be positive")
-        Long eventId) {
-
-        Optional<Event> optionalEvent = eventRepository.findById(eventId);
-
-        if (optionalEvent.isPresent() && !optionalEvent.get().isDeleted()) {
-
-            Event eventToUpdate = optionalEvent.get();
-            eventToUpdate.setLocation(eventLocation);
-            eventToUpdate.setLastUpdatedTime(LocalDateTime.now());
-            eventRepository.save(eventToUpdate);
-            return true;
+        if (eventFieldsToChange.getLocation() != null) {
+            eventToUpdate.setLocation(eventFieldsToChange.getLocation());
         }
 
-        throw new ResourceNotFoundException("There is not an event with such an id");
+        if (eventFieldsToChange.getDescription() != null) {
+            eventToUpdate.setDescription(eventFieldsToChange.getDescription());
+        }
+
+        return eventToUpdate;
     }
 
-    public boolean updateEventById(
+    public boolean setEventById(
         @NotNull(message = "Event record cannot be null")
         @NotBlank(message = "Event record cannot be blank")
-        EventDto eventToChange,
+        EventDto eventFieldsToChange,
         @NotNull(message = "Event id cannot be null")
         @Positive(message = "Event id must be positive")
         Long eventId) {
 
-        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        Optional<Event> optionalEventToUpdate = eventRepository.findById(eventId);
 
-        if (optionalEvent.isPresent() && !optionalEvent.get().isDeleted()) {
+        if (optionalEventToUpdate.isPresent() && !optionalEventToUpdate.get().isDeleted()) {
 
-            Event eventToUpdate = optionalEvent.get();
-            eventToUpdate = eventMapper.toEntity(eventToChange);
-            eventToUpdate.setId(optionalEvent.get().getId());
+            Event eventToUpdate = setNonNullFields(eventFieldsToChange, optionalEventToUpdate.get());;
             eventToUpdate.setLastUpdatedTime(LocalDateTime.now());
             eventRepository.save(eventToUpdate);
             return true;
@@ -204,17 +153,6 @@ public class EventService {
         if (optionalEventToDelete.isPresent() && !optionalEventToDelete.get().isDeleted()) {
 
             Event eventToDelete = optionalEventToDelete.get();
-
-//            List<Participant> participantsCopy = eventToDelete.getAssociatedParticipants().stream().toList();
-//
-//            for (Participant currentParticipant : participantsCopy) {
-//                try {
-//                    if (participantService.getParticipantById(currentParticipant.getId()).isPresent()) {
-//                        participantService.deleteParticipant(currentParticipant.getId());
-//                    }
-//                } catch (ResourceNotFoundException ignored) {}
-//            }
-
             eventToDelete.setLastUpdatedTime(LocalDateTime.now());
             eventToDelete.setDeleted(true);
             eventRepository.save(eventToDelete);
@@ -223,5 +161,4 @@ public class EventService {
 
         throw new ResourceNotFoundException("There is not an event with such an id");
     }
-
 }
