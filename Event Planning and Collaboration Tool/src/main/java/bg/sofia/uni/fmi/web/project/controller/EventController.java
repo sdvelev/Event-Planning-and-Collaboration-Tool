@@ -11,14 +11,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -157,46 +153,7 @@ public class EventController {
             potentialEventsToReturn.stream().map(eventMapper::toDto).collect(Collectors.toList()));
     }
 
-    @PatchMapping(value = "/name/{event_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean setEventNameByEventId(@PathVariable("event_id")
-                                             @NotNull(message = "Event id cannot be null")
-                                             @Positive(message = "Event id must be positive")
-                                             Long eventId,
-                                             @RequestParam("event_name")
-                                             @NotNull(message = "New event name cannot be null")
-                                             @NotBlank(message = "Event name cannot be blank")
-                                             String eventName) {
-        //TODO: Authorization in order to update event name
-        return eventService.updateNameById(eventName, eventId);
-    }
-
-    @PatchMapping("/date/{event_id}")
-    public boolean setDateByEventId(@PathVariable("event_id")
-                                        @NotNull(message = "Event id cannot be null")
-                                        @Positive(message = "Event id must be positive")
-                                        Long eventId,
-                                        @RequestParam("event_date")
-                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                                        @NotNull(message = "Event date cannot be null")
-                                        LocalDateTime eventDate) {
-        //TODO: Authorization in order to update event date
-        return eventService.updateDateById(eventDate, eventId);
-    }
-
-    @PatchMapping("/location/{event_id}")
-    public boolean setLocationByEventId(@PathVariable("event_id")
-                                            @NotNull(message = "Event id cannot be null")
-                                            @Positive(message = "Event id must be positive")
-                                            Long eventId,
-                                            @RequestParam("event_location")
-                                            @NotNull(message = "Event location cannot be null")
-                                            @NotBlank(message = "Event location cannot be blank")
-                                            String eventLocation) {
-        //TODO: Authorization in order to update event location
-        return eventService.updateLocationById(eventLocation, eventId);
-    }
-
-    @PutMapping("/update")
+    @PutMapping("/set")
     public boolean setNewEventByEventId(@RequestParam("event_id")
                                             @NotNull(message = "Event id cannot be null")
                                             @Positive(message = "Event id must be positive")
@@ -205,6 +162,6 @@ public class EventController {
                                             @NotNull(message = "Event record cannot be null")
                                             EventDto eventToUpdate) {
         //TODO: Authorization in order to update event
-        return eventService.updateEventById(eventToUpdate, eventId);
+        return eventService.setEventById(eventToUpdate, eventId);
     }
 }
