@@ -40,7 +40,7 @@ public class EventService {
             .collect(Collectors.toList());
     }
 
-    public Event getEventById(
+    public Optional<Event> getEventById(
         @NotNull(message = "Id cannot be null")
         @Positive(message = "Id must be positive")
         Long id) {
@@ -48,7 +48,7 @@ public class EventService {
         Optional<Event> potentialEvent = eventRepository.findById(id);
 
         if (potentialEvent.isPresent() && !potentialEvent.get().isDeleted()) {
-            return potentialEvent.get();
+            return potentialEvent;
         }
 
         throw new ResourceNotFoundException("There is not an event with such an id");
@@ -101,30 +101,8 @@ public class EventService {
             .collect(Collectors.toList());
     }
 
-    private Event setNonNullFields(EventDto eventFieldsToChange, Event eventToUpdate) {
-
-        if (eventFieldsToChange.getName() != null) {
-            eventToUpdate.setName(eventFieldsToChange.getName());
-        }
-
-        if (eventFieldsToChange.getDate() != null) {
-            eventToUpdate.setDate(eventFieldsToChange.getDate());
-        }
-
-        if (eventFieldsToChange.getLocation() != null) {
-            eventToUpdate.setLocation(eventFieldsToChange.getLocation());
-        }
-
-        if (eventFieldsToChange.getDescription() != null) {
-            eventToUpdate.setDescription(eventFieldsToChange.getDescription());
-        }
-
-        return eventToUpdate;
-    }
-
     public boolean setEventById(
         @NotNull(message = "Event record cannot be null")
-        @NotBlank(message = "Event record cannot be blank")
         EventDto eventFieldsToChange,
         @NotNull(message = "Event id cannot be null")
         @Positive(message = "Event id must be positive")
@@ -134,7 +112,7 @@ public class EventService {
 
         if (optionalEventToUpdate.isPresent() && !optionalEventToUpdate.get().isDeleted()) {
 
-            Event eventToUpdate = setNonNullFields(eventFieldsToChange, optionalEventToUpdate.get());;
+            Event eventToUpdate = setEventNonNullFields(eventFieldsToChange, optionalEventToUpdate.get());;
             eventToUpdate.setLastUpdatedTime(LocalDateTime.now());
             eventRepository.save(eventToUpdate);
             return true;
@@ -160,5 +138,26 @@ public class EventService {
         }
 
         throw new ResourceNotFoundException("There is not an event with such an id");
+    }
+
+    private Event setEventNonNullFields(EventDto eventFieldsToChange, Event eventToUpdate) {
+
+        if (eventFieldsToChange.getName() != null) {
+            eventToUpdate.setName(eventFieldsToChange.getName());
+        }
+
+        if (eventFieldsToChange.getDate() != null) {
+            eventToUpdate.setDate(eventFieldsToChange.getDate());
+        }
+
+        if (eventFieldsToChange.getLocation() != null) {
+            eventToUpdate.setLocation(eventFieldsToChange.getLocation());
+        }
+
+        if (eventFieldsToChange.getDescription() != null) {
+            eventToUpdate.setDescription(eventFieldsToChange.getDescription());
+        }
+
+        return eventToUpdate;
     }
 }
