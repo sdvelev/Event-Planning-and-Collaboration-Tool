@@ -22,12 +22,12 @@ public class ContractService {
     private final EventService eventService;
     private final VendorService vendorService;
 
-    public long addVendor(@NotNull(message = "The given vendor cannot be null!")
-                          Contract contractToSave,
-                          @NotNull(message = "The event id cannot be null!")
-                          Long eventId,
-                          @NotNull(message = "The vendor id cannot be null!")
-                          Long vendorId) {
+    public long addContract(@NotNull(message = "The given vendor cannot be null!")
+                            Contract contractToSave,
+                            @NotNull(message = "The event id cannot be null!")
+                            Long eventId,
+                            @NotNull(message = "The vendor id cannot be null!")
+                            Long vendorId) {
 //        if (!validateForExistingGuestByNameAndSurname(guestToSave) || !validateForExistingGuestByEventId(guestToSave)) {
 //            throw new ApiBadRequest("There is already a guest with the same credentials");
 //        }
@@ -78,14 +78,14 @@ public class ContractService {
     }
 
     public List<Contract> getContractsByAssociatedEventId(@Positive(message = "The given event id must be above 0!")
-                                                   long eventId) {
+                                                          long eventId) {
         return contractRepository.findContractsByAssociatedEventIdEquals(eventId).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
     }
 
     public List<Contract> getContractsByAssociatedVendorId(@Positive(message = "The given vendor id must be above 0!")
-                                                          long vendorId) {
+                                                           long vendorId) {
         return contractRepository.findContractsByAssociatedVendorIdEquals(vendorId).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();

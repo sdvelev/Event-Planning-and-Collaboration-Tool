@@ -25,6 +25,7 @@ public class ReviewService {
     public long addReview(@NotNull(message = "The given vendor cannot be null!")
                           Review reviewToSave,
                           @NotNull(message = "The vendor id cannot be null!")
+                          @Positive(message = "The vendor id must be above 0!")
                           Long vendorId) {
 //        if (!validateForExistingGuestByNameAndSurname(guestToSave) || !validateForExistingGuestByEventId(guestToSave)) {
 //            throw new ApiBadRequest("There is already a guest with the same credentials");
@@ -49,7 +50,7 @@ public class ReviewService {
             .toList();
     }
 
-    public Review getContractById(@Positive(message = "The given id cannot be 0 or less!") long id) {
+    public Review getReviewById(@Positive(message = "The given id cannot be 0 or less!") long id) {
         Review review = reviewRepository.findReviewByIdEquals(id);
 
         if (review != null && !review.isDeleted()) {

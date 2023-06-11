@@ -25,8 +25,8 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "reviews")
-@Table(name = "reviews")
+@Entity(name = "contracts")
+@Table(name = "contracts")
 @DynamicUpdate
 @DynamicInsert
 public class Contract {

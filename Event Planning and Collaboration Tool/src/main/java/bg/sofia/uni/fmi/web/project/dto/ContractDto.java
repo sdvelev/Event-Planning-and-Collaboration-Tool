@@ -1,6 +1,5 @@
 package bg.sofia.uni.fmi.web.project.dto;
 
-import bg.sofia.uni.fmi.web.project.model.Vendor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;

@@ -25,8 +25,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "reviews")
-@Table(name = "reviews")
+@Entity(name = "vendors")
+@Table(name = "vendors")
 @DynamicUpdate
 @DynamicInsert
 public class Vendor {
