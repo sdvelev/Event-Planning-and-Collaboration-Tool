@@ -7,7 +7,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface EventMapper {
-
     EventMapper INSTANCE = Mappers.getMapper(EventMapper.class);
     EventDto toDto (Event model);
     Event toEntity(EventDto dto);
