@@ -5,14 +5,17 @@ import bg.sofia.uni.fmi.web.project.enums.UserRole;
 import bg.sofia.uni.fmi.web.project.mapper.ParticipantMapper;
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.service.ParticipantService;
+import bg.sofia.uni.fmi.web.project.service.ParticipantUserEventFacadeService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,11 +31,15 @@ import java.util.stream.Collectors;
 public class ParticipantController {
 
     private final ParticipantService participantService;
+    private final ParticipantUserEventFacadeService participantUserEventFacadeService;
     private final ParticipantMapper participantMapper;
 
     @Autowired
-    public ParticipantController(ParticipantService participantService, ParticipantMapper participantMapper) {
+    public ParticipantController(ParticipantService participantService,
+                                 ParticipantUserEventFacadeService participantUserEventFacadeService ,
+                                 ParticipantMapper participantMapper) {
         this.participantService = participantService;
+        this.participantUserEventFacadeService = participantUserEventFacadeService;
         this.participantMapper = participantMapper;
     }
 
@@ -66,11 +73,10 @@ public class ParticipantController {
         //TODO: This method will be similar to the "invite collaborator" method. However, we will use
         //      authorization to get the user id. Moreover, confirmation by email might be required
 
-        Participant potentialParticipantToCreate = participantService
-            .createParticipant(participantMapper.toEntity(participantDto), assignedUserId, assignedEventId);
+        Participant potentialParticipantToCreate = participantUserEventFacadeService
+            .createParticipantWithUserAndEvent(participantMapper.toEntity(participantDto), assignedUserId, assignedEventId);
 
         if (potentialParticipantToCreate != null) {
-
             return potentialParticipantToCreate.getId();
         }
 
@@ -88,5 +94,17 @@ public class ParticipantController {
         //TODO: This method is similar to the desired functionality of managing user roles. However, user
         //      authorization will be used so that we can check if user has the right to change someone's role
         return participantService.setUserRoleByParticipantId(participantId, userRole);
+    }
+
+    @PutMapping("/set")
+    public boolean setParticipantByParticipantId(@RequestParam("participant_id")
+                                   @NotNull(message = "Participant id cannot be null")
+                                   @Positive(message = "Participant id must be positive")
+                                   Long participantId,
+                                   @RequestBody
+                                   @NotNull(message = "Participant record cannot be null")
+                                   ParticipantDto participantToUpdate) {
+        //TODO: Authorization in order to update event
+        return participantService.setParticipantById(participantToUpdate, participantId);
     }
 }
