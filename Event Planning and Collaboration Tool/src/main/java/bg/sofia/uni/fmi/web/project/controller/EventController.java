@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.web.project.controller;
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
 import bg.sofia.uni.fmi.web.project.mapper.EventMapper;
 import bg.sofia.uni.fmi.web.project.model.Event;
+import bg.sofia.uni.fmi.web.project.service.EventFacadeService;
 import bg.sofia.uni.fmi.web.project.service.EventService;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.Valid;
@@ -35,11 +36,13 @@ import java.util.stream.Collectors;
 public class EventController {
 
     private final EventService eventService;
+    private final EventFacadeService eventFacadeService;
     private final EventMapper eventMapper;
 
     @Autowired
-    public EventController(EventService eventService, EventMapper eventMapper) {
+    public EventController(EventService eventService, EventFacadeService eventFacadeService, EventMapper eventMapper) {
         this.eventService = eventService;
+        this.eventFacadeService = eventFacadeService;
         this.eventMapper = eventMapper;
     }
 
@@ -73,7 +76,7 @@ public class EventController {
                                        @NotNull(message = "Event id cannot be null")
                                        @Positive(message = "Event id must be positive")
                                        Long eventId) {
-        return eventService.deleteEvent(eventId);
+        return eventFacadeService.deleteEventWithParticipants(eventId);
     }
 
     @GetMapping(value = "/search", params = {"id"})
