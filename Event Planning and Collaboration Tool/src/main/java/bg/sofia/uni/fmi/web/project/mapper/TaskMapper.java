@@ -2,6 +2,8 @@ package bg.sofia.uni.fmi.web.project.mapper;
 
 import bg.sofia.uni.fmi.web.project.dto.TaskDto;
 import bg.sofia.uni.fmi.web.project.model.Task;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -9,7 +11,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskMapper {
+    private ParticipantMapper participantMapper;
+    private EventMapper eventMapper;
+
     public TaskDto toDto(Task taskEntity) {
         if (taskEntity == null) {
             return null;
@@ -33,13 +40,11 @@ public class TaskMapper {
         }
 
         if (taskEntity.getEvent() != null) {
-            newTaskDto.setAssociatedEventDto(new EventMapper().toDto(taskEntity.getEvent()));
+            newTaskDto.setAssociatedEventDto(eventMapper.toDto(taskEntity.getEvent()));
         }
 
         if (taskEntity.getParticipant() != null) {
-            newTaskDto.setAssociatedParticipantDto(
-                new ParticipantMapper(new UserMapper(), new EventMapper())
-                    .toDto(taskEntity.getParticipant()));
+            newTaskDto.setAssociatedParticipantDto(participantMapper.toDto(taskEntity.getParticipant()));
         }
 
         return newTaskDto;
@@ -68,13 +73,11 @@ public class TaskMapper {
         }
 
         if (taskDto.getAssociatedEventDto() != null) {
-            newTaskEntity.setEvent(new EventMapper().toEntity(taskDto.getAssociatedEventDto()));
+            newTaskEntity.setEvent(eventMapper.toEntity(taskDto.getAssociatedEventDto()));
         }
 
         if (taskDto.getAssociatedParticipantDto() != null) {
-            newTaskEntity.setParticipant(
-                new ParticipantMapper(new UserMapper(), new EventMapper())
-                    .toEntity(taskDto.getAssociatedParticipantDto()));
+            newTaskEntity.setParticipant(participantMapper.toEntity(taskDto.getAssociatedParticipantDto()));
         }
 
         return newTaskEntity;

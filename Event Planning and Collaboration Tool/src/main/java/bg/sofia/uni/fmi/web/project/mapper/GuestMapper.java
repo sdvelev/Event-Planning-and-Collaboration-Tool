@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.web.project.mapper;
 import bg.sofia.uni.fmi.web.project.dto.GuestDto;
 import bg.sofia.uni.fmi.web.project.model.Guest;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -10,9 +11,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@NoArgsConstructor
 @AllArgsConstructor
 public class GuestMapper {
-    final private EventMapper eventMapper;
+    private EventMapper eventMapper;
 
     public GuestDto toDto(Guest guestEntity) {
         if (guestEntity == null) {
@@ -36,7 +38,7 @@ public class GuestMapper {
         newGuestDto.setInvitationSent(guestEntity.isInvitationSent());
 
         if (guestEntity.getEvent() != null) {
-            newGuestDto.setAssociatedEventDto(new EventMapper().toDto(guestEntity.getEvent()));
+            newGuestDto.setAssociatedEventDto(eventMapper.toDto(guestEntity.getEvent()));
         }
 
         return newGuestDto;
@@ -64,7 +66,7 @@ public class GuestMapper {
         newGuestEntity.setInvitationSent(guestDto.isInvitationSent());
 
         if (guestDto.getAssociatedEventDto() != null) {
-            newGuestEntity.setEvent(new EventMapper().toEntity(guestDto.getAssociatedEventDto()));
+            newGuestEntity.setEvent(eventMapper.toEntity(guestDto.getAssociatedEventDto()));
         }
         return newGuestEntity;
     }
@@ -74,9 +76,7 @@ public class GuestMapper {
             return Collections.emptyList();
         }
 
-        return guestsEntities.stream()
-            .map(this::toDto)
-            .toList();
+        return guestsEntities.stream().map(this::toDto).toList();
     }
 
     public List<Guest> toEntityCollection(Collection<GuestDto> guestDtos) {
@@ -84,8 +84,6 @@ public class GuestMapper {
             return Collections.emptyList();
         }
 
-        return guestDtos.stream()
-            .map(this::toEntity)
-            .toList();
+        return guestDtos.stream().map(this::toEntity).toList();
     }
 }
