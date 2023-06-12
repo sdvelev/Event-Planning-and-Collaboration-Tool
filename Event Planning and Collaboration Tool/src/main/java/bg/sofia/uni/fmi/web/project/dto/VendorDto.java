@@ -53,9 +53,6 @@ public class VendorDto {
     @JsonProperty("vendor_reviews")
     Set<ReviewDto> vendorReviewsDto;
 
-    @JsonProperty("vendor_contracts")
-    Set<ContractDto> vendorContractsDto;
-
 //    @Column(length = 255, nullable = false)
 //    private String createdBy;
 //

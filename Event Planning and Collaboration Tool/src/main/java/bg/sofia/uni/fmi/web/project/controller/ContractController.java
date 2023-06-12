@@ -24,7 +24,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/contracts")
 @Validated
-@Mapper
 @AllArgsConstructor
 public class ContractController {
     private final ContractService contractService;

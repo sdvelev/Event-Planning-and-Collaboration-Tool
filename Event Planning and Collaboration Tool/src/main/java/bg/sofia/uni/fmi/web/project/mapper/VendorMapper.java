@@ -7,7 +7,6 @@ import bg.sofia.uni.fmi.web.project.model.Contract;
 import bg.sofia.uni.fmi.web.project.model.Review;
 import bg.sofia.uni.fmi.web.project.model.Vendor;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -17,11 +16,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-@NoArgsConstructor
 @AllArgsConstructor
 public class VendorMapper {
-    private ReviewMapper reviewMapper;
-    private ContractMapper contractMapper;
+    private final ReviewMapper reviewMapper;
+
 
     public VendorDto toDto(Vendor vendorEntity) {
         if (vendorEntity == null) {
@@ -47,13 +45,13 @@ public class VendorMapper {
             newVendorDto.setVendorReviewsDto(reviewDtoSet);
         }
 
-        if (vendorEntity.getVendorContracts() != null) {
-            Set<ContractDto> contractDtoSet = vendorEntity.getVendorContracts().stream()
-                .map(contractMapper::toDto)
-                .collect(Collectors.toSet());
-
-            newVendorDto.setVendorContractsDto(contractDtoSet);
-        }
+//        if (vendorEntity.getVendorContracts() != null) {
+//            Set<ContractDto> contractDtoSet = vendorEntity.getVendorContracts().stream()
+//                .map(contractMapper::toDto)
+//                .collect(Collectors.toSet());
+//
+//            newVendorDto.setVendorContractsDto(contractDtoSet);
+//        }
 
         return newVendorDto;
     }
@@ -82,13 +80,13 @@ public class VendorMapper {
             newVendor.setVendorReviews(reviewDtoSet);
         }
 
-        if (vendorDto.getVendorContractsDto() != null) {
-            Set<Contract> contractDtoSet = vendorDto.getVendorContractsDto().stream()
-                .map(contractMapper::toEntity)
-                .collect(Collectors.toSet());
-
-            newVendor.setVendorContracts(contractDtoSet);
-        }
+//        if (vendorDto.getVendorContractsDto() != null) {
+//            Set<Contract> contractDtoSet = vendorDto.getVendorContractsDto().stream()
+//                .map(contractMapper::toEntity)
+//                .collect(Collectors.toSet());
+//
+//            newVendor.setVendorContracts(contractDtoSet);
+//        }
 
         return newVendor;
     }

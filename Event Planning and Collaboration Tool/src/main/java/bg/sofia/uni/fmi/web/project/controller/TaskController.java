@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.web.project.controller;
 
 import bg.sofia.uni.fmi.web.project.dto.TaskDto;
-import bg.sofia.uni.fmi.web.project.enums.TaskProgress;
 import bg.sofia.uni.fmi.web.project.mapper.TaskMapper;
 import bg.sofia.uni.fmi.web.project.service.TaskService;
 import jakarta.validation.Valid;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +37,8 @@ public class TaskController {
     public long addTask(@Valid @NotNull(message = "The guestDto cannot be null!") @RequestBody TaskDto taskDto,
                         @Valid @NotNull(message = "The event id cannot be null!") @RequestParam("assigned_event_id")
                         Long eventId,
-                        @Valid @NotNull(message = "The event id cannot be null!") @RequestParam("assigned_participant_id")
+                        @Valid @NotNull(message = "The event id cannot be null!")
+                        @RequestParam("assigned_participant_id")
                         Long participantId,
                         @Valid
                         @NotNull(message = "The guest type cannot be null!")
@@ -249,10 +248,10 @@ public class TaskController {
 
     @DeleteMapping(value = "/delete", params = {"deleted", "id"})
     public boolean deleteTask(@RequestParam("deleted")
-                               boolean deleted,
-                               @Positive(message = "The given ID cannot be less than zero!")
-                               @RequestParam("id")
-                               long taskId) {
+                              boolean deleted,
+                              @Positive(message = "The given ID cannot be less than zero!")
+                              @RequestParam("id")
+                              long taskId) {
         return taskService.delete(deleted, taskId);
     }
 }

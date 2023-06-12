@@ -3,7 +3,6 @@ package bg.sofia.uni.fmi.web.project.mapper;
 import bg.sofia.uni.fmi.web.project.dto.ContractDto;
 import bg.sofia.uni.fmi.web.project.model.Contract;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -11,11 +10,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-@NoArgsConstructor
 @AllArgsConstructor
 public class ContractMapper {
-    private EventMapper eventMapper;
-    private VendorMapper vendorMapper;
+    private final EventMapper eventMapper;
+    private final VendorMapper vendorMapper;
 
     public ContractDto toDto(Contract contractEntity) {
         if (contractEntity == null) {

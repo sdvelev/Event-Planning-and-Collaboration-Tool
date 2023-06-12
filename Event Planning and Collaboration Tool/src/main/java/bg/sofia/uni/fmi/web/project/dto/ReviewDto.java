@@ -37,9 +37,6 @@ public class ReviewDto {
     @NotBlank(message = "The photo link cannot be blank!")
     private String photoLink;
 
-    @JsonProperty("associated_vendor")
-    private VendorDto associatedVendorDto;
-
 //    @Column(length = 255, nullable = false)
 //    private String createdBy;
 //
