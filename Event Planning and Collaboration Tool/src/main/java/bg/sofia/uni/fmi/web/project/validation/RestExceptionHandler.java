@@ -20,6 +20,11 @@ public class RestExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
+    @ExceptionHandler({ MethodNotAllowed.class })
+    public ResponseEntity<?> handleMethodNotAllowed(MethodNotAllowed exception) {
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(exception.getMessage());
+    }
+
     @ExceptionHandler({ MethodArgumentNotValidException.class })
     public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {
         return ResponseEntity.badRequest().body(exception.getMessage());

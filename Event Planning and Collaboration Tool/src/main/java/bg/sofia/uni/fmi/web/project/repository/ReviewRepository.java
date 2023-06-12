@@ -11,9 +11,9 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Review findReviewByIdEquals(long id);
 
-    Review findReviewByCommentEquals(String comment);
-
     List<Review> findAll();
+
+    List<Review> findReviewByCommentEquals(String comment);
 
     List<Review> findReviewsByRatingEquals(BigDecimal rating);
 

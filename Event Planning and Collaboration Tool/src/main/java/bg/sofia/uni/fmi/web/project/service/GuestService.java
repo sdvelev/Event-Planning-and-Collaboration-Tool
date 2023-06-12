@@ -6,7 +6,8 @@ import bg.sofia.uni.fmi.web.project.mapper.GuestMapper;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Guest;
 import bg.sofia.uni.fmi.web.project.repository.GuestRepository;
-import jakarta.validation.Valid;
+import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +15,6 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -61,21 +61,21 @@ public class GuestService {
         return guestRepository.save(guestToSave).getId();
     }
 
-    private boolean validateForExistingGuestByNameAndSurname(Guest guest) {
-        long foundGuests = guestRepository.findGuestByNameAndSurnameEquals(guest.getName(), guest.getSurname()).stream()
-            .filter(g -> g.equals(guest))
-            .count();
-
-        return foundGuests == 0;
-    }
-
-    private boolean validateForExistingGuestByEventId(Guest guest) {
-        long foundGuests = guestRepository.findGuestByEventIdEquals(guest.getEvent().getId()).stream()
-            .filter(g -> g.equals(guest))
-            .count();
-
-        return foundGuests == 0;
-    }
+//    private boolean validateForExistingGuestByNameAndSurname(Guest guest) {
+//        long foundGuests = guestRepository.findGuestByNameAndSurnameEquals(guest.getName(), guest.getSurname()).stream()
+//            .filter(g -> g.equals(guest))
+//            .count();
+//
+//        return foundGuests == 0;
+//    }
+//
+//    private boolean validateForExistingGuestByEventId(Guest guest) {
+//        long foundGuests = guestRepository.findGuestByEventIdEquals(guest.getEvent().getId()).stream()
+//            .filter(g -> g.equals(guest))
+//            .count();
+//
+//        return foundGuests == 0;
+//    }
 
 //    public List<Long> addGuests(List<Guest> guestList) {
 //        return guestRepository.saveAll(guestList).stream()
@@ -84,19 +84,23 @@ public class GuestService {
 //    }
 
     public List<Guest> getAllGuests() {
-        return guestRepository.findAll().parallelStream()
+        List<Guest> guests = guestRepository.findAll().parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateGuestsList(guests);
+        return guests;
     }
 
     public Guest getGuestById(@Positive(message = "The given id cannot be 0 or less!") long id) {
         Guest guest = guestRepository.findGuestByIdEquals(id);
+        validateGuest(guest);
 
-        if (guest != null && !guest.isDeleted()) {
+        if (!guest.isDeleted()) {
             return guest;
         }
 
-        return null;
+        throw new MethodNotAllowed("The current record has already been deleted!");
     }
 
     public Guest getGuestByEmail(@NotNull(message = "The given email cannot be null!")
@@ -105,12 +109,13 @@ public class GuestService {
                                  String email) {
 
         Guest guest = guestRepository.findGuestByEmailEquals(email);
+        validateGuest(guest);
 
-        if (guest != null && !guest.isDeleted()) {
+        if (!guest.isDeleted()) {
             return guest;
         }
 
-        return null;
+        throw new MethodNotAllowed("The current record has already been deleted!");
     }
 
     public List<Guest> getGuestByNameAndSurname(@NotNull(message = "The given name cannot be null!")
@@ -122,31 +127,43 @@ public class GuestService {
                                                 @NotBlank(message = "The given surname cannot be blank!")
                                                 String surname) {
 
-        return guestRepository.findGuestByNameAndSurnameEquals(name, surname).parallelStream()
+        List<Guest> guests = guestRepository.findGuestByNameAndSurnameEquals(name, surname).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateGuestsList(guests);
+        return guests;
     }
 
     public List<Guest> getGuestByEventId(@Positive(message = "The given id cannot be 0 or less!") long id) {
-        return guestRepository.findGuestByEventIdEquals(id).parallelStream()
+        List<Guest> guests = guestRepository.findGuestByEventIdEquals(id).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateGuestsList(guests);
+        return guests;
     }
 
     public List<Guest> getGuestsByGuestType(@NotNull(message = "The given guest type cannot be null!")
                                             GuestType guestType) {
 
-        return guestRepository.findGuestsByGuestTypeEquals(guestType).parallelStream()
+        List<Guest> guests = guestRepository.findGuestsByGuestTypeEquals(guestType).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateGuestsList(guests);
+        return guests;
     }
 
     public List<Guest> getGuestsBytAttendanceType(@NotNull(message = "The given attendance type cannot be null!")
                                                   AttendanceType attendanceType) {
 
-        return guestRepository.findGuestsByAttendanceTypeEquals(attendanceType).parallelStream()
+        List<Guest> guests = guestRepository.findGuestsByAttendanceTypeEquals(attendanceType).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateGuestsList(guests);
+        return guests;
     }
 
 //    public boolean updateName(@NotNull(message = "The name cannot be null!")
@@ -309,13 +326,26 @@ public class GuestService {
     public boolean delete(boolean deleted,
                           @Positive(message = "The given ID cannot be less than zero!") long guestId) {
         Guest guest = guestRepository.findGuestByIdEquals(guestId);
+        validateGuest(guest);
 
-        if (guest != null && !guest.isDeleted()) {
+        if (!guest.isDeleted()) {
             guest.setDeleted(deleted);
             guestRepository.save(guest);
             return true;
         }
 
-        return false;
+        throw new MethodNotAllowed("The current record has already been deleted!");
+    }
+
+    private void validateGuest(Guest guest) {
+        if (guest == null) {
+            throw new ResourceNotFoundException("There is no such guest in the database!");
+        }
+    }
+
+    private void validateGuestsList(List<Guest> guests) {
+        if (guests == null) {
+            throw new ResourceNotFoundException("There are no such guests in the database or have been deleted!");
+        }
     }
 }

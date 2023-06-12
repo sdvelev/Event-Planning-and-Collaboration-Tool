@@ -6,6 +6,8 @@ import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.Task;
 import bg.sofia.uni.fmi.web.project.repository.TaskRepository;
+import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +26,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final EventService eventService;
     private final ParticipantService participantService;
+
     private final TaskMapper taskMapper;
 
     public long addTask(@NotNull(message = "The given task cannot be null!") Task taskToSave,
@@ -53,21 +56,21 @@ public class TaskService {
         return taskRepository.save(taskToSave).getId();
     }
 
-    private boolean validateForExistingTaskByName(Task task) {
-        long foundTasks = taskRepository.findTasksByNameEquals(task.getName()).stream()
-            .filter(t -> t.equals(task))
-            .count();
-
-        return foundTasks == 0;
-    }
-
-    private boolean validateForExistingTaskByEventId(Task task) {
-        long foundTasks = taskRepository.findTasksByEventIdIs(task.getEvent().getId()).stream()
-            .filter(t -> t.equals(task))
-            .count();
-
-        return foundTasks == 0;
-    }
+//    private boolean validateForExistingTaskByName(Task task) {
+//        long foundTasks = taskRepository.findTasksByNameEquals(task.getName()).stream()
+//            .filter(t -> t.equals(task))
+//            .count();
+//
+//        return foundTasks == 0;
+//    }
+//
+//    private boolean validateForExistingTaskByEventId(Task task) {
+//        long foundTasks = taskRepository.findTasksByEventIdIs(task.getEvent().getId()).stream()
+//            .filter(t -> t.equals(task))
+//            .count();
+//
+//        return foundTasks == 0;
+//    }
 
 //    public List<Long> addTasks(@NotNull(message = "The given task list cannot be null!") List<Task> taskList) {
 //        return taskRepository.saveAll(taskList).stream()
@@ -77,74 +80,100 @@ public class TaskService {
 
 
     public List<Task> getAllTasks() {
-        return taskRepository.findAll().parallelStream()
+        List<Task> tasks = taskRepository.findAll().parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
+
+        validateTasksList(tasks);
+        return tasks;
     }
 
     public Task getTaskById(@Positive(message = "The given ID cannot be less than zero!") long id) {
         Task task = taskRepository.findTaskByIdEquals(id);
+        validateTask(task);
 
-        if (task != null && !task.isDeleted()) {
+        if (!task.isDeleted()) {
             return task;
         }
 
-        return null;
+        throw new MethodNotAllowed("The current record has already been deleted!");
     }
 
     public List<Task> getTasksByName(@NotNull(message = "The name cannot be null!")
                                      @NotEmpty(message = "The name cannot be empty!")
                                      @NotBlank(message = "The name cannot be blank!")
                                      String name) {
-        return taskRepository.findTasksByNameEquals(name).parallelStream()
+        List<Task> tasks = taskRepository.findTasksByNameEquals(name).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
+
+        validateTasksList(tasks);
+        return tasks;
     }
 
     public List<Task> getTasksByEventId(@Positive(message = "The given ID cannot be less than zero!")
                                         long eventId) {
-        return taskRepository.findTasksByEventIdIs(eventId).parallelStream()
+        List<Task> tasks = taskRepository.findTasksByEventIdIs(eventId).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
+
+        validateTasksList(tasks);
+        return tasks;
     }
 
     public List<Task> getTasksByParticipantId(@Positive(message = "The given ID cannot be less than zero!")
                                               long participantId) {
-        return taskRepository.findTasksByParticipantIdEquals(participantId).parallelStream()
+        List<Task> tasks = taskRepository.findTasksByParticipantIdEquals(participantId).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
+
+        validateTasksList(tasks);
+        return tasks;
     }
 
     public List<Task> getTasksByCreatedBy(@NotNull(message = "The name cannot be null!")
                                           @NotEmpty(message = "The name cannot be empty!")
                                           @NotBlank(message = "The name cannot be blank!")
                                           String name) {
-        return taskRepository.findTaskByCreatedByEquals(name).parallelStream()
+        List<Task> tasks = taskRepository.findTaskByCreatedByEquals(name).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
+
+        validateTasksList(tasks);
+        return tasks;
     }
 
     public List<Task> getTaskByDueDateAfter(@NotNull(message = "The date after cannot be null!")
                                             LocalDateTime localDateTimeAfter) {
-        return taskRepository.findTaskByDueDateAfter(localDateTimeAfter).parallelStream()
+        List<Task> tasks = taskRepository.findTaskByDueDateAfter(localDateTimeAfter).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
+
+        validateTasksList(tasks);
+        return tasks;
     }
 
     public List<Task> getTaskByDueDateBefore(@NotNull(message = "The date before cannot be null!")
                                              LocalDateTime localDateTimeBefore) {
-        return taskRepository.findTaskByDueDateBefore(localDateTimeBefore).parallelStream()
+        List<Task> tasks = taskRepository.findTaskByDueDateBefore(localDateTimeBefore).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
+
+        validateTasksList(tasks);
+        return tasks;
     }
 
     public List<Task> getTaskByDueDateBetween(@NotNull(message = "The date after cannot be null!")
                                               LocalDateTime localDateTimeAfter,
                                               @NotNull(message = "The date before cannot be null!")
                                               LocalDateTime localDateTimeBefore) {
-        return taskRepository.findTaskByDueDateBetween(localDateTimeAfter, localDateTimeBefore).parallelStream()
-            .filter(t -> !t.isDeleted())
-            .toList();
+        List<Task> tasks =
+            taskRepository.findTaskByDueDateBetween(localDateTimeAfter, localDateTimeBefore).parallelStream()
+                .filter(t -> !t.isDeleted())
+                .toList();
+
+        validateTasksList(tasks);
+        return tasks;
     }
 
 //    public boolean updateName(@NotNull(message = "The name cannot be null!")
@@ -286,15 +315,29 @@ public class TaskService {
 //    }
 
     public boolean delete(boolean deleted,
-                          @Positive(message = "The given ID cannot be less than zero!") long taskId) {
+                          @Positive(message = "The given ID cannot be less than zero!")
+                          long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
+        validateTask(task);
 
-        if (task != null && !task.isDeleted()) {
+        if (!task.isDeleted()) {
             task.setDeleted(deleted);
             taskRepository.save(task);
             return true;
         }
 
-        return false;
+        throw new MethodNotAllowed("The current record has already been deleted!");
+    }
+
+    private void validateTask(Task task) {
+        if (task == null) {
+            throw new ResourceNotFoundException("There is no such task in the database!");
+        }
+    }
+
+    private void validateTasksList(List<Task> tasks) {
+        if (tasks == null) {
+            throw new ResourceNotFoundException("There are no such tasks in the database or have been deleted!");
+        }
     }
 }

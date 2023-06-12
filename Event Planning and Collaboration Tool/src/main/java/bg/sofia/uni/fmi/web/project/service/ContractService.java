@@ -4,6 +4,8 @@ import bg.sofia.uni.fmi.web.project.model.Contract;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Vendor;
 import bg.sofia.uni.fmi.web.project.repository.ContractRepository;
+import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -48,59 +50,88 @@ public class ContractService {
     }
 
     public List<Contract> getAllContracts() {
-        return contractRepository.findAll().parallelStream()
+        List<Contract> contracts = contractRepository.findAll().parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateContractsList(contracts);
+        return contracts;
     }
 
     public Contract getContractById(@Positive(message = "The given id cannot be 0 or less!") long id) {
         Contract contract = contractRepository.findContractByIdEquals(id);
+        validateContract(contract);
 
-        if (contract != null && !contract.isDeleted()) {
+        if (!contract.isDeleted()) {
             return contract;
         }
 
-        return null;
+        throw new MethodNotAllowed("The current record has already been deleted!");
     }
 
     public List<Contract> getContractsByTotalPrice(@NotNull(message = "The given total price cannot be null!")
                                                    @Positive(message = "The given total price must be above 0!")
                                                    BigDecimal totalPrice) {
-        return contractRepository.findContractsByTotalPriceEquals(totalPrice).parallelStream()
+        List<Contract> contracts = contractRepository.findContractsByTotalPriceEquals(totalPrice).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateContractsList(contracts);
+        return contracts;
     }
 
     public List<Contract> getContractsByFinished(boolean finished) {
-        return contractRepository.findContractsByFinishedEquals(finished).parallelStream()
+        List<Contract> contracts = contractRepository.findContractsByFinishedEquals(finished).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateContractsList(contracts);
+        return contracts;
     }
 
     public List<Contract> getContractsByAssociatedEventId(@Positive(message = "The given event id must be above 0!")
                                                           long eventId) {
-        return contractRepository.findContractsByAssociatedEventIdEquals(eventId).parallelStream()
+        List<Contract> contracts = contractRepository.findContractsByAssociatedEventIdEquals(eventId).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateContractsList(contracts);
+        return contracts;
     }
 
     public List<Contract> getContractsByAssociatedVendorId(@Positive(message = "The given vendor id must be above 0!")
                                                            long vendorId) {
-        return contractRepository.findContractsByAssociatedVendorIdEquals(vendorId).parallelStream()
+        List<Contract> contracts = contractRepository.findContractsByAssociatedVendorIdEquals(vendorId).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
+
+        validateContractsList(contracts);
+        return contracts;
     }
 
     public boolean delete(boolean deleted,
                           @Positive(message = "The given ID cannot be less than zero!") long vendorId) {
         Contract contract = contractRepository.findContractByIdEquals(vendorId);
+        validateContract(contract);
 
-        if (contract != null && !contract.isDeleted()) {
+        if (!contract.isDeleted()) {
             contract.setDeleted(deleted);
             contractRepository.save(contract);
             return true;
         }
 
-        return false;
+        throw new MethodNotAllowed("The current record has already been deleted!");
+    }
+
+    private void validateContract(Contract contract) {
+        if (contract == null) {
+            throw new ResourceNotFoundException("There is no such contract in the database!");
+        }
+    }
+
+    private void validateContractsList(List<Contract> contracts) {
+        if (contracts == null) {
+            throw new ResourceNotFoundException("There are no such contracts in the database or have been deleted!");
+        }
     }
 }
