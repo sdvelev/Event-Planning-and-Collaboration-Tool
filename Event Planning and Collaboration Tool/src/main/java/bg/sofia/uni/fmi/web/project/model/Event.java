@@ -70,9 +70,12 @@ public class Event {
     @Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted;
 
-    @OneToMany(mappedBy = "event")
-    private Set<Guest> associatedGuests;
+//    @OneToMany(mappedBy = "event")
+//    private Set<Guest> associatedGuests;
+//
+//    @OneToMany(mappedBy = "event")
+//    private Set<Task> associatedTasks;
 
-    @OneToMany(mappedBy = "event")
-    private Set<Task> associatedTasks;
+//    @OneToMany(mappedBy = "associatedEvent")
+//    private Set<Contract> associatedContracts;
 }
