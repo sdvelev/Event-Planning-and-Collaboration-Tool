@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.dto.UserDto;
-import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.UserRepository;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
