@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -108,7 +109,9 @@ public class EventController {
     public ResponseEntity<List<EventDto>> searchEventByDate(
         @Valid
         @NotNull(message = "Event date cannot be null")
-        @RequestParam("date") LocalDateTime date) {
+        @RequestParam("date")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        LocalDateTime date) {
 
         List<Event> potentialEventsToReturn = eventService.getEventsByDate(date);
 
