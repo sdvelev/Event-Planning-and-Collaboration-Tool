@@ -70,9 +70,9 @@ public class EventService {
         @NotNull(message = "Date cannot be null")
         LocalDateTime date) {
 
-        List<Event> allEventsWithName = eventRepository.getEventsByDate(date);
+        List<Event> allEventsWithDate = eventRepository.getEventsByDate(date);
 
-        return allEventsWithName.parallelStream()
+        return allEventsWithDate.parallelStream()
             .filter(event -> !event.isDeleted())
             .collect(Collectors.toList());
     }
@@ -82,9 +82,9 @@ public class EventService {
         @NotBlank(message = "Location cannot be blank")
         String location) {
 
-        List<Event> allEventsWithName = eventRepository.getEventsByLocation(location);
+        List<Event> allEventsWithLocation = eventRepository.getEventsByLocation(location);
 
-        return allEventsWithName.parallelStream()
+        return allEventsWithLocation.parallelStream()
             .filter(event -> !event.isDeleted())
             .collect(Collectors.toList());
     }
@@ -94,9 +94,9 @@ public class EventService {
         @NotBlank(message = "Created by name cannot be blank")
         String createdBy) {
 
-        List<Event> allEventsWithName = eventRepository.getEventsByCreatedBy(createdBy);
+        List<Event> allEventsWithCreatedBy = eventRepository.getEventsByCreatedBy(createdBy);
 
-        return allEventsWithName.parallelStream()
+        return allEventsWithCreatedBy.parallelStream()
             .filter(event -> !event.isDeleted())
             .collect(Collectors.toList());
     }
