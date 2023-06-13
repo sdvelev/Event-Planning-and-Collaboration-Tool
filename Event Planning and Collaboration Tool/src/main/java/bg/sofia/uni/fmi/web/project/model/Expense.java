@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.web.project.model;
 
 import bg.sofia.uni.fmi.web.project.enums.ExpenditureCategory;
-import bg.sofia.uni.fmi.web.project.enums.UserRole;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
