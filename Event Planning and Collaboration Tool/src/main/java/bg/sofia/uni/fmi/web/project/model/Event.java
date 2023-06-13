@@ -49,7 +49,7 @@ public class Event {
     private Set<Expense> associatedExpenses;
 
     @OneToMany(mappedBy = "associatedEvent")
-    private Set<Expense> associatedBudgets;
+    private Set<Budget> associatedBudgets;
 
     //Audit fields
 
