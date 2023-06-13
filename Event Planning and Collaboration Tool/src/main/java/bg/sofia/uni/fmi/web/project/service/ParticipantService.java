@@ -91,7 +91,7 @@ public class ParticipantService {
 
         Optional<Participant> optionalParticipant = this.getParticipantById(id);
 
-        if (optionalParticipant.isPresent()) {
+        if (optionalParticipant.isPresent() && !optionalParticipant.get().isDeleted()) {
             return optionalParticipant.get().getAssociatedEvent();
         }
         return null;
@@ -106,7 +106,9 @@ public class ParticipantService {
 
         Optional<Participant> optionalParticipant = this.getParticipantById(id);
 
-        if (optionalParticipant.isPresent()) {
+        if (optionalParticipant.isPresent() && !optionalParticipant.get().isDeleted() &&
+            optionalParticipant.get().getUserRole() != UserRole.CREATOR &&
+            userRoleToSet != UserRole.CREATOR) {
 
             optionalParticipant.get().setUserRole(userRoleToSet);
             if (this.getUserByParticipantId(id) != null) {
@@ -165,7 +167,9 @@ public class ParticipantService {
     private Participant setParticipantNonNullFields(ParticipantDto participantFieldsToChange,
                                                     Participant participantToUpdate) {
 
-        if (participantFieldsToChange.getUserRole() != null) {
+        if (participantFieldsToChange.getUserRole() != null &&
+            participantFieldsToChange.getUserRole() != UserRole.CREATOR &&
+            participantToUpdate.getUserRole() != UserRole.CREATOR) {
             participantToUpdate.setUserRole(participantFieldsToChange.getUserRole());
         }
 
