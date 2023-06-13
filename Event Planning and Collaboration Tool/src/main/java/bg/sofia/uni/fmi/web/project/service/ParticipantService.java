@@ -81,7 +81,7 @@ public class ParticipantService {
 
         Optional<Participant> optionalParticipant = this.getParticipantById(id);;
 
-        if (optionalParticipant.isPresent()) {
+        if (optionalParticipant.isPresent() && !optionalParticipant.get().isDeleted()) {
             return optionalParticipant.get().getAssociatedUser();
         }
         return null;
@@ -89,7 +89,7 @@ public class ParticipantService {
 
     public Event getEventByParticipantId(Long id) {
 
-        Optional<Participant> optionalParticipant = participantRepository.findById(id);
+        Optional<Participant> optionalParticipant = this.getParticipantById(id);
 
         if (optionalParticipant.isPresent()) {
             return optionalParticipant.get().getAssociatedEvent();
@@ -144,9 +144,9 @@ public class ParticipantService {
     public boolean deleteParticipant(
         @NotNull(message = "Id cannot be null")
         @Positive(message = "Id must be positive.")
-        Long participantById) {
+        Long participantId) {
 
-        Optional<Participant> optionalParticipantToDelete = participantRepository.findById(participantById);
+        Optional<Participant> optionalParticipantToDelete = participantRepository.findById(participantId);
 
         if (optionalParticipantToDelete.isPresent() && !optionalParticipantToDelete.get().isDeleted()) {
 
