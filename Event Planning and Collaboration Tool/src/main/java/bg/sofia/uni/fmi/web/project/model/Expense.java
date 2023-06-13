@@ -37,6 +37,10 @@ public class Expense {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "description")
+    @NotNull
+    private String description;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "expenditure_category")
     @NotNull
