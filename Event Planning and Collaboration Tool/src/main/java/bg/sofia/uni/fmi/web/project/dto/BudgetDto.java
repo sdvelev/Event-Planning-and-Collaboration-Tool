@@ -18,6 +18,9 @@ public class BudgetDto {
     @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("description")
+    private String description;
+
     @JsonProperty("expenditure_category")
     private ExpenditureCategory expenditureCategory;
 
