@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.enums.VendorType;
-import bg.sofia.uni.fmi.web.project.model.Review;
 import bg.sofia.uni.fmi.web.project.model.Vendor;
 import bg.sofia.uni.fmi.web.project.repository.VendorRepository;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
@@ -22,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 public class VendorService {
     private final VendorRepository vendorRepository;
-    private final ReviewService reviewService;
 
     public long addVendor(@NotNull(message = "The given vendor cannot be null!")
                           Vendor vendorToSave,
@@ -44,7 +42,10 @@ public class VendorService {
         vendorToSave.setCreatedBy("a");
         vendorToSave.setCreationTime(LocalDateTime.now());
         vendorToSave.setDeleted(false);
-        return vendorRepository.save(vendorToSave).getId();
+
+        Vendor vendor = vendorRepository.save(vendorToSave);
+        checkForSaveException(vendor);
+        return vendor.getId();
     }
 
     public List<Vendor> getAllVendors() {
@@ -115,22 +116,12 @@ public class VendorService {
         validateVendor(vendor);
 
         if (!vendor.isDeleted()) {
-            removeAllAssociatedReviews(vendorId);
             vendor.setDeleted(deleted);
             vendorRepository.save(vendor);
             return true;
         }
 
         throw new MethodNotAllowed("The current record has already been deleted!");
-    }
-
-    private void removeAllAssociatedReviews(long vendorId) {
-        List<Review> reviewList = reviewService.getReviewsByAssociatedVendorId(vendorId);
-        for (Review review : reviewList) {
-            if (!review.isDeleted()) {
-                reviewService.delete(true, review.getId());
-            }
-        }
     }
 
     private void validateVendor(Vendor vendor) {
@@ -142,6 +133,12 @@ public class VendorService {
     private void validateVendorsList(List<Vendor> vendors) {
         if (vendors == null) {
             throw new ResourceNotFoundException("There are no such vendors in the database or have been deleted!");
+        }
+    }
+
+    private void checkForSaveException(Vendor vendor) {
+        if (vendor == null) {
+            throw new RuntimeException("There was problem while saving the vendor in the database!");
         }
     }
 }

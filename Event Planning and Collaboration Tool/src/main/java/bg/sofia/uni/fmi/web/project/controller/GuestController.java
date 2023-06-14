@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.web.project.dto.GuestDto;
 import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.mapper.GuestMapper;
+import bg.sofia.uni.fmi.web.project.service.GuestEventFacadeService;
 import bg.sofia.uni.fmi.web.project.service.GuestService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +32,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GuestController {
     private final GuestService guestService;
+    private final GuestEventFacadeService guestEventFacadeService;
     private final GuestMapper mapper;
 
     @PostMapping(params = {"assigned_event_id", "guest_type"})
@@ -49,7 +51,7 @@ public class GuestController {
                          @NotBlank(message = "The attendance type cannot be blank!")
                          @RequestParam("attendance_type")
                          String attendanceType) {
-        return guestService.addGuest(mapper.toEntity(guestDto), eventId, guestType, attendanceType);
+        return guestEventFacadeService.addGuest(mapper.toEntity(guestDto), eventId, guestType, attendanceType);
     }
 
     @GetMapping

@@ -2,8 +2,6 @@ package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
-import bg.sofia.uni.fmi.web.project.mapper.GuestMapper;
-import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Guest;
 import bg.sofia.uni.fmi.web.project.repository.GuestRepository;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
@@ -16,7 +14,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,41 +21,13 @@ import java.util.List;
 @AllArgsConstructor
 public class GuestService {
     private final GuestRepository guestRepository;
-    private final EventService eventService;
-
-    private final GuestMapper guestMapper;
 
     public long addGuest(@NotNull(message = "The given guest cannot be null!")
-                         Guest guestToSave,
-                         @NotNull(message = "The event id cannot be null!")
-                         Long eventId,
-                         @NotNull(message = "The guest type cannot be null!")
-                         @NotEmpty(message = "The guest type cannot be empty!")
-                         @NotBlank(message = "The guest type cannot be blank!")
-                         String guestType,
-                         @NotNull(message = "The attendance type cannot be null!")
-                         @NotEmpty(message = "The attendance type cannot be empty!")
-                         @NotBlank(message = "The attendance type cannot be blank!")
-                         String attendanceType) {
-//        if (!validateForExistingGuestByNameAndSurname(guestToSave) || !validateForExistingGuestByEventId(guestToSave)) {
-//            throw new ApiBadRequest("There is already a guest with the same credentials");
-//        }
+                         Guest guestToSave) {
+        Guest guest = guestRepository.save(guestToSave);
+        checkForSaveException(guest);
 
-        GuestType newGuestType = GuestType.valueOf(guestType.toUpperCase());
-        AttendanceType newAttendanceType = AttendanceType.valueOf(attendanceType.toUpperCase());
-        Event event = eventService.getEventById(eventId);
-
-//        if (event == null) {
-//            throw new ApiBadRequest("There is no such event with this ID!");
-//        }
-
-        guestToSave.setGuestType(newGuestType);
-        guestToSave.setAttendanceType(newAttendanceType);
-        guestToSave.setEvent(event);
-        guestToSave.setCreatedBy("a");
-        guestToSave.setCreationTime(LocalDateTime.now());
-        guestToSave.setDeleted(false);
-        return guestRepository.save(guestToSave).getId();
+        return guest.getId();
     }
 
 //    private boolean validateForExistingGuestByNameAndSurname(Guest guest) {
@@ -75,12 +44,6 @@ public class GuestService {
 //            .count();
 //
 //        return foundGuests == 0;
-//    }
-
-//    public List<Long> addGuests(List<Guest> guestList) {
-//        return guestRepository.saveAll(guestList).stream()
-//            .map(Guest::getId)
-//            .toList();
 //    }
 
     public List<Guest> getAllGuests() {
@@ -346,6 +309,12 @@ public class GuestService {
     private void validateGuestsList(List<Guest> guests) {
         if (guests == null) {
             throw new ResourceNotFoundException("There are no such guests in the database or have been deleted!");
+        }
+    }
+
+    private void checkForSaveException(Guest guest) {
+        if (guest == null) {
+            throw new RuntimeException("There was problem while saving the guest in the database!");
         }
     }
 }

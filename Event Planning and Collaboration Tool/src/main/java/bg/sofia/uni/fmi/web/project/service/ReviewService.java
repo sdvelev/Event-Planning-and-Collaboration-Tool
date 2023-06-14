@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.model.Review;
-import bg.sofia.uni.fmi.web.project.model.Vendor;
 import bg.sofia.uni.fmi.web.project.repository.ReviewRepository;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,28 +20,13 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
-    private final VendorService vendorService;
 
     public long addReview(@NotNull(message = "The given vendor cannot be null!")
-                          Review reviewToSave,
-                          @NotNull(message = "The vendor id cannot be null!")
-                          @Positive(message = "The vendor id must be above 0!")
-                          Long vendorId) {
-//        if (!validateForExistingGuestByNameAndSurname(guestToSave) || !validateForExistingGuestByEventId(guestToSave)) {
-//            throw new ApiBadRequest("There is already a guest with the same credentials");
-//        }
+                          Review reviewToSave) {
+        Review review = reviewRepository.save(reviewToSave);
+        checkForSaveException(review);
 
-        Vendor vendor = vendorService.getVendorById(vendorId);
-
-//        if (event == null) {
-//            throw new ApiBadRequest("There is no such event with this ID!");
-//        }
-
-        reviewToSave.setAssociatedVendor(vendor);
-        reviewToSave.setCreatedBy("a");
-        reviewToSave.setCreationTime(LocalDateTime.now());
-        reviewToSave.setDeleted(false);
-        return reviewRepository.save(reviewToSave).getId();
+        return review.getId();
     }
 
     public List<Review> getAllReviews() {
@@ -68,9 +51,9 @@ public class ReviewService {
     }
 
     public List<Review> getReviewsByComment(@NotNull(message = "The comment cannot be null!")
-                                     @NotEmpty(message = "The comment cannot be empty!")
-                                     @NotBlank(message = "The comment cannot be blank!")
-                                     String comment) {
+                                            @NotEmpty(message = "The comment cannot be empty!")
+                                            @NotBlank(message = "The comment cannot be blank!")
+                                            String comment) {
 
         List<Review> reviews = reviewRepository.findReviewByCommentEquals(comment).parallelStream()
             .filter(g -> !g.isDeleted())
@@ -140,6 +123,12 @@ public class ReviewService {
     private void validateReviewsList(List<Review> reviews) {
         if (reviews == null) {
             throw new ResourceNotFoundException("There are no such reviews in the database or have been deleted!");
+        }
+    }
+
+    private void checkForSaveException(Review review) {
+        if (review == null) {
+            throw new RuntimeException("There was problem while saving the review in the database!");
         }
     }
 }

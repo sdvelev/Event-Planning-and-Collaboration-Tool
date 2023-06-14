@@ -2,12 +2,12 @@ package bg.sofia.uni.fmi.web.project.controller;
 
 import bg.sofia.uni.fmi.web.project.dto.ContractDto;
 import bg.sofia.uni.fmi.web.project.mapper.ContractMapper;
+import bg.sofia.uni.fmi.web.project.service.ContractEventVendorFacadeService;
 import bg.sofia.uni.fmi.web.project.service.ContractService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
-import org.mapstruct.Mapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +27,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ContractController {
     private final ContractService contractService;
+    private final ContractEventVendorFacadeService contractEventVendorFacadeService;
     private final ContractMapper mapper;
 
     @PostMapping(params = {"assigned_event_id", "assigned_vendor_id"})
@@ -35,7 +36,7 @@ public class ContractController {
                          Long eventId,
                          @Valid @NotNull(message = "The event id cannot be null!") @RequestParam("assigned_vendor_id")
                          Long vendorId) {
-        return contractService.addContract(mapper.toEntity(contractDto), eventId, vendorId);
+        return contractEventVendorFacadeService.addContract(mapper.toEntity(contractDto), eventId, vendorId);
     }
 
     @GetMapping

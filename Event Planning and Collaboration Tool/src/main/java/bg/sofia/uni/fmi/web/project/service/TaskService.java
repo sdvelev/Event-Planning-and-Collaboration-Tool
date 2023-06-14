@@ -1,9 +1,9 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.enums.TaskProgress;
-import bg.sofia.uni.fmi.web.project.mapper.TaskMapper;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Participant;
+import bg.sofia.uni.fmi.web.project.model.Review;
 import bg.sofia.uni.fmi.web.project.model.Task;
 import bg.sofia.uni.fmi.web.project.repository.TaskRepository;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
@@ -24,36 +24,12 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;
-    private final EventService eventService;
-    private final ParticipantService participantService;
 
-    private final TaskMapper taskMapper;
+    public long addTask(@NotNull(message = "The given task cannot be null!") Task taskToSave) {
+        Task task = taskRepository.save(taskToSave);
+        checkForSaveException(task);
 
-    public long addTask(@NotNull(message = "The given task cannot be null!") Task taskToSave,
-                        @NotNull(message = "The event id cannot be null!")
-                        Long eventId,
-                        @NotNull(message = "The event id cannot be null!")
-                        Long participantId,
-                        @NotNull(message = "The guest type cannot be null!")
-                        @NotEmpty(message = "The guest type cannot be empty!")
-                        @NotBlank(message = "The guest type cannot be blank!")
-                        String taskProgress) {
-//        if (!validateForExistingTaskByName(task) || !validateForExistingTaskByEventId(task)) {
-//            throw new ApiBadRequest("There is already a task with the same credentials");
-//        }
-
-        TaskProgress newTaskProgress = TaskProgress.valueOf(taskProgress.toUpperCase());
-        Event event = eventService.getEventById(eventId);
-        Participant participant = participantService.getParticipantById(participantId).get();
-
-
-        taskToSave.setTaskProgress(newTaskProgress);
-        taskToSave.setEvent(event);
-        taskToSave.setParticipant(participant);
-        taskToSave.setCreatedBy("a");
-        taskToSave.setCreationTime(LocalDateTime.now());
-        taskToSave.setDeleted(false);
-        return taskRepository.save(taskToSave).getId();
+        return task.getId();
     }
 
 //    private boolean validateForExistingTaskByName(Task task) {
@@ -71,13 +47,6 @@ public class TaskService {
 //
 //        return foundTasks == 0;
 //    }
-
-//    public List<Long> addTasks(@NotNull(message = "The given task list cannot be null!") List<Task> taskList) {
-//        return taskRepository.saveAll(taskList).stream()
-//            .map(Task::getId)
-//            .toList();
-//    }
-
 
     public List<Task> getAllTasks() {
         List<Task> tasks = taskRepository.findAll().parallelStream()
@@ -338,6 +307,12 @@ public class TaskService {
     private void validateTasksList(List<Task> tasks) {
         if (tasks == null) {
             throw new ResourceNotFoundException("There are no such tasks in the database or have been deleted!");
+        }
+    }
+
+    private void checkForSaveException(Task task) {
+        if (task == null) {
+            throw new RuntimeException("There was problem while saving the task in the database!");
         }
     }
 }

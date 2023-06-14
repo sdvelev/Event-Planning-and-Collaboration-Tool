@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.web.project.controller;
 
 import bg.sofia.uni.fmi.web.project.dto.TaskDto;
 import bg.sofia.uni.fmi.web.project.mapper.TaskMapper;
+import bg.sofia.uni.fmi.web.project.service.TaskEventParticipantFacadeService;
 import bg.sofia.uni.fmi.web.project.service.TaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +32,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskController {
     private final TaskService taskService;
+    private final TaskEventParticipantFacadeService taskEventParticipantFacadeService;
     private final TaskMapper mapper;
 
     @PostMapping(params = {"assigned_event_id", "assigned_participant_id", "task_progress"})
@@ -46,7 +48,7 @@ public class TaskController {
                         @NotBlank(message = "The guest type cannot be blank!")
                         @RequestParam("task_progress")
                         String taskProgress) {
-        return taskService.addTask(mapper.toEntity(taskDto), eventId, participantId, taskProgress);
+        return taskEventParticipantFacadeService.addTask(mapper.toEntity(taskDto), eventId, participantId, taskProgress);
     }
 
     @GetMapping

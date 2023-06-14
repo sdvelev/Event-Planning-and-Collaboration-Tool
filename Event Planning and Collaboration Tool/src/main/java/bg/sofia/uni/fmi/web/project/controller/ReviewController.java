@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.web.project.controller;
 import bg.sofia.uni.fmi.web.project.dto.ReviewDto;
 import bg.sofia.uni.fmi.web.project.mapper.ReviewMapper;
 import bg.sofia.uni.fmi.web.project.service.ReviewService;
+import bg.sofia.uni.fmi.web.project.service.ReviewVendorFacadeService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,6 +31,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
+    private final ReviewVendorFacadeService reviewVendorFacadeService;
     private final ReviewMapper mapper;
 
     @PostMapping(params = {"assigned_vendor_id"})
@@ -39,7 +41,7 @@ public class ReviewController {
                          @NotNull(message = "The vendor id cannot be null!")
                          @Positive(message = "The vendor id must be above 0!")
                          long vendorId) {
-        return reviewService.addReview(mapper.toEntity(reviewDto), vendorId);
+        return reviewVendorFacadeService.addReview(mapper.toEntity(reviewDto), vendorId);
     }
 
     @GetMapping
