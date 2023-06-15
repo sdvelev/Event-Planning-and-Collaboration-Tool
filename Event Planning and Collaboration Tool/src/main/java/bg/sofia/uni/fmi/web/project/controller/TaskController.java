@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
-import org.mapstruct.Mapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +27,6 @@ import java.util.List;
 @RestController
 @RequestMapping("tasks")
 @Validated
-@Mapper
 @AllArgsConstructor
 public class TaskController {
     private final TaskService taskService;
@@ -48,7 +46,8 @@ public class TaskController {
                         @NotBlank(message = "The guest type cannot be blank!")
                         @RequestParam("task_progress")
                         String taskProgress) {
-        return taskEventParticipantFacadeService.addTask(mapper.toEntity(taskDto), eventId, participantId, taskProgress);
+        return taskEventParticipantFacadeService.addTask(mapper.toEntity(taskDto), eventId, participantId,
+            taskProgress);
     }
 
     @GetMapping

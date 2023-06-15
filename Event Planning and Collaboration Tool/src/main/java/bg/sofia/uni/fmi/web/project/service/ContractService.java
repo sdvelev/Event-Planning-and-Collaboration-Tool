@@ -39,12 +39,9 @@ public class ContractService {
     public Contract getContractById(@Positive(message = "The given id cannot be 0 or less!") long id) {
         Contract contract = contractRepository.findContractByIdEquals(id);
         validateContract(contract);
+        validateForDeletedContract(contract);
 
-        if (!contract.isDeleted()) {
-            return contract;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        return contract;
     }
 
     public List<Contract> getContractsByTotalPrice(@NotNull(message = "The given total price cannot be null!")
@@ -91,14 +88,11 @@ public class ContractService {
                           @Positive(message = "The given ID cannot be less than zero!") long vendorId) {
         Contract contract = contractRepository.findContractByIdEquals(vendorId);
         validateContract(contract);
+        validateForDeletedContract(contract);
 
-        if (!contract.isDeleted()) {
-            contract.setDeleted(deleted);
-            contractRepository.save(contract);
-            return true;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        contract.setDeleted(deleted);
+        contractRepository.save(contract);
+        return true;
     }
 
     private void validateContract(Contract contract) {
@@ -116,6 +110,12 @@ public class ContractService {
     private void checkForSaveException(Contract contract) {
         if (contract == null) {
             throw new RuntimeException("There was problem while saving the contract in the database!");
+        }
+    }
+
+    private void validateForDeletedContract(Contract contract) {
+        if (contract.isDeleted()) {
+            throw new MethodNotAllowed("The current record has already been deleted!");
         }
     }
 }

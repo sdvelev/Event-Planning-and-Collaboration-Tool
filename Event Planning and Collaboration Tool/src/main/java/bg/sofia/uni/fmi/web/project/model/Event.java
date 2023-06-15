@@ -64,9 +64,9 @@ public class Event {
     @Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "associatedEvent")
     private Set<Guest> associatedGuests;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "associatedEvent")
     private Set<Task> associatedTasks;
 }

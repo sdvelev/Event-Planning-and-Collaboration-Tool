@@ -13,7 +13,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Task findTaskByIdEquals(long id);
     List<Task> findAll();
     List<Task> findTasksByNameEquals(String name);
-    List<Task> findTasksByEventIdIs(long id);
+    List<Task> findTasksByAssociatedEventIdEquals(long id);
     List<Task> findTasksByParticipantIdEquals(long id);
     List<Task> findTaskByCreatedByEquals(String name);
     List<Task> findTaskByDueDateAfter(LocalDateTime localDateTime);

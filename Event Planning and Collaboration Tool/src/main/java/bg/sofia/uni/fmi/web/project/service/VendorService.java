@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.enums.VendorType;
+import bg.sofia.uni.fmi.web.project.model.Review;
 import bg.sofia.uni.fmi.web.project.model.Vendor;
 import bg.sofia.uni.fmi.web.project.repository.VendorRepository;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
@@ -33,11 +34,6 @@ public class VendorService {
 //        }
 
         VendorType newVendorType = VendorType.valueOf(vendorType.toUpperCase());
-
-//        if (event == null) {
-//            throw new ApiBadRequest("There is no such event with this ID!");
-//        }
-
         vendorToSave.setVendorType(newVendorType);
         vendorToSave.setCreatedBy("a");
         vendorToSave.setCreationTime(LocalDateTime.now());
@@ -62,12 +58,9 @@ public class VendorService {
                                 long id) {
         Vendor vendor = vendorRepository.findVendorByIdEquals(id);
         validateVendor(vendor);
+        validateForDeletedVendor(vendor);
 
-        if (!vendor.isDeleted()) {
-            return vendor;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        return vendor;
     }
 
     public Vendor getVendorByPhoneNumber(@NotNull(message = "The given phone number cannot be null!")
@@ -76,12 +69,9 @@ public class VendorService {
                                          String phoneNumber) {
         Vendor vendor = vendorRepository.findVendorByPhoneNumberEquals(phoneNumber);
         validateVendor(vendor);
+        validateForDeletedVendor(vendor);
 
-        if (!vendor.isDeleted()) {
-            return vendor;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        return vendor;
     }
 
     public Vendor getVendorByEmail(@NotNull(message = "The given email cannot be null!")
@@ -90,12 +80,9 @@ public class VendorService {
                                    String email) {
         Vendor vendor = vendorRepository.findVendorByEmailEquals(email);
         validateVendor(vendor);
+        validateForDeletedVendor(vendor);
 
-        if (!vendor.isDeleted()) {
-            return vendor;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        return vendor;
     }
 
     public List<Vendor> getVendorsByVendorType(@NotNull(message = "The given vendor type cannot be null!")
@@ -114,14 +101,11 @@ public class VendorService {
                           long vendorId) {
         Vendor vendor = vendorRepository.findVendorByIdEquals(vendorId);
         validateVendor(vendor);
+        validateForDeletedVendor(vendor);
 
-        if (!vendor.isDeleted()) {
-            vendor.setDeleted(deleted);
-            vendorRepository.save(vendor);
-            return true;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        vendor.setDeleted(deleted);
+        vendorRepository.save(vendor);
+        return true;
     }
 
     private void validateVendor(Vendor vendor) {
@@ -139,6 +123,12 @@ public class VendorService {
     private void checkForSaveException(Vendor vendor) {
         if (vendor == null) {
             throw new RuntimeException("There was problem while saving the vendor in the database!");
+        }
+    }
+
+    private void validateForDeletedVendor(Vendor vendor) {
+        if (vendor.isDeleted()) {
+            throw new MethodNotAllowed("The current record has already been deleted!");
         }
     }
 }

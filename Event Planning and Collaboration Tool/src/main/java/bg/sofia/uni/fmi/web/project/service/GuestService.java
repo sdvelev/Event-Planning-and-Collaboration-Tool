@@ -58,12 +58,9 @@ public class GuestService {
     public Guest getGuestById(@Positive(message = "The given id cannot be 0 or less!") long id) {
         Guest guest = guestRepository.findGuestByIdEquals(id);
         validateGuest(guest);
+        validateForDeletedGuest(guest);
 
-        if (!guest.isDeleted()) {
-            return guest;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        return guest;
     }
 
     public Guest getGuestByEmail(@NotNull(message = "The given email cannot be null!")
@@ -73,12 +70,9 @@ public class GuestService {
 
         Guest guest = guestRepository.findGuestByEmailEquals(email);
         validateGuest(guest);
+        validateForDeletedGuest(guest);
 
-        if (!guest.isDeleted()) {
-            return guest;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        return guest;
     }
 
     public List<Guest> getGuestByNameAndSurname(@NotNull(message = "The given name cannot be null!")
@@ -99,7 +93,7 @@ public class GuestService {
     }
 
     public List<Guest> getGuestByEventId(@Positive(message = "The given id cannot be 0 or less!") long id) {
-        List<Guest> guests = guestRepository.findGuestByEventIdEquals(id).parallelStream()
+        List<Guest> guests = guestRepository.findGuestByAssociatedEventIdEquals(id).parallelStream()
             .filter(g -> !g.isDeleted())
             .toList();
 
@@ -290,14 +284,11 @@ public class GuestService {
                           @Positive(message = "The given ID cannot be less than zero!") long guestId) {
         Guest guest = guestRepository.findGuestByIdEquals(guestId);
         validateGuest(guest);
+        validateForDeletedGuest(guest);
 
-        if (!guest.isDeleted()) {
-            guest.setDeleted(deleted);
-            guestRepository.save(guest);
-            return true;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        guest.setDeleted(deleted);
+        guestRepository.save(guest);
+        return true;
     }
 
     private void validateGuest(Guest guest) {
@@ -315,6 +306,12 @@ public class GuestService {
     private void checkForSaveException(Guest guest) {
         if (guest == null) {
             throw new RuntimeException("There was problem while saving the guest in the database!");
+        }
+    }
+
+    private void validateForDeletedGuest(Guest guest) {
+        if (guest.isDeleted()) {
+            throw new MethodNotAllowed("The current record has already been deleted!");
         }
     }
 }

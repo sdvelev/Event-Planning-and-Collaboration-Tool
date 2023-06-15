@@ -59,7 +59,7 @@ public class Guest {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
-    private Event event;
+    private Event associatedEvent;
 
     @Column(length = 255, nullable = false)
     private String createdBy;
@@ -86,14 +86,14 @@ public class Guest {
             Objects.equals(email, guest.email) &&
             guestType == guest.guestType &&
             attendanceType == guest.attendanceType &&
-            Objects.equals(event, guest.event) &&
+            Objects.equals(associatedEvent, guest.associatedEvent) &&
             Objects.equals(createdBy, guest.createdBy) &&
             Objects.equals(creationTime, guest.creationTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, surname, email, guestType, attendanceType, event, createdBy,
+        return Objects.hash(name, surname, email, guestType, attendanceType, associatedEvent, createdBy,
             creationTime);
     }
 }

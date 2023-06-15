@@ -27,7 +27,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/reviews")
 @Validated
-@Mapper
 @AllArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
@@ -58,11 +57,11 @@ public class ReviewController {
 
     @GetMapping(value = "/search", params = {"comment"})
     public ResponseEntity<List<ReviewDto>> findByComment(@Valid
-                                                   @RequestParam("comment")
-                                                   @NotNull(message = "The comment cannot be null!")
-                                                   @NotEmpty(message = "The comment cannot be empty!")
-                                                   @NotBlank(message = "The comment cannot be blank!")
-                                                   String comment) {
+                                                         @RequestParam("comment")
+                                                         @NotNull(message = "The comment cannot be null!")
+                                                         @NotEmpty(message = "The comment cannot be empty!")
+                                                         @NotBlank(message = "The comment cannot be blank!")
+                                                         String comment) {
         return ResponseEntity.ok(mapper.toDtoCollection(reviewService.getReviewsByComment(comment)));
     }
 
@@ -87,9 +86,9 @@ public class ReviewController {
 
     @GetMapping(value = "/search", params = {"assigned_vendor_id"})
     public ResponseEntity<List<ReviewDto>> findByVendorId(@Valid
-                                                           @RequestParam("assigned_vendor_id")
-                                                           @Positive(message = "The given id must be above 0!")
-                                                           long vendorId) {
+                                                          @RequestParam("assigned_vendor_id")
+                                                          @Positive(message = "The given id must be above 0!")
+                                                          long vendorId) {
         return ResponseEntity.ok(mapper.toDtoCollection(reviewService.getReviewsByAssociatedVendorId(vendorId)));
     }
 

@@ -60,12 +60,9 @@ public class TaskService {
     public Task getTaskById(@Positive(message = "The given ID cannot be less than zero!") long id) {
         Task task = taskRepository.findTaskByIdEquals(id);
         validateTask(task);
+        validateForDeletedTask(task);
 
-        if (!task.isDeleted()) {
-            return task;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        return task;
     }
 
     public List<Task> getTasksByName(@NotNull(message = "The name cannot be null!")
@@ -82,7 +79,7 @@ public class TaskService {
 
     public List<Task> getTasksByEventId(@Positive(message = "The given ID cannot be less than zero!")
                                         long eventId) {
-        List<Task> tasks = taskRepository.findTasksByEventIdIs(eventId).parallelStream()
+        List<Task> tasks = taskRepository.findTasksByAssociatedEventIdEquals(eventId).parallelStream()
             .filter(t -> !t.isDeleted())
             .toList();
 
@@ -288,14 +285,11 @@ public class TaskService {
                           long taskId) {
         Task task = taskRepository.findTaskByIdEquals(taskId);
         validateTask(task);
+        validateForDeletedTask(task);
 
-        if (!task.isDeleted()) {
-            task.setDeleted(deleted);
-            taskRepository.save(task);
-            return true;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        task.setDeleted(deleted);
+        taskRepository.save(task);
+        return true;
     }
 
     private void validateTask(Task task) {
@@ -313,6 +307,12 @@ public class TaskService {
     private void checkForSaveException(Task task) {
         if (task == null) {
             throw new RuntimeException("There was problem while saving the task in the database!");
+        }
+    }
+
+    private void validateForDeletedTask(Task task) {
+        if (task.isDeleted()) {
+            throw new MethodNotAllowed("The current record has already been deleted!");
         }
     }
 }

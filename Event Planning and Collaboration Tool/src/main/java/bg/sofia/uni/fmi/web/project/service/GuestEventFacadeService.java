@@ -46,12 +46,12 @@ public class GuestEventFacadeService {
 
         guestToSave.setGuestType(newGuestType);
         guestToSave.setAttendanceType(newAttendanceType);
-        guestToSave.setEvent(event);
+        guestToSave.setAssociatedEvent(event);
         guestToSave.setCreatedBy("a");
         guestToSave.setCreationTime(LocalDateTime.now());
         guestToSave.setDeleted(false);
 
-        event.getAssociatedGuests().add(guestToSave);
+        //event.getAssociatedGuests().add(guestToSave);
 
         return guestService.addGuest(guestToSave);
     }

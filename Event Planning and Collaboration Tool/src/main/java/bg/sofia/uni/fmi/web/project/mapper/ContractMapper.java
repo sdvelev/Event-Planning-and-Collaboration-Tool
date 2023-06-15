@@ -2,62 +2,30 @@ package bg.sofia.uni.fmi.web.project.mapper;
 
 import bg.sofia.uni.fmi.web.project.dto.ContractDto;
 import bg.sofia.uni.fmi.web.project.model.Contract;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@Component
-@AllArgsConstructor
-public class ContractMapper {
-    private final EventMapper eventMapper;
-    private final VendorMapper vendorMapper;
+@Mapper(componentModel = "spring", uses = {EventMapper.class, VendorMapper.class})
+public interface ContractMapper {
 
-    public ContractDto toDto(Contract contractEntity) {
-        if (contractEntity == null) {
-            return null;
-        }
+    ContractMapper INSTANCE = Mappers.getMapper(ContractMapper.class);
 
-        ContractDto newContractDto = new ContractDto();
-        newContractDto.setId((contractEntity.getId()));
-        newContractDto.setTotalPrice(contractEntity.getTotalPrice());
-        newContractDto.setFinished(contractEntity.isFinished());
+    @Mapping(source = "associatedEvent", target = "associatedEventDto")
+    @Mapping(source = "associatedVendor", target = "associatedVendorDto")
+    ContractDto toDto(Contract contractEntity);
 
-        if (contractEntity.getAssociatedEvent() != null) {
-            newContractDto.setAssociatedEventDto(eventMapper.toDto(contractEntity.getAssociatedEvent()));
-        }
+    @Mapping(source = "associatedEventDto", target = "associatedEvent")
+    @Mapping(source = "associatedVendorDto", target = "associatedVendor")
+    Contract toEntity(ContractDto contractDto);
 
-        if (contractEntity.getAssociatedVendor() != null) {
-            newContractDto.setAssociatedVendorDto(vendorMapper.toDto(contractEntity.getAssociatedVendor()));
-        }
-
-        return newContractDto;
-    }
-
-    public Contract toEntity(ContractDto contractDto) {
-        if (contractDto == null) {
-            return null;
-        }
-
-        Contract newContract = new Contract();
-        newContract.setId((contractDto.getId()));
-        newContract.setTotalPrice(contractDto.getTotalPrice());
-        newContract.setFinished(contractDto.isFinished());
-
-        if (contractDto.getAssociatedEventDto() != null) {
-            newContract.setAssociatedEvent(eventMapper.toEntity(contractDto.getAssociatedEventDto()));
-        }
-
-        if (contractDto.getAssociatedVendorDto() != null) {
-            newContract.setAssociatedVendor(vendorMapper.toEntity(contractDto.getAssociatedVendorDto()));
-        }
-
-        return newContract;
-    }
-
-    public List<ContractDto> toDtoCollection(Collection<Contract> contractEntities) {
+    default List<ContractDto> toDtoCollection(Collection<Contract> contractEntities) {
         if (contractEntities == null) {
             return Collections.emptyList();
         }
@@ -67,7 +35,7 @@ public class ContractMapper {
             .toList();
     }
 
-    public List<Contract> toEntityCollection(Collection<ContractDto> contractDtos) {
+    default List<Contract> toEntityCollection(Collection<ContractDto> contractDtos) {
         if (contractDtos == null) {
             return Collections.emptyList();
         }

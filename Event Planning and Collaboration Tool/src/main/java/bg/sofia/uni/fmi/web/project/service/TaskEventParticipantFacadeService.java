@@ -39,14 +39,14 @@ public class TaskEventParticipantFacadeService {
         Event event = eventService.getEventById(eventId);
 
         Participant participant;
-        if (participantService.getParticipantById(participantId).isPresent()) {
+        if (participantService.getParticipantById(participantId).isEmpty()) {
              throw new ApiBadRequest("There was unexpected problem that occurred with getting participant!");
         }
 
         participant = participantService.getParticipantById(participantId).get();
 
         taskToSave.setTaskProgress(newTaskProgress);
-        taskToSave.setEvent(event);
+        taskToSave.setAssociatedEvent(event);
         taskToSave.setParticipant(participant);
         taskToSave.setCreatedBy("a");
         taskToSave.setCreationTime(LocalDateTime.now());

@@ -42,12 +42,9 @@ public class ReviewService {
     public Review getReviewById(@Positive(message = "The given id cannot be 0 or less!") long id) {
         Review review = reviewRepository.findReviewByIdEquals(id);
         validateReview(review);
+        validateForDeletedReview(review);
 
-        if (!review.isDeleted()) {
-            return review;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        return review;
     }
 
     public List<Review> getReviewsByComment(@NotNull(message = "The comment cannot be null!")
@@ -104,14 +101,11 @@ public class ReviewService {
                           @Positive(message = "The given ID cannot be less than zero!") long reviewId) {
         Review review = reviewRepository.findReviewByIdEquals(reviewId);
         validateReview(review);
+        validateForDeletedReview(review);
 
-        if (!review.isDeleted()) {
-            review.setDeleted(deleted);
-            reviewRepository.save(review);
-            return true;
-        }
-
-        throw new MethodNotAllowed("The current record has already been deleted!");
+        review.setDeleted(deleted);
+        reviewRepository.save(review);
+        return true;
     }
 
     private void validateReview(Review review) {
@@ -129,6 +123,12 @@ public class ReviewService {
     private void checkForSaveException(Review review) {
         if (review == null) {
             throw new RuntimeException("There was problem while saving the review in the database!");
+        }
+    }
+
+    private void validateForDeletedReview(Review review) {
+        if (review.isDeleted()) {
+            throw new MethodNotAllowed("The current record has already been deleted!");
         }
     }
 }
