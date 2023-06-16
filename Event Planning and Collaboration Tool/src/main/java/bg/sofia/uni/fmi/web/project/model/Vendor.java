@@ -38,6 +38,9 @@ public class Vendor {
     private String name;
 
     @Column(length = 255, nullable = false)
+    private String surname;
+
+    @Column(length = 255, nullable = false)
     private String address;
 
     @Column(length = 255, nullable = false, unique = true)
@@ -77,6 +80,7 @@ public class Vendor {
         if (o == null || getClass() != o.getClass()) return false;
         Vendor vendor = (Vendor) o;
         return Objects.equals(name, vendor.name) &&
+            Objects.equals(surname, vendor.surname) &&
             Objects.equals(address, vendor.address) &&
             Objects.equals(phoneNumber, vendor.phoneNumber) &&
             Objects.equals(email, vendor.email) &&
@@ -87,6 +91,6 @@ public class Vendor {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, phoneNumber, email, vendorType, createdBy, creationTime);
+        return Objects.hash(name, surname, address, phoneNumber, email, vendorType, createdBy, creationTime);
     }
 }

@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.web.project.controller;
 
+import bg.sofia.uni.fmi.web.project.dto.GuestDto;
 import bg.sofia.uni.fmi.web.project.dto.VendorDto;
 import bg.sofia.uni.fmi.web.project.enums.VendorType;
 import bg.sofia.uni.fmi.web.project.mapper.VendorMapper;
@@ -38,6 +39,7 @@ public class VendorController {
                          @NotEmpty(message = "The vendor type cannot be empty!")
                          @NotBlank(message = "The vendor type cannot be blank!")
                          String vendorType) {
+        System.out.println(vendorDto.getSurname());
         return vendorService.addVendor(mapper.toEntity(vendorDto), vendorType);
     }
 
@@ -82,6 +84,22 @@ public class VendorController {
                                                             String vendorType) {
         return ResponseEntity.ok(
             mapper.toDtoCollection(vendorService.getVendorsByVendorType(VendorType.valueOf(vendorType.toUpperCase()))));
+    }
+
+    @GetMapping(value = "/search", params = {"name", "surname"})
+    public ResponseEntity<List<VendorDto>> findByNameAndSurname(@Valid
+                                                               @RequestParam("name")
+                                                               @NotNull(message = "The given name cannot be null!")
+                                                               @NotEmpty(message = "The given name cannot be empty!")
+                                                               @NotBlank(message = "The given name cannot be blank!")
+                                                               String name,
+                                                               @Valid
+                                                               @RequestParam("surname")
+                                                               @NotNull(message = "The given surname cannot be null!")
+                                                               @NotEmpty(message = "The given surname cannot be empty!")
+                                                               @NotBlank(message = "The given surname cannot be blank!")
+                                                               String surname) {
+        return ResponseEntity.ok(mapper.toDtoCollection(vendorService.getVendorsByNameAndSurname(name, surname)));
     }
 
     @DeleteMapping(value = "/delete", params = {"deleted", "id"})

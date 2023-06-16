@@ -8,24 +8,30 @@ import org.springframework.stereotype.Component;
 public class EventMapper {
 
     public EventDto toDto(Event entity) {
-
-        return EventDto.builder()
-            .id(entity.getId())
-            .name(entity.getName())
-            .date(entity.getDate())
-            .location(entity.getLocation())
-            .description(entity.getDescription())
-            .build();
+        if (entity !=null) {
+            return EventDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .date(entity.getDate())
+                .location(entity.getLocation())
+                .description(entity.getDescription())
+                .build();
+        }
+        return null;
     }
 
     public Event toEntity(EventDto eventDto) {
 
-        return Event.builder()
-            .id(eventDto.getId())
-            .name(eventDto.getName())
-            .date(eventDto.getDate())
-            .location(eventDto.getLocation())
-            .description(eventDto.getDescription())
-            .build();
+        if (eventDto != null) {
+            return Event.builder()
+                .id(eventDto.getId())
+                .name(eventDto.getName())
+                .date(eventDto.getDate())
+                .location(eventDto.getLocation())
+                .description(eventDto.getDescription())
+                .build();
+        }
+
+        return null;
     }
 }

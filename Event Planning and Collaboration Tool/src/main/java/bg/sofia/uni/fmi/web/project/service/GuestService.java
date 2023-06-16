@@ -30,22 +30,6 @@ public class GuestService {
         return guest.getId();
     }
 
-//    private boolean validateForExistingGuestByNameAndSurname(Guest guest) {
-//        long foundGuests = guestRepository.findGuestByNameAndSurnameEquals(guest.getName(), guest.getSurname()).stream()
-//            .filter(g -> g.equals(guest))
-//            .count();
-//
-//        return foundGuests == 0;
-//    }
-//
-//    private boolean validateForExistingGuestByEventId(Guest guest) {
-//        long foundGuests = guestRepository.findGuestByEventIdEquals(guest.getEvent().getId()).stream()
-//            .filter(g -> g.equals(guest))
-//            .count();
-//
-//        return foundGuests == 0;
-//    }
-
     public List<Guest> getAllGuests() {
         List<Guest> guests = guestRepository.findAll().parallelStream()
             .filter(g -> !g.isDeleted())

@@ -5,6 +5,8 @@ import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.Task;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
+import bg.sofia.uni.fmi.web.project.validation.ConflictException;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -31,30 +34,57 @@ public class TaskEventParticipantFacadeService {
                         @NotEmpty(message = "The guest type cannot be empty!")
                         @NotBlank(message = "The guest type cannot be blank!")
                         String taskProgress) {
-//        if (!validateForExistingTaskByName(task) || !validateForExistingTaskByEventId(task)) {
-//            throw new ApiBadRequest("There is already a task with the same credentials");
-//        }
+        validateForExistingReview(taskToSave.getName(), eventId, participantId);
 
         TaskProgress newTaskProgress = TaskProgress.valueOf(taskProgress.toUpperCase());
         Event event = eventService.getEventById(eventId);
+        validateEvent(event);
 
-        Participant participant;
-        if (participantService.getParticipantById(participantId).isEmpty()) {
-             throw new ApiBadRequest("There was unexpected problem that occurred with getting participant!");
-        }
-
-        participant = participantService.getParticipantById(participantId).get();
+        Optional<Participant> participant = participantService.getParticipantById(participantId);
+        validateParticipant(participant);
 
         taskToSave.setTaskProgress(newTaskProgress);
         taskToSave.setAssociatedEvent(event);
-        taskToSave.setParticipant(participant);
+        taskToSave.setParticipant(participant.get());
         taskToSave.setCreatedBy("a");
         taskToSave.setCreationTime(LocalDateTime.now());
         taskToSave.setDeleted(false);
 
         event.getAssociatedTasks().add(taskToSave);
-        participant.getAssociatedTasks().add(taskToSave);
+        participant.get().getAssociatedTasks().add(taskToSave);
 
         return taskService.addTask(taskToSave);
+    }
+
+    private void validateEvent(Event event) {
+        if (event == null) {
+            throw new ResourceNotFoundException("There is no event with such id!");
+        }
+    }
+
+    private void validateParticipant(Optional<Participant> participant) {
+        if (participant.isEmpty()) {
+            throw new ApiBadRequest("There was unexpected problem that occurred with getting participant!");
+        }
+    }
+
+    private void validateForExistingReview(String name, long eventId, long participantId) {
+        if (!validateForExistingTaskByName(name) && !validateForExistingTaskByEventId(eventId) &&
+            !validateForExistingTaskByParticipantId(participantId)) {
+
+            throw new ConflictException("There is already such task in the database!");
+        }
+    }
+
+    private boolean validateForExistingTaskByName(String name) {
+        return taskService.getTasksByName(name).isEmpty();
+    }
+
+    private boolean validateForExistingTaskByEventId(long eventId) {
+        return taskService.getTasksByEventId(eventId).isEmpty();
+    }
+
+    private boolean validateForExistingTaskByParticipantId(long participantId) {
+        return taskService.getTasksByParticipantId(participantId).isEmpty();
     }
 }

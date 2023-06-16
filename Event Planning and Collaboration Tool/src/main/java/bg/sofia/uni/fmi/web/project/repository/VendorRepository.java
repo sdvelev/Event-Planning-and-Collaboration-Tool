@@ -1,10 +1,8 @@
 package bg.sofia.uni.fmi.web.project.repository;
 
 import bg.sofia.uni.fmi.web.project.enums.VendorType;
-import bg.sofia.uni.fmi.web.project.model.Contract;
 import bg.sofia.uni.fmi.web.project.model.Vendor;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,10 +17,7 @@ public interface VendorRepository extends JpaRepository<Vendor, Long> {
 
     List<Vendor> findAll();
 
-    List<Vendor> findVendorsByVendorTypeEquals(VendorType vendorType);
+    List<Vendor> findVendorsByNameAndSurnameEquals(String name, String surname);
 
-//    @Query("SELECT v FROM Vendor v WHERE ")
-//    List<Vendor> findVendorsByVendorContractEquals(Contract contract);
-////
-////    List<Vendor> findVendorsByVendorReviewEquals(Review review);
+    List<Vendor> findVendorsByVendorTypeEquals(VendorType vendorType);
 }

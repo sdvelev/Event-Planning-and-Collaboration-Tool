@@ -4,6 +4,8 @@ import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Guest;
+import bg.sofia.uni.fmi.web.project.validation.ConflictException;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -32,27 +34,44 @@ public class GuestEventFacadeService {
                          @NotEmpty(message = "The attendance type cannot be empty!")
                          @NotBlank(message = "The attendance type cannot be blank!")
                          String attendanceType) {
-//        if (!validateForExistingGuestByNameAndSurname(guestToSave) || !validateForExistingGuestByEventId(guestToSave)) {
-//            throw new ApiBadRequest("There is already a guest with the same credentials");
-//        }
+        validateForExistingGuest(guestToSave.getName(), guestToSave.getSurname(), eventId);
 
         GuestType newGuestType = GuestType.valueOf(guestType.toUpperCase());
         AttendanceType newAttendanceType = AttendanceType.valueOf(attendanceType.toUpperCase());
-        Event event = eventService.getEventById(eventId);
 
-//        if (event == null) {
-//            throw new ApiBadRequest("There is no such event with this ID!");
-//        }
+        Event event = eventService.getEventById(eventId);
+        validateEvent(event);
 
         guestToSave.setGuestType(newGuestType);
         guestToSave.setAttendanceType(newAttendanceType);
         guestToSave.setAssociatedEvent(event);
+
         guestToSave.setCreatedBy("a");
         guestToSave.setCreationTime(LocalDateTime.now());
         guestToSave.setDeleted(false);
 
-        //event.getAssociatedGuests().add(guestToSave);
+        event.getAssociatedGuests().add(guestToSave);
 
         return guestService.addGuest(guestToSave);
+    }
+
+    private void validateEvent(Event event) {
+        if (event == null) {
+            throw new ResourceNotFoundException("There is no event with such id!");
+        }
+    }
+
+    private void validateForExistingGuest(String name, String surname, long eventId) {
+        if (!validateForExistingGuestByNameAndSurname(name, surname) && !validateForExistingGuestByEventId(eventId)) {
+            throw new ConflictException("There is already such guest in the database!");
+        }
+    }
+
+    private boolean validateForExistingGuestByNameAndSurname(String name, String surname) {
+        return guestService.getGuestByNameAndSurname(name, surname).isEmpty();
+    }
+
+    private boolean validateForExistingGuestByEventId(long eventId) {
+        return guestService.getGuestByEventId(eventId).isEmpty();
     }
 }

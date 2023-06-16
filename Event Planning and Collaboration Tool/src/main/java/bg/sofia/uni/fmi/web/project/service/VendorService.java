@@ -1,9 +1,9 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.enums.VendorType;
-import bg.sofia.uni.fmi.web.project.model.Review;
 import bg.sofia.uni.fmi.web.project.model.Vendor;
 import bg.sofia.uni.fmi.web.project.repository.VendorRepository;
+import bg.sofia.uni.fmi.web.project.validation.ConflictException;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotBlank;
@@ -29,15 +29,15 @@ public class VendorService {
                           @NotEmpty(message = "The vendor type cannot be empty!")
                           @NotBlank(message = "The vendor type cannot be blank!")
                           String vendorType) {
-//        if (!validateForExistingGuestByNameAndSurname(guestToSave) || !validateForExistingGuestByEventId(guestToSave)) {
-//            throw new ApiBadRequest("There is already a guest with the same credentials");
-//        }
+        validateForExistingVendor(vendorToSave.getName(), vendorToSave.getSurname(), vendorToSave.getEmail());
 
         VendorType newVendorType = VendorType.valueOf(vendorType.toUpperCase());
         vendorToSave.setVendorType(newVendorType);
         vendorToSave.setCreatedBy("a");
         vendorToSave.setCreationTime(LocalDateTime.now());
         vendorToSave.setDeleted(false);
+
+        System.out.println(vendorToSave.getSurname());
 
         Vendor vendor = vendorRepository.save(vendorToSave);
         checkForSaveException(vendor);
@@ -85,6 +85,23 @@ public class VendorService {
         return vendor;
     }
 
+    public List<Vendor> getVendorsByNameAndSurname(@NotNull(message = "The given name cannot be null!")
+                                                   @NotEmpty(message = "The given name cannot be empty!")
+                                                   @NotBlank(message = "The given name cannot be blank!")
+                                                   String name,
+                                                   @NotNull(message = "The given surname cannot be null!")
+                                                   @NotEmpty(message = "The given surname cannot be empty!")
+                                                   @NotBlank(message = "The given surname cannot be blank!")
+                                                   String surname) {
+
+        List<Vendor> vendors = vendorRepository.findVendorsByNameAndSurnameEquals(name, surname).parallelStream()
+            .filter(g -> !g.isDeleted())
+            .toList();
+
+        validateVendorsList(vendors);
+        return vendors;
+    }
+
     public List<Vendor> getVendorsByVendorType(@NotNull(message = "The given vendor type cannot be null!")
                                                VendorType vendorType) {
         List<Vendor> vendors = vendorRepository.findVendorsByVendorTypeEquals(vendorType).parallelStream()
@@ -130,5 +147,19 @@ public class VendorService {
         if (vendor.isDeleted()) {
             throw new MethodNotAllowed("The current record has already been deleted!");
         }
+    }
+
+    private void validateForExistingVendor(String name, String surname, String email) {
+        if (!validateForExistingVendorByNameAndSurname(name, surname) && !validateForExistingVendorByEmail(email)) {
+            throw new ConflictException("There is already such vendor in the database!");
+        }
+    }
+
+    private boolean validateForExistingVendorByNameAndSurname(String name, String surname) {
+        return getVendorsByNameAndSurname(name, surname).isEmpty();
+    }
+
+    private boolean validateForExistingVendorByEmail(String email) {
+        return getVendorByEmail(email) == null;
     }
 }

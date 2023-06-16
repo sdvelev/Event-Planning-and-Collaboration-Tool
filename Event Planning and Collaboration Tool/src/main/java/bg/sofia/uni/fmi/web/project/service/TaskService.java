@@ -32,22 +32,6 @@ public class TaskService {
         return task.getId();
     }
 
-//    private boolean validateForExistingTaskByName(Task task) {
-//        long foundTasks = taskRepository.findTasksByNameEquals(task.getName()).stream()
-//            .filter(t -> t.equals(task))
-//            .count();
-//
-//        return foundTasks == 0;
-//    }
-//
-//    private boolean validateForExistingTaskByEventId(Task task) {
-//        long foundTasks = taskRepository.findTasksByEventIdIs(task.getEvent().getId()).stream()
-//            .filter(t -> t.equals(task))
-//            .count();
-//
-//        return foundTasks == 0;
-//    }
-
     public List<Task> getAllTasks() {
         List<Task> tasks = taskRepository.findAll().parallelStream()
             .filter(t -> !t.isDeleted())

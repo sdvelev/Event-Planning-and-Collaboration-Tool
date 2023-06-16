@@ -29,6 +29,12 @@ public class VendorDto {
     @NotBlank(message = "The name cannot be blank!")
     private String name;
 
+    @JsonProperty("surname")
+    @NotNull(message = "The surname cannot be null!")
+    @NotEmpty(message = "The surname cannot be empty!")
+    @NotBlank(message = "The surname cannot be blank!")
+    private String surname;
+
     @JsonProperty("address")
     @NotNull(message = "The address cannot be null!")
     @NotEmpty(message = "The address cannot be empty!")

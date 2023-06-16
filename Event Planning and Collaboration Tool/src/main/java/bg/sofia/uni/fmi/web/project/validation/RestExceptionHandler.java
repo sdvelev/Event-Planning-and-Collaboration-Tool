@@ -25,6 +25,11 @@ public class RestExceptionHandler {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(exception.getMessage());
     }
 
+    @ExceptionHandler({ ConflictException.class })
+    public ResponseEntity<?> handleConflictException(ConflictException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    }
+
     @ExceptionHandler({ MethodArgumentNotValidException.class })
     public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {
         return ResponseEntity.badRequest().body(exception.getMessage());

@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @Service
 @Validated
 public class ParticipantService {
-
     private final ParticipantRepository participantRepository;
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
@@ -51,8 +50,8 @@ public class ParticipantService {
         Optional<Event> potentialEventToAssociate = eventRepository.findById(eventIdToAssociate);
 
         if (potentialUserToAssociate.isPresent() && !potentialUserToAssociate.get().isDeleted() &&
-        potentialEventToAssociate.isPresent() && !potentialEventToAssociate.get().isDeleted()) {
-            participantToSave.setAssociatedUser(potentialUserToAssociate.get());;
+            potentialEventToAssociate.isPresent() && !potentialEventToAssociate.get().isDeleted()) {
+            participantToSave.setAssociatedUser(potentialUserToAssociate.get());
             participantToSave.setAssociatedEvent(potentialEventToAssociate.get());
             participantToSave.setCreatedBy(potentialUserToAssociate.get().getEmail());
             participantToSave.setCreationTime(LocalDateTime.now());
@@ -92,7 +91,7 @@ public class ParticipantService {
         @Positive(message = "Id must be positive.")
         Long id) {
 
-        Optional<Participant> potentialParticipant  = this.getParticipantById(id);
+        Optional<Participant> potentialParticipant = this.getParticipantById(id);
 
         if (potentialParticipant.isPresent()) {
             return potentialParticipant.get().getUserRole();
@@ -106,7 +105,8 @@ public class ParticipantService {
         @Positive(message = "Id must be positive.")
         Long id) {
 
-        Optional<Participant> optionalParticipant = this.getParticipantById(id);;
+        Optional<Participant> optionalParticipant = this.getParticipantById(id);
+        ;
 
         if (optionalParticipant.isPresent()) {
             return optionalParticipant.get().getAssociatedUser();
