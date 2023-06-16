@@ -53,7 +53,7 @@ public class ParticipantController {
             .collect(Collectors.toList());
     }
 
-    @GetMapping("/search")
+    @GetMapping(value = "/search", params = {"id"})
     public ParticipantDto getParticipantById(@RequestParam("id") Long id)  {
 
         Optional<Participant> potentialParticipant = participantService.getParticipantById(id);
@@ -65,7 +65,7 @@ public class ParticipantController {
         return null;
     }
 
-    @PostMapping
+    @PostMapping(params = {"assigned_user_id", "assigned_event_id"})
     public Long addParticipant(@Valid @NotNull @RequestBody ParticipantDto participantDto,
                                @Valid @NotNull @RequestParam("assigned_user_id") Long assignedUserId,
                                @Valid @NotNull @RequestParam("assigned_event_id") Long assignedEventId) {
@@ -83,12 +83,12 @@ public class ParticipantController {
         return -1L;
     }
 
-    @DeleteMapping
+    @DeleteMapping(params = {"id"})
     public boolean removeParticipantById(@RequestParam("id") Long participantId) {
         return participantService.deleteParticipant(participantId);
     }
 
-    @PatchMapping("/role")
+    @PatchMapping(value = "/role", params = {"participant_id", "user_role"})
     public boolean setUserRoleByParticipantId(@RequestParam("participant_id") Long participantId,
                                               @RequestParam("user_role") UserRole userRole) {
         //TODO: This method is similar to the desired functionality of managing user roles. However, user
@@ -96,7 +96,7 @@ public class ParticipantController {
         return participantService.setUserRoleByParticipantId(participantId, userRole);
     }
 
-    @PutMapping("/set")
+    @PutMapping(value = "/set", params = {"participant_id"})
     public boolean setParticipantByParticipantId(@RequestParam("participant_id")
                                    @NotNull(message = "Participant id cannot be null")
                                    @Positive(message = "Participant id must be positive")

@@ -52,7 +52,7 @@ public class ExpenseController {
             .collect(Collectors.toList());
     }
 
-    @GetMapping("/search")
+    @GetMapping(value = "/search", params = {"id"})
     public ExpenseDto getExpenseById(@RequestParam("id") Long id)  {
 
         Optional<Expense> potentialExpense = expenseService.getExpenseById(id);
@@ -64,31 +64,31 @@ public class ExpenseController {
         return null;
     }
 
-    @GetMapping("/expenditure_category")
+    @GetMapping(value = "/expenditure_category", params = {"id"})
     public ExpenditureCategory getExpenseExpenditureCategoryById(@RequestParam("id") Long id)  {
 
         return expenseService.getExpenditureCategoryByExpenseId(id);
     }
 
-    @GetMapping("/description")
+    @GetMapping(value = "/description", params = {"id"})
     public String getDescriptionById(@RequestParam("id") Long id)  {
 
         return expenseService.getDescriptionByExpenseId(id);
     }
 
-    @GetMapping("/amount")
+    @GetMapping(value = "/amount", params = {"id"})
     public BigDecimal getExpenseAmountById(@RequestParam("id") Long id)  {
 
         return expenseService.getAmountByExpenseId(id);
     }
 
-    @GetMapping("/event")
+    @GetMapping(value = "/event", params = {"id"})
     public EventDto getExpenseEventById(@RequestParam("id") Long id)  {
 
         return EventMapper.INSTANCE.toDto(expenseService.getEventByExpenseId(id));
     }
 
-    @PostMapping
+    @PostMapping(params = {"assigned_event_id"})
     public Long addExpense(@Valid @NotNull @RequestBody ExpenseDto expenseDto,
                           @Valid @NotNull @RequestParam("assigned_event_id") Long assignedEventId) {
         Expense potentialExpenseToCreate = expenseEventFacadeService
@@ -101,12 +101,12 @@ public class ExpenseController {
         return -1L;
     }
 
-    @DeleteMapping
+    @DeleteMapping(params = {"id"})
     public boolean removeExpenseById(@RequestParam("id") Long expenseId) {
         return expenseService.deleteExpense(expenseId);
     }
 
-    @PutMapping("/set")
+    @PutMapping(value = "/set", params = {"expense_id"})
     public boolean setExpenseByExpenseId(@RequestParam("expense_id")
                                        @NotNull(message = "Expense id cannot be null")
                                        @Positive(message = "Expense id must be positive")

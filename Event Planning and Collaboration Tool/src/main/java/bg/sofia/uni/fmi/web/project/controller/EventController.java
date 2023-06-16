@@ -69,7 +69,7 @@ public class EventController {
         return -1L;
     }
 
-    @DeleteMapping
+    @DeleteMapping(params = {"event_id"})
     public boolean removeEventById(@RequestParam("event_id")
                                        @NotNull(message = "Event id cannot be null")
                                        @Positive(message = "Event id must be positive")
@@ -157,7 +157,7 @@ public class EventController {
             potentialEventsToReturn.stream().map(eventMapper::toDto).collect(Collectors.toList()));
     }
 
-    @PutMapping("/set")
+    @PutMapping(value = "/set", params = {"event_id"})
     public boolean setEventByEventId(@RequestParam("event_id")
                                             @NotNull(message = "Event id cannot be null")
                                             @Positive(message = "Event id must be positive")

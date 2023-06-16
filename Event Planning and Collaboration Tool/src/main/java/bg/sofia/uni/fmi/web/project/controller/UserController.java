@@ -63,7 +63,7 @@ public class UserController {
         return -1L;
     }
 
-    @DeleteMapping
+    @DeleteMapping(params = {"username", "password"})
     public boolean removeUser(
         @NotNull(message = "Username cannot be null")
         @NotBlank(message = "Username cannot be blank")
@@ -126,7 +126,7 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toDto(potentialUserToReturn));
     }
 
-    @PutMapping("/set")
+    @PutMapping(value = "/set", params = {"user_id"})
     public boolean setUserByUserId(@RequestParam("user_id")
                                         @NotNull(message = "User id cannot be null")
                                         @Positive(message = "User id must be positive")
