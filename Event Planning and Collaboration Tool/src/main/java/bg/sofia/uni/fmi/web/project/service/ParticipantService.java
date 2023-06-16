@@ -71,7 +71,7 @@ public class ParticipantService {
             return potentialParticipant.get().getUserRole();
         }
 
-        return null;
+        throw new ResourceNotFoundException("Participant with such an id cannot be found");
     }
 
     public User getUserByParticipantId(
@@ -97,7 +97,7 @@ public class ParticipantService {
         if (optionalParticipant.isPresent() && !optionalParticipant.get().isDeleted()) {
             return optionalParticipant.get().getAssociatedEvent();
         }
-        return null;
+        throw new ResourceNotFoundException("Participant with such an id cannot be found");
     }
 
     public boolean setUserRoleByParticipantId(

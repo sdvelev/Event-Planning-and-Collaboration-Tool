@@ -8,6 +8,8 @@ import bg.sofia.uni.fmi.web.project.mapper.ExpenseMapper;
 import bg.sofia.uni.fmi.web.project.model.Expense;
 import bg.sofia.uni.fmi.web.project.service.ExpenseEventFacadeService;
 import bg.sofia.uni.fmi.web.project.service.ExpenseService;
+import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -61,7 +63,7 @@ public class ExpenseController {
             return expenseMapper.toDto(potentialExpense.get());
         }
 
-        return null;
+        throw new ResourceNotFoundException("Expense with such an id cannot be found");
     }
 
     @GetMapping(value = "/expenditure_category", params = {"id"})
@@ -113,7 +115,7 @@ public class ExpenseController {
             return potentialExpenseToCreate.getId();
         }
 
-        return -1L;
+        throw new ApiBadRequest("There was a problem in creating an expense");
     }
 
     @DeleteMapping(params = {"id"})

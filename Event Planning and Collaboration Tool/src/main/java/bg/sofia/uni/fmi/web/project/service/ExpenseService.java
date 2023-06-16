@@ -68,7 +68,7 @@ public class ExpenseService {
         if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
             return optionalExpense.get().getDescription();
         }
-        return null;
+        throw new ResourceNotFoundException("Expense with such an id cannot be found");
     }
 
     public ExpenditureCategory getExpenditureCategoryByExpenseId(
@@ -80,7 +80,7 @@ public class ExpenseService {
         if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
             return optionalExpense.get().getExpenditureCategory();
         }
-        return null;
+        throw new ResourceNotFoundException("Expense with such an id cannot be found");
     }
 
     public BigDecimal getAmountByExpenseId(
@@ -92,7 +92,7 @@ public class ExpenseService {
         if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
             return optionalExpense.get().getAmount();
         }
-        return null;
+        throw new ResourceNotFoundException("Expense with such an id cannot be found");
     }
 
     public Event getEventByExpenseId(
@@ -104,7 +104,7 @@ public class ExpenseService {
         if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
             return optionalExpense.get().getAssociatedEvent();
         }
-        return null;
+        throw new ResourceNotFoundException("Expense with such an id cannot be found");
     }
 
     public boolean setExpenseById(

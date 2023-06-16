@@ -6,6 +6,8 @@ import bg.sofia.uni.fmi.web.project.mapper.ParticipantMapper;
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.service.ParticipantService;
 import bg.sofia.uni.fmi.web.project.service.ParticipantUserEventFacadeService;
+import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -61,7 +63,7 @@ public class ParticipantController {
             return participantMapper.toDto(potentialParticipant.get());
         }
 
-        return null;
+        throw new ResourceNotFoundException("Participant with such an id cannot be found");
     }
 
     @PostMapping(params = {"assigned_user_id", "assigned_event_id"})
@@ -84,7 +86,7 @@ public class ParticipantController {
             return potentialParticipantToCreate.getId();
         }
 
-        return -1L;
+        throw new ApiBadRequest("There was a problem in creating a participant");
     }
 
     @DeleteMapping(params = {"id"})

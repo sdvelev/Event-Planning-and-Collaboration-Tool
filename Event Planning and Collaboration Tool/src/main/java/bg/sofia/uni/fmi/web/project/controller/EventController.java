@@ -5,6 +5,7 @@ import bg.sofia.uni.fmi.web.project.mapper.EventMapper;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.service.EventParticipantBudgetExpenseFacadeService;
 import bg.sofia.uni.fmi.web.project.service.EventService;
+import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -64,7 +65,7 @@ public class EventController {
             return potentialEventToCreate.getId();
         }
 
-        return -1L;
+        throw new ApiBadRequest("There was a problem in creating an event");
     }
 
     @DeleteMapping(params = {"event_id"})

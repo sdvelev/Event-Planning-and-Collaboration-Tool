@@ -8,6 +8,8 @@ import bg.sofia.uni.fmi.web.project.mapper.EventMapper;
 import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.service.BudgetEventFacadeService;
 import bg.sofia.uni.fmi.web.project.service.BudgetService;
+import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.MethodNotAllowedException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -61,7 +64,7 @@ public class BudgetController {
             return budgetMapper.toDto(potentialBudget.get());
         }
 
-        return null;
+        throw new ResourceNotFoundException("Budget with such an id cannot be found");
     }
 
     @GetMapping(value = "/description", params = {"id"})
@@ -114,7 +117,7 @@ public class BudgetController {
             return potentialBudgetToCreate.getId();
         }
 
-        return -1L;
+        throw new ApiBadRequest("There was a problem in creating a budget");
     }
 
     @DeleteMapping(params = {"id"})

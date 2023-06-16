@@ -66,7 +66,8 @@ public class BudgetService {
         if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
             return optionalBudget.get().getDescription();
         }
-        return null;
+
+        throw new ResourceNotFoundException("Budget with such an id cannot be found");
     }
 
     public ExpenditureCategory getExpenditureCategoryByBudgetId(
@@ -78,7 +79,7 @@ public class BudgetService {
         if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
             return optionalBudget.get().getExpenditureCategory();
         }
-        return null;
+        throw new ResourceNotFoundException("Budget with such an id cannot be found");
     }
 
     public BigDecimal getAmountByBudgetId(
@@ -90,7 +91,7 @@ public class BudgetService {
         if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
             return optionalBudget.get().getAmount();
         }
-        return null;
+        throw new ResourceNotFoundException("Budget with such an id cannot be found");
     }
 
     public Event getEventByBudgetId(
@@ -102,7 +103,7 @@ public class BudgetService {
         if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
             return optionalBudget.get().getAssociatedEvent();
         }
-        return null;
+        throw new ResourceNotFoundException("Budget with such an id cannot be found");
     }
 
     public boolean setBudgetById(

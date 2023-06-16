@@ -5,6 +5,7 @@ import bg.sofia.uni.fmi.web.project.mapper.UserMapper;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.service.UserParticipantFacadeService;
 import bg.sofia.uni.fmi.web.project.service.UserService;
+import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -58,7 +59,7 @@ public class UserController {
             return potentialUserToCreate.getId();
         }
 
-        return -1L;
+        throw new ApiBadRequest("There was a problem in creating a user");
     }
 
     @DeleteMapping(params = {"username", "password"})
