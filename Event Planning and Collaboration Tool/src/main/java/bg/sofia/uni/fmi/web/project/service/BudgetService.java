@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Validated
 public class BudgetService {
     private final BudgetRepository budgetRepository;
 
@@ -27,7 +29,7 @@ public class BudgetService {
     }
 
     public Budget createBudget(
-        @NotNull(message = "Expense cannot be null")
+        @NotNull(message = "The provided expense cannot be null")
         Budget budgetToSave) {
         budgetToSave.setCreationTime(LocalDateTime.now());
         budgetToSave.setDeleted(false);
@@ -43,8 +45,8 @@ public class BudgetService {
     }
 
     public Optional<Budget> getBudgetById(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided budget id cannot be null")
+        @Positive(message = "The provided budget id must be positive")
         Long id) {
         Optional<Budget> potentialBudgetToReturn = budgetRepository.findById(id);
 
@@ -55,7 +57,10 @@ public class BudgetService {
         throw new ResourceNotFoundException("Budget with such an id cannot be found");
     }
 
-    public String getDescriptionByBudgetId(Long id) {
+    public String getDescriptionByBudgetId(
+        @NotNull(message = "The provided budget id cannot be null")
+        @Positive(message = "The provided budget id must be positive")
+        Long id) {
         Optional<Budget> optionalBudget = this.getBudgetById(id);
 
         if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
@@ -64,7 +69,10 @@ public class BudgetService {
         return null;
     }
 
-    public ExpenditureCategory getExpenditureCategoryByBudgetId(Long id) {
+    public ExpenditureCategory getExpenditureCategoryByBudgetId(
+        @NotNull(message = "The provided budget id cannot be null")
+        @Positive(message = "The provided budget id must be positive")
+        Long id) {
         Optional<Budget> optionalBudget = this.getBudgetById(id);
 
         if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
@@ -73,7 +81,10 @@ public class BudgetService {
         return null;
     }
 
-    public BigDecimal getAmountByBudgetId(Long id) {
+    public BigDecimal getAmountByBudgetId(
+        @NotNull(message = "The provided budget id cannot be null")
+        @Positive(message = "The provided budget id must be positive")
+        Long id) {
         Optional<Budget> optionalBudget = this.getBudgetById(id);
 
         if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
@@ -82,7 +93,10 @@ public class BudgetService {
         return null;
     }
 
-    public Event getEventByBudgetId(Long id) {
+    public Event getEventByBudgetId(
+        @NotNull(message = "The provided budget id cannot be null")
+        @Positive(message = "The provided budget id must be positive")
+        Long id) {
         Optional<Budget> optionalBudget = this.getBudgetById(id);
 
         if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
@@ -92,10 +106,10 @@ public class BudgetService {
     }
 
     public boolean setBudgetById(
-        @NotNull(message = "Budget record cannot be null")
+        @NotNull(message = "The provided budget dto cannot be null")
         BudgetDto budgetFieldsToChange,
-        @NotNull(message = "Budget id cannot be null")
-        @Positive(message = "Budget id must be positive")
+        @NotNull(message = "The provided budget id cannot be null")
+        @Positive(message = "The provided budget id must be positive")
         Long budgetId) {
 
         Optional<Budget> optionalBudgetToUpdate = budgetRepository.findById(budgetId);
@@ -113,8 +127,8 @@ public class BudgetService {
     }
 
     public boolean deleteBudget(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided budget id cannot be null")
+        @Positive(message = "The provided budget id must be positive")
         Long budgetId) {
 
         Optional<Budget> optionalBudgetToDelete = budgetRepository.findById(budgetId);
@@ -129,7 +143,11 @@ public class BudgetService {
         throw new ResourceNotFoundException("There is not a budget with such an id");
     }
 
-    private Budget setBudgetNonNullFields(BudgetDto budgetFieldsToChange, Budget budgetToUpdate) {
+    private Budget setBudgetNonNullFields(
+        @NotNull(message = "The provided budget dto cannot be null")
+        BudgetDto budgetFieldsToChange,
+        @NotNull(message = "The provided budget cannot be null")
+        Budget budgetToUpdate) {
 
         if (budgetFieldsToChange.getDescription() != null) {
             budgetToUpdate.setDescription(budgetFieldsToChange.getDescription());

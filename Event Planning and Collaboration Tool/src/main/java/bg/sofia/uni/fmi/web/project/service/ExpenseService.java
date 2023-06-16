@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Validated
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
@@ -28,7 +30,7 @@ public class ExpenseService {
     }
 
     public Expense createExpense(
-        @NotNull(message = "Expense cannot be null")
+        @NotNull(message = "The provided expense cannot be null")
         Expense expenseToSave) {
         expenseToSave.setCreationTime(LocalDateTime.now());
         expenseToSave.setDeleted(false);
@@ -44,8 +46,8 @@ public class ExpenseService {
     }
 
     public Optional<Expense> getExpenseById(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided expense id cannot be null")
+        @Positive(message = "The provided expense id must be positive")
         Long id) {
 
         Optional<Expense> potentialExpenseToReturn = expenseRepository.findById(id);
@@ -57,7 +59,10 @@ public class ExpenseService {
         throw new ResourceNotFoundException("Expense with such an id cannot be found");
     }
 
-    public String getDescriptionByExpenseId(Long id) {
+    public String getDescriptionByExpenseId(
+        @NotNull(message = "The provided expense id cannot be null")
+        @Positive(message = "The provided expense id must be positive")
+        Long id) {
         Optional<Expense> optionalExpense = this.getExpenseById(id);
 
         if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
@@ -66,7 +71,10 @@ public class ExpenseService {
         return null;
     }
 
-    public ExpenditureCategory getExpenditureCategoryByExpenseId(Long id) {
+    public ExpenditureCategory getExpenditureCategoryByExpenseId(
+        @NotNull(message = "The provided expense id cannot be null")
+        @Positive(message = "The provided expense id must be positive")
+        Long id) {
         Optional<Expense> optionalExpense = this.getExpenseById(id);
 
         if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
@@ -75,7 +83,10 @@ public class ExpenseService {
         return null;
     }
 
-    public BigDecimal getAmountByExpenseId(Long id) {
+    public BigDecimal getAmountByExpenseId(
+        @NotNull(message = "The provided expense id cannot be null")
+        @Positive(message = "The provided expense id must be positive")
+        Long id) {
         Optional<Expense> optionalExpense = this.getExpenseById(id);
 
         if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
@@ -84,7 +95,10 @@ public class ExpenseService {
         return null;
     }
 
-    public Event getEventByExpenseId(Long id) {
+    public Event getEventByExpenseId(
+        @NotNull(message = "The provided expense id cannot be null")
+        @Positive(message = "The provided expense id must be positive")
+        Long id) {
         Optional<Expense> optionalExpense = this.getExpenseById(id);
 
         if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
@@ -94,10 +108,10 @@ public class ExpenseService {
     }
 
     public boolean setExpenseById(
-        @NotNull(message = "Expense record cannot be null")
+        @NotNull(message = "The provided expense dto cannot be null")
         ExpenseDto expenseFieldsToChange,
-        @NotNull(message = "Expense id cannot be null")
-        @Positive(message = "Expense id must be positive")
+        @NotNull(message = "The provided expense id cannot be null")
+        @Positive(message = "The provided expense id must be positive")
         Long expenseId) {
 
         Optional<Expense> optionalExpenseToUpdate = expenseRepository.findById(expenseId);
@@ -115,8 +129,8 @@ public class ExpenseService {
     }
 
     public boolean deleteExpense(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided expense id cannot be null")
+        @Positive(message = "The provided expense id must be positive")
         Long expenseById) {
 
         Optional<Expense> optionalExpenseToDelete = expenseRepository.findById(expenseById);
@@ -132,7 +146,11 @@ public class ExpenseService {
         throw new ResourceNotFoundException("There is not an expense with such an id");
     }
 
-    private Expense setExpenseNonNullFields(ExpenseDto expenseFieldsToChange, Expense expenseToUpdate) {
+    private Expense setExpenseNonNullFields(
+        @NotNull(message = "The provided expense dto cannot be null")
+        ExpenseDto expenseFieldsToChange,
+        @NotNull(message = "The provided expense cannot be null")
+        Expense expenseToUpdate) {
 
         if (expenseFieldsToChange.getDescription() != null) {
             expenseToUpdate.setDescription(expenseFieldsToChange.getDescription());

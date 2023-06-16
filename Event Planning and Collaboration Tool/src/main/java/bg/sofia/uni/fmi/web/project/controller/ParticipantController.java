@@ -54,7 +54,10 @@ public class ParticipantController {
     }
 
     @GetMapping(value = "/search", params = {"id"})
-    public ParticipantDto getParticipantById(@RequestParam("id") Long id)  {
+    public ParticipantDto getParticipantById(@RequestParam("id")
+                                                 @NotNull(message = "The provided participant id cannot be null")
+                                                 @Positive(message = "The provided participant id must be positive")
+                                                 Long id)  {
 
         Optional<Participant> potentialParticipant = participantService.getParticipantById(id);
 
@@ -66,9 +69,14 @@ public class ParticipantController {
     }
 
     @PostMapping(params = {"assigned_user_id", "assigned_event_id"})
-    public Long addParticipant(@Valid @NotNull @RequestBody ParticipantDto participantDto,
-                               @Valid @NotNull @RequestParam("assigned_user_id") Long assignedUserId,
-                               @Valid @NotNull @RequestParam("assigned_event_id") Long assignedEventId) {
+    public Long addParticipant(@NotNull(message = "The provided participant dto as body of the query cannot be null")
+                               @RequestBody ParticipantDto participantDto,
+                               @NotNull(message = "The provided assigned user id id cannot be null")
+                               @Positive(message = "The provided assigned user id must be positive")
+                               @RequestParam("assigned_user_id") Long assignedUserId,
+                               @NotNull(message = "The provided assigned event id cannot be null")
+                               @Positive(message = "The provided assigned event id must be positive")
+                               @RequestParam("assigned_event_id") Long assignedEventId) {
 
         //TODO: This method will be similar to the "invite collaborator" method. However, we will use
         //      authorization to get the user id. Moreover, confirmation by email might be required
@@ -84,13 +92,21 @@ public class ParticipantController {
     }
 
     @DeleteMapping(params = {"id"})
-    public boolean removeParticipantById(@RequestParam("id") Long participantId) {
+    public boolean removeParticipantById(@RequestParam("id")
+                                         @NotNull(message = "The provided participant id cannot be null")
+                                         @Positive(message = "The provided participant id must be positive")
+                                         Long participantId) {
         return participantService.deleteParticipant(participantId);
     }
 
     @PatchMapping(value = "/role", params = {"participant_id", "user_role"})
-    public boolean setUserRoleByParticipantId(@RequestParam("participant_id") Long participantId,
-                                              @RequestParam("user_role") UserRole userRole) {
+    public boolean setUserRoleByParticipantId(@RequestParam("participant_id")
+                                              @NotNull(message = "The provided participant id cannot be null")
+                                              @Positive(message = "The provided participant id must be positive")
+                                              Long participantId,
+                                              @RequestParam("user_role")
+                                              @NotNull(message = "The provided user role cannot be null")
+                                              UserRole userRole) {
         //TODO: This method is similar to the desired functionality of managing user roles. However, user
         //      authorization will be used so that we can check if user has the right to change someone's role
         return participantService.setUserRoleByParticipantId(participantId, userRole);
@@ -98,11 +114,11 @@ public class ParticipantController {
 
     @PutMapping(value = "/set", params = {"participant_id"})
     public boolean setParticipantByParticipantId(@RequestParam("participant_id")
-                                   @NotNull(message = "Participant id cannot be null")
-                                   @Positive(message = "Participant id must be positive")
+                                   @NotNull(message = "The provided participant id cannot be null")
+                                   @Positive(message = "The provided participant id must be positive")
                                    Long participantId,
                                    @RequestBody
-                                   @NotNull(message = "Participant record cannot be null")
+                                   @NotNull(message = "The provided participant dto as body of the query cannot be null")
                                    ParticipantDto participantToUpdate) {
         //TODO: Authorization in order to update event
         return participantService.setParticipantById(participantToUpdate, participantId);

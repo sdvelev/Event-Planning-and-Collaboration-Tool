@@ -53,7 +53,10 @@ public class ExpenseController {
     }
 
     @GetMapping(value = "/search", params = {"id"})
-    public ExpenseDto getExpenseById(@RequestParam("id") Long id)  {
+    public ExpenseDto getExpenseById(@RequestParam("id")
+                                     @NotNull(message = "The provided expense id cannot be null")
+                                     @Positive(message = "The provided expense id must be positive")
+                                     Long id)  {
 
         Optional<Expense> potentialExpense = expenseService.getExpenseById(id);
 
@@ -65,32 +68,47 @@ public class ExpenseController {
     }
 
     @GetMapping(value = "/expenditure_category", params = {"id"})
-    public ExpenditureCategory getExpenseExpenditureCategoryById(@RequestParam("id") Long id)  {
+    public ExpenditureCategory getExpenseExpenditureCategoryById(@RequestParam("id")
+                                                                 @NotNull(message = "The provided expense id cannot be null")
+                                                                 @Positive(message = "The provided expense id must be positive")
+                                                                 Long id)  {
 
         return expenseService.getExpenditureCategoryByExpenseId(id);
     }
 
     @GetMapping(value = "/description", params = {"id"})
-    public String getDescriptionById(@RequestParam("id") Long id)  {
+    public String getDescriptionById(@RequestParam("id")
+                                         @NotNull(message = "The provided expense id cannot be null")
+                                         @Positive(message = "The provided expense id must be positive")
+                                         Long id)  {
 
         return expenseService.getDescriptionByExpenseId(id);
     }
 
     @GetMapping(value = "/amount", params = {"id"})
-    public BigDecimal getExpenseAmountById(@RequestParam("id") Long id)  {
+    public BigDecimal getExpenseAmountById(@RequestParam("id")
+                                           @NotNull(message = "The provided expense id cannot be null")
+                                           @Positive(message = "The provided expense id must be positive")
+                                           Long id)  {
 
         return expenseService.getAmountByExpenseId(id);
     }
 
     @GetMapping(value = "/event", params = {"id"})
-    public EventDto getExpenseEventById(@RequestParam("id") Long id)  {
+    public EventDto getExpenseEventById(@RequestParam("id")
+                                        @NotNull(message = "The provided expense id cannot be null")
+                                        @Positive(message = "The provided expense id must be positive")
+                                        Long id)  {
 
         return EventMapper.INSTANCE.toDto(expenseService.getEventByExpenseId(id));
     }
 
     @PostMapping(params = {"assigned_event_id"})
-    public Long addExpense(@Valid @NotNull @RequestBody ExpenseDto expenseDto,
-                          @Valid @NotNull @RequestParam("assigned_event_id") Long assignedEventId) {
+    public Long addExpense(@NotNull(message = "The provided expense dto as body of the query cannot be null")
+                               @RequestBody ExpenseDto expenseDto,
+                           @NotNull(message = "The provided assigned event id cannot be null")
+                           @Positive(message = "The provided assigned event id must be positive")
+                           @RequestParam("assigned_event_id") Long assignedEventId) {
         Expense potentialExpenseToCreate = expenseEventFacadeService
             .createExpenseWithEvent(expenseMapper.toEntity(expenseDto), assignedEventId);
 
@@ -102,17 +120,20 @@ public class ExpenseController {
     }
 
     @DeleteMapping(params = {"id"})
-    public boolean removeExpenseById(@RequestParam("id") Long expenseId) {
+    public boolean removeExpenseById(@RequestParam("id")
+                                         @NotNull(message = "The provided expense id cannot be null")
+                                         @Positive(message = "The provided expense id must be positive")
+                                         Long expenseId) {
         return expenseService.deleteExpense(expenseId);
     }
 
     @PutMapping(value = "/set", params = {"expense_id"})
     public boolean setExpenseByExpenseId(@RequestParam("expense_id")
-                                       @NotNull(message = "Expense id cannot be null")
-                                       @Positive(message = "Expense id must be positive")
+                                       @NotNull(message = "The provided expense id cannot be null")
+                                       @Positive(message = "The provided expense id must be positive")
                                        Long expenseId,
                                        @RequestBody
-                                       @NotNull(message = "Expense record cannot be null")
+                                       @NotNull(message = "The provided expense dto as body of the query cannot be null")
                                        ExpenseDto expenseToUpdate) {
         //TODO: Authorization in order to update expense
         return expenseService.setExpenseById(expenseToUpdate, expenseId);

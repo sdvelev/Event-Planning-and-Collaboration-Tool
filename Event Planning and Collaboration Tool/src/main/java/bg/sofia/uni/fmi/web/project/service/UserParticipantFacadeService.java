@@ -7,9 +7,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 
 @Service
+@Validated
 public class UserParticipantFacadeService {
     private final UserService userService;
     private final ParticipantService participantService;
@@ -22,11 +24,11 @@ public class UserParticipantFacadeService {
 
     @Transactional
     public boolean deleteUserWithParticipants(
-        @NotNull(message = "Username cannot be null")
-        @NotBlank(message = "Username cannot be empty or blank")
+        @NotNull(message = "The provided username cannot be null")
+        @NotBlank(message = "The provided username cannot be empty or blank")
         String username,
-        @NotNull(message = "Password cannot be null")
-        @NotBlank(message = "Password cannot be empty or blank")
+        @NotNull(message = "The provided password cannot be null")
+        @NotBlank(message = "The provided password cannot be empty or blank")
         String password) {
 
         User userToDelete = userService.deleteUser(username, password);

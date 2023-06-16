@@ -54,7 +54,8 @@ public class EventController {
     }
 
     @PostMapping
-    public Long addEvent(@NotNull(message = "EventDto cannot be null") @RequestBody EventDto eventDto) {
+    public Long addEvent(@NotNull(message = "The provided event dto as body of the query cannot be null")
+                             @RequestBody EventDto eventDto) {
 
         //TODO: Only if authorized, user will be able to create an event.
         //      For now, everybody can create events and createdBy field will not be filled
@@ -71,17 +72,16 @@ public class EventController {
 
     @DeleteMapping(params = {"event_id"})
     public boolean removeEventById(@RequestParam("event_id")
-                                       @NotNull(message = "Event id cannot be null")
-                                       @Positive(message = "Event id must be positive")
+                                       @NotNull(message = "The provided event id cannot be null")
+                                       @Positive(message = "The provided event id must be positive")
                                        Long eventId) {
         return eventParticipantBudgetExpenseFacadeService.deleteEventWithParticipants(eventId);
     }
 
     @GetMapping(value = "/search", params = {"id"})
     public ResponseEntity<EventDto> searchEventById(
-        @Valid
-        @NotNull(message = "EventID cannot be null")
-        @Positive(message = "EventID must be positive")
+        @NotNull(message = "The provided event id cannot be null")
+        @Positive(message = "The provided event id must be positive")
         @RequestParam("id") Long id) {
         Optional<Event> optionalEventToReturn = eventService.getEventById(id);
 
@@ -90,9 +90,8 @@ public class EventController {
 
     @GetMapping(value = "/search", params = {"name"})
     public ResponseEntity<List<EventDto>> searchEventByName(
-        @Valid
-        @NotNull(message = "Event name cannot be null")
-        @NotBlank(message = "Event name cannot be blank")
+        @NotNull(message = "The provided event name cannot be null")
+        @NotBlank(message = "The provided event name cannot be blank")
         @RequestParam("name") String eventName) {
 
         List<Event> potentialEventsToReturn = eventService.getEventsByName(eventName);
@@ -107,8 +106,7 @@ public class EventController {
 
     @GetMapping(value = "/search", params = {"date"})
     public ResponseEntity<List<EventDto>> searchEventByDate(
-        @Valid
-        @NotNull(message = "Event date cannot be null")
+        @NotNull(message = "The provided event date cannot be null")
         @RequestParam("date")
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         LocalDateTime date) {
@@ -125,9 +123,8 @@ public class EventController {
 
     @GetMapping(value = "/search", params = {"location"})
     public ResponseEntity<List<EventDto>> searchEventByLocation(
-        @Valid
-        @NotNull(message = "Event location cannot be null")
-        @NotBlank(message = "Event location cannot be blank")
+        @NotNull(message = "The provided location cannot be null")
+        @NotBlank(message = "The provided location cannot be blank")
         @RequestParam("location") String location) {
 
         List<Event> potentialEventsToReturn = eventService.getEventsByLocation(location);
@@ -142,9 +139,8 @@ public class EventController {
 
     @GetMapping(value = "/search", params = {"created_by"})
     public ResponseEntity<List<EventDto>> searchEventByCreatedBy(
-        @Valid
-        @NotNull(message = "Created by name cannot be null")
-        @NotBlank(message = "Created by name cannot be blank")
+        @NotNull(message = "The provided created by name cannot be null")
+        @NotBlank(message = "The provided created by name cannot be blank")
         @RequestParam("created_by") String createdBy) {
 
         List<Event> potentialEventsToReturn = eventService.getEventsByCreatedBy(createdBy);
@@ -159,11 +155,11 @@ public class EventController {
 
     @PutMapping(value = "/set", params = {"event_id"})
     public boolean setEventByEventId(@RequestParam("event_id")
-                                            @NotNull(message = "Event id cannot be null")
-                                            @Positive(message = "Event id must be positive")
+                                            @NotNull(message = "The provided event id cannot be null")
+                                            @Positive(message = "The provided event id must be positive")
                                             Long eventId,
-                                        @RequestBody
-                                            @NotNull(message = "Event record cannot be null")
+                                            @RequestBody
+                                            @NotNull(message = "The provided event dto as body of the query cannot be null")
                                             EventDto eventToUpdate) {
         //TODO: Authorization in order to update event
         return eventService.setEventById(eventToUpdate, eventId);

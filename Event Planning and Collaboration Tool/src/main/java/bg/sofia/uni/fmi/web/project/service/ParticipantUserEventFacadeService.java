@@ -8,10 +8,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
 
 @Service
+@Validated
 public class ParticipantUserEventFacadeService {
 
     private final ParticipantService participantService;
@@ -28,13 +30,13 @@ public class ParticipantUserEventFacadeService {
 
     @Transactional
     public Participant createParticipantWithUserAndEvent(
-        @NotNull(message = "Participant cannot be null")
+        @NotNull(message = "The provided participant cannot be null")
         Participant participantToSave,
-        @NotNull(message = "Associated userId cannot be null")
-        @Positive(message = "Associated userId must be positive.")
+        @NotNull(message = "The provided associated user id cannot be null")
+        @Positive(message = "The provided associated user id must be positive.")
         Long userIdToAssociate,
-        @NotNull(message = "Associated event Id cannot be null")
-        @Positive(message = "Associated event Id must be positive.")
+        @NotNull(message = "The provided associated event id cannot be null")
+        @Positive(message = "The provided associated event id must be positive.")
         Long eventIdToAssociate) {
 
         Optional<User> potentialUserToAssociate = userService.getUserById(userIdToAssociate);

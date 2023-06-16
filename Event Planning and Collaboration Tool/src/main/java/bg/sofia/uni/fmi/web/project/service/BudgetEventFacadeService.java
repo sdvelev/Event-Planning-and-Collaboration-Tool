@@ -7,10 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
 
 @Service
+@Validated
 public class BudgetEventFacadeService {
 
     private final BudgetService budgetService;
@@ -24,10 +26,10 @@ public class BudgetEventFacadeService {
 
     @Transactional
     public Budget createBudgetWithEvent(
-        @NotNull(message = "Budget cannot be null")
+        @NotNull(message = "The provided budget cannot be null")
         Budget budgetToSave,
-        @NotNull(message = "Associated event id cannot be null")
-        @Positive(message = "Associated event id must be positive.")
+        @NotNull(message = "The provided associated event id cannot be null")
+        @Positive(message = "The provided associated event id must be positive")
         Long eventIdToAssociate) {
 
         Optional<Event> potentialEventToAssociate = eventService.getEventById(eventIdToAssociate);

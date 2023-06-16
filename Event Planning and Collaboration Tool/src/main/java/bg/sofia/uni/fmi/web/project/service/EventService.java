@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Validated
 public class EventService {
 
     private final EventRepository eventRepository;
@@ -25,7 +27,7 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public Event createEvent(@NotNull(message = "Event cannot be null") Event eventToSave) {
+    public Event createEvent(@NotNull(message = "The provided event cannot be null") Event eventToSave) {
 
         eventToSave.setCreationTime(LocalDateTime.now());
         eventToSave.setDeleted(false);
@@ -41,8 +43,8 @@ public class EventService {
     }
 
     public Optional<Event> getEventById(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive")
+        @NotNull(message = "The provided event id cannot be null")
+        @Positive(message = "The provided event id must be positive")
         Long id) {
 
         Optional<Event> potentialEvent = eventRepository.findById(id);
@@ -55,8 +57,8 @@ public class EventService {
     }
 
     public List<Event> getEventsByName(
-        @NotNull(message = "Event name cannot be null")
-        @NotBlank(message = "Event name cannot be blank")
+        @NotNull(message = "The provided event name cannot be null")
+        @NotBlank(message = "The provided event name cannot be blank")
         String name) {
 
         List<Event> allEventsWithName = eventRepository.getEventsByName(name);
@@ -67,7 +69,7 @@ public class EventService {
     }
 
     public List<Event> getEventsByDate(
-        @NotNull(message = "Date cannot be null")
+        @NotNull(message = "The provided event date cannot be null")
         LocalDateTime date) {
 
         List<Event> allEventsWithDate = eventRepository.getEventsByDate(date);
@@ -78,8 +80,8 @@ public class EventService {
     }
 
     public List<Event> getEventsByLocation(
-        @NotNull(message = "Location cannot be null")
-        @NotBlank(message = "Location cannot be blank")
+        @NotNull(message = "The provided event location cannot be null")
+        @NotBlank(message = "The provided event location cannot be blank")
         String location) {
 
         List<Event> allEventsWithLocation = eventRepository.getEventsByLocation(location);
@@ -90,8 +92,8 @@ public class EventService {
     }
 
     public List<Event> getEventsByCreatedBy(
-        @NotNull(message = "Created by name cannot be null")
-        @NotBlank(message = "Created by name cannot be blank")
+        @NotNull(message = "The provided created by name cannot be null")
+        @NotBlank(message = "The provided created by name cannot be blank")
         String createdBy) {
 
         List<Event> allEventsWithCreatedBy = eventRepository.getEventsByCreatedBy(createdBy);
@@ -102,10 +104,10 @@ public class EventService {
     }
 
     public boolean setEventById(
-        @NotNull(message = "Event record cannot be null")
+        @NotNull(message = "The provided event dto cannot be null")
         EventDto eventFieldsToChange,
-        @NotNull(message = "Event id cannot be null")
-        @Positive(message = "Event id must be positive")
+        @NotNull(message = "The provided event id cannot be null")
+        @Positive(message = "The provided event id must be positive")
         Long eventId) {
 
         Optional<Event> optionalEventToUpdate = eventRepository.findById(eventId);
@@ -122,8 +124,8 @@ public class EventService {
     }
 
     public Event deleteEvent(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided event id cannot be null")
+        @Positive(message = "The provided event id must be positive.")
         Long eventToDeleteId) {
 
         Optional<Event> optionalEventToDelete = eventRepository.findById(eventToDeleteId);
@@ -140,7 +142,11 @@ public class EventService {
         throw new ResourceNotFoundException("There is not an event with such an id");
     }
 
-    private Event setEventNonNullFields(EventDto eventFieldsToChange, Event eventToUpdate) {
+    private Event setEventNonNullFields(
+        @NotNull(message = "The provided event dto cannot be null")
+        EventDto eventFieldsToChange,
+        @NotNull(message = "The provided event cannot be null")
+        Event eventToUpdate) {
 
         if (eventFieldsToChange.getName() != null) {
             eventToUpdate.setName(eventFieldsToChange.getName());

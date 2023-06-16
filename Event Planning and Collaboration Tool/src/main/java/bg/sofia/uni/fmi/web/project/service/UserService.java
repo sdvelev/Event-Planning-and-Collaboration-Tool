@@ -28,7 +28,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(@NotNull(message = "User cannot be null") User userToSave) {
+    public User createUser(@NotNull(message = "The provided user cannot be null") User userToSave) {
 
         for (User currentUser : userRepository.findByUsername(userToSave.getUsername())) {
             if (!currentUser.isDeleted()) {
@@ -55,8 +55,8 @@ public class UserService {
             .collect(Collectors.toList());
     }
 
-    public Optional<User> getUserById(@NotNull(message = "User Id cannot be null")
-                                      @Positive(message = "User Id must be positive")
+    public Optional<User> getUserById(@NotNull(message = "The provided user id cannot be null")
+                                      @Positive(message = "The provided user id must be positive")
                                       Long id) {
 
         Optional<User> potentialUserToReturn = userRepository.findById(id);
@@ -68,8 +68,8 @@ public class UserService {
         throw new ResourceNotFoundException("User with such an id cannot be found");
     }
 
-    public User getUserByEmail(@NotNull(message = "Email cannot be null")
-                                         @NotBlank(message = "Email cannot be empty or blank")
+    public User getUserByEmail(@NotNull(message = "THe provided email cannot be null")
+                                         @NotBlank(message = "The provided email cannot be empty or blank")
                                          String email) {
         List<User> potentialUsersToReturn = userRepository.findByEmail(email);
 
@@ -82,8 +82,8 @@ public class UserService {
         throw new ResourceNotFoundException("User with such an email cannot be found");
     }
 
-    public User getUserByUsername(@NotNull(message = "Username cannot be null")
-                                            @NotBlank(message = "Username cannot be empty or blank")
+    public User getUserByUsername(@NotNull(message = "The provided username cannot be null")
+                                            @NotBlank(message = "The provided username cannot be empty or blank")
                                             String username) {
         List<User> potentialUsersToReturn = userRepository.findByUsername(username);
 
@@ -97,11 +97,11 @@ public class UserService {
         throw new ResourceNotFoundException("User with such a username cannot be found");
     }
 
-    public User getUserByUsernameAndPassword(@NotNull(message = "Username cannot be null")
-                                                       @NotBlank(message = "Username cannot be empty or blank")
+    public User getUserByUsernameAndPassword(@NotNull(message = "The provided username cannot be null")
+                                                       @NotBlank(message = "The provided username cannot be empty or blank")
                                                        String username,
-                                                       @NotNull(message = "Password cannot be null")
-                                                       @NotBlank(message = "Password cannot be empty or blank")
+                                                       @NotNull(message = "The provided password cannot be null")
+                                                       @NotBlank(message = "The provided password cannot be empty or blank")
                                                        String password) {
 
         List<User> potentialUsersToReturn = userRepository.findByUsernameAndPassword(username, password);
@@ -116,14 +116,14 @@ public class UserService {
         throw new ResourceNotFoundException("User with such a username and password cannot be found");
     }
 
-    public boolean setUsernameByProvidingOldUsernameAndPassword(@NotNull(message = "New username cannot be null")
-                                                                @NotBlank(message = "New username cannot be empty or blank")
+    public boolean setUsernameByProvidingOldUsernameAndPassword(@NotNull(message = "The provided new username cannot be null")
+                                                                @NotBlank(message = "The provided new username cannot be empty or blank")
                                                                 String newUserName,
-                                                                @NotNull(message = "Old username cannot be null")
-                                                                @NotBlank(message = "Old username cannot be empty or blank")
+                                                                @NotNull(message = "The provided old username cannot be null")
+                                                                @NotBlank(message = "The provided old username cannot be empty or blank")
                                                                 String oldUsername,
-                                                                @NotNull(message = "Password cannot be null")
-                                                                @NotBlank(message = "Password cannot be empty or blank")
+                                                                @NotNull(message = "The provided password cannot be null")
+                                                                @NotBlank(message = "The provided password cannot be empty or blank")
                                                                 String password) {
 
         List<User> optionalUsersToChange = userRepository.findByUsernameAndPassword(oldUsername, password);
@@ -148,14 +148,14 @@ public class UserService {
         throw new ResourceNotFoundException("User with such a username and password cannot be found");
     }
 
-    public boolean setPasswordByProvidingUsernameAndOldPassword(@NotNull(message = "New password cannot be null")
-                                                                @NotBlank(message = "New password cannot be empty or blank")
+    public boolean setPasswordByProvidingUsernameAndOldPassword(@NotNull(message = "The provided new password cannot be null")
+                                                                @NotBlank(message = "The provided new password cannot be empty or blank")
                                                                 String newPassword,
-                                                                @NotNull(message = "Username cannot be null")
-                                                                @NotBlank(message = "Username cannot be empty or blank")
+                                                                @NotNull(message = "The provided username cannot be null")
+                                                                @NotBlank(message = "The provided username cannot be empty or blank")
                                                                 String username,
-                                                                @NotNull(message = "Old password cannot be null")
-                                                                @NotBlank(message = "Old password cannot be empty or blank")
+                                                                @NotNull(message = "The provided old password cannot be null")
+                                                                @NotBlank(message = "The provided old password cannot be empty or blank")
                                                                 String oldPassword) {
 
         List<User> optionalUsersToChange = userRepository.findByUsernameAndPassword(username, oldPassword);
@@ -174,7 +174,11 @@ public class UserService {
         throw new ResourceNotFoundException("User with such a username and password cannot be found");
     }
 
-    private User setUserNonNullFields(UserDto userFieldsToChange, User userToUpdate) {
+    private User setUserNonNullFields(
+        @NotNull(message = "The provided user dto cannot be null")
+        UserDto userFieldsToChange,
+        @NotNull(message = "The provided user cannot be null")
+        User userToUpdate) {
 
         if (userFieldsToChange.getName() != null) {
             userToUpdate.setName(userFieldsToChange.getName());
@@ -200,10 +204,10 @@ public class UserService {
     }
 
     public boolean setUserById(
-        @NotNull(message = "User record cannot be null")
+        @NotNull(message = "The provided user dto cannot be null")
         UserDto userFieldsToChange,
-        @NotNull(message = "User id cannot be null")
-        @Positive(message = "User id must be positive")
+        @NotNull(message = "The provided user id cannot be null")
+        @Positive(message = "The provided user id must be positive")
         Long userId) {
 
         Optional<User> optionalUserToUpdate = userRepository.findById(userId);
@@ -220,11 +224,11 @@ public class UserService {
     }
 
     public User deleteUser(
-        @NotNull(message = "Username cannot be null")
-        @NotBlank(message = "Username cannot be empty or blank")
+        @NotNull(message = "The provided username cannot be null")
+        @NotBlank(message = "The provided username cannot be empty or blank")
         String username,
-        @NotNull(message = "Password cannot be null")
-        @NotBlank(message = "Password cannot be empty or blank")
+        @NotNull(message = "The provided password cannot be null")
+        @NotBlank(message = "The provided password cannot be empty or blank")
         String password) {
 
         List<User> optionalUsersToDelete = userRepository.findByUsernameAndPassword(username, password);

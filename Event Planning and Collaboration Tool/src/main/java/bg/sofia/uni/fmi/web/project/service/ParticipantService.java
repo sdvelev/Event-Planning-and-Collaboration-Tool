@@ -30,7 +30,7 @@ public class ParticipantService {
     }
 
     public Participant createParticipant(
-        @NotNull(message = "Participant cannot be null")
+        @NotNull(message = "The provided participant cannot be null")
         Participant participantToSave) {
 
         participantToSave.setCreationTime(LocalDateTime.now());
@@ -47,8 +47,8 @@ public class ParticipantService {
     }
 
     public Optional<Participant> getParticipantById(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id userId must be positive.")
+        @NotNull(message = "The provided participant id cannot be null")
+        @Positive(message = "The provided participant id must be positive")
         Long id) {
 
         Optional<Participant> potentialParticipantToReturn = participantRepository.findById(id);
@@ -61,8 +61,8 @@ public class ParticipantService {
     }
 
     public UserRole getUserRoleByParticipantId(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided participant id cannot be null")
+        @Positive(message = "The provided participant id must be positive")
         Long id) {
 
         Optional<Participant> potentialParticipant  = this.getParticipantById(id);
@@ -75,8 +75,8 @@ public class ParticipantService {
     }
 
     public User getUserByParticipantId(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided participant id cannot be null")
+        @Positive(message = "The provided participant id must be positive")
         Long id) {
 
         Optional<Participant> optionalParticipant = this.getParticipantById(id);;
@@ -87,7 +87,10 @@ public class ParticipantService {
         return null;
     }
 
-    public Event getEventByParticipantId(Long id) {
+    public Event getEventByParticipantId(
+        @NotNull(message = "The provided participant id cannot be null")
+        @Positive(message = "The provided participant id must be positive")
+        Long id) {
 
         Optional<Participant> optionalParticipant = this.getParticipantById(id);
 
@@ -98,10 +101,10 @@ public class ParticipantService {
     }
 
     public boolean setUserRoleByParticipantId(
-        @NotNull(message = "Associated userId cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided participant id cannot be null")
+        @Positive(message = "The provided participant id must be positive")
         Long id,
-        @NotNull(message = "User role cannot be null")
+        @NotNull(message = "The user role cannot be null")
         UserRole userRoleToSet) {
 
         Optional<Participant> optionalParticipant = this.getParticipantById(id);
@@ -123,10 +126,10 @@ public class ParticipantService {
     }
 
     public boolean setParticipantById(
-        @NotNull(message = "Participant record cannot be null")
+        @NotNull(message = "The provided participant dto cannot be null")
         ParticipantDto participantFieldsToChange,
-        @NotNull(message = "Participant id cannot be null")
-        @Positive(message = "Participant id must be positive")
+        @NotNull(message = "The provided participant id cannot be null")
+        @Positive(message = "The provided participant id must be positive")
         Long participantId) {
 
         Optional<Participant> optionalParticipantToUpdate = participantRepository.findById(participantId);
@@ -144,8 +147,8 @@ public class ParticipantService {
     }
 
     public boolean deleteParticipant(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided participant id cannot be null")
+        @Positive(message = "The provided participant id must be positive")
         Long participantId) {
 
         Optional<Participant> optionalParticipantToDelete = participantRepository.findById(participantId);
@@ -164,9 +167,11 @@ public class ParticipantService {
         throw new ResourceNotFoundException("There is not a participant with such an id");
     }
 
-    private Participant setParticipantNonNullFields(ParticipantDto participantFieldsToChange,
-                                                    Participant participantToUpdate) {
-
+    private Participant setParticipantNonNullFields(
+        @NotNull(message = "The provided participant dto cannot be null")
+        ParticipantDto participantFieldsToChange,
+        @NotNull(message = "The provided participant cannot be null")
+        Participant participantToUpdate) {
         if (participantFieldsToChange.getUserRole() != null &&
             participantFieldsToChange.getUserRole() != UserRole.CREATOR &&
             participantToUpdate.getUserRole() != UserRole.CREATOR) {

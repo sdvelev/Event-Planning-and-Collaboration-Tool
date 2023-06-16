@@ -9,10 +9,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
+@Validated
 public class EventParticipantBudgetExpenseFacadeService {
 
     private EventService eventService;
@@ -31,8 +33,8 @@ public class EventParticipantBudgetExpenseFacadeService {
 
     @Transactional
     public boolean deleteEventWithParticipants(
-        @NotNull(message = "Id cannot be null")
-        @Positive(message = "Id must be positive.")
+        @NotNull(message = "The provided event id cannot be null")
+        @Positive(message = "The provided event id must be positive.")
         Long eventToDeleteId) {
 
         Event eventToDelete = eventService.deleteEvent(eventToDeleteId);
