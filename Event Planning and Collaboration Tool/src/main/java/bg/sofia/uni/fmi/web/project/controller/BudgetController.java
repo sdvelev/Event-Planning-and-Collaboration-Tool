@@ -45,11 +45,8 @@ public class BudgetController {
 
     @GetMapping
     public List<BudgetDto> getAllBudgets() {
-        final List<Budget> toReturnList = budgetService.getBudgets();
 
-        return toReturnList.stream()
-            .map(budgetMapper::toDto)
-            .collect(Collectors.toList());
+        return budgetMapper.toDtoList(budgetService.getBudgets());
     }
 
     @GetMapping(value = "/search", params = {"id"})

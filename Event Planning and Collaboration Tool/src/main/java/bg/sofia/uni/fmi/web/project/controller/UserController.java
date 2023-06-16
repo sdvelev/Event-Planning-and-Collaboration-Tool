@@ -45,11 +45,8 @@ public class UserController {
 
     @GetMapping
     public List<UserDto> getAllUsers() {
-        final List<User> toReturnList = userService.getUsers();
 
-        return toReturnList.stream()
-            .map(userMapper::toDto)
-            .collect(Collectors.toList());
+        return userMapper.toDtoList(userService.getUsers());
     }
 
     @PostMapping

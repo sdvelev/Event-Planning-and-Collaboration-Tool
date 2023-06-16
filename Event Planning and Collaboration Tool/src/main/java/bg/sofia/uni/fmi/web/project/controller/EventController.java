@@ -46,11 +46,8 @@ public class EventController {
 
     @GetMapping
     public List<EventDto> getAllEvents() {
-        final List<Event> toReturnList = eventService.getAllEvents();
 
-        return toReturnList.stream()
-            .map(eventMapper::toDto)
-            .collect(Collectors.toList());
+        return eventMapper.toDtoList(eventService.getAllEvents());
     }
 
     @PostMapping

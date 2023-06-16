@@ -45,11 +45,8 @@ public class ExpenseController {
 
     @GetMapping
     public List<ExpenseDto> getAllExpenses() {
-        final List<Expense> toReturnList = expenseService.getExpenses();
 
-        return toReturnList.stream()
-            .map(expenseMapper::toDto)
-            .collect(Collectors.toList());
+        return expenseMapper.toDtoList(expenseService.getExpenses());
     }
 
     @GetMapping(value = "/search", params = {"id"})

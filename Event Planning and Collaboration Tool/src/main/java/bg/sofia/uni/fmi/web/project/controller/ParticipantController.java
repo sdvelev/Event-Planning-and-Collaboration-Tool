@@ -46,11 +46,7 @@ public class ParticipantController {
     @GetMapping
     public List<ParticipantDto> getAllParticipants() {
 
-        final List<Participant> toReturnList = participantService.getParticipants();
-
-        return toReturnList.stream()
-            .map(participantMapper::toDto)
-            .collect(Collectors.toList());
+        return participantMapper.toDtoList(participantService.getParticipants());
     }
 
     @GetMapping(value = "/search", params = {"id"})
