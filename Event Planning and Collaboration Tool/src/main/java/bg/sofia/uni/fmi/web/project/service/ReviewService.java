@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
+import bg.sofia.uni.fmi.web.project.dto.ReviewDto;
 import bg.sofia.uni.fmi.web.project.model.Review;
 import bg.sofia.uni.fmi.web.project.repository.ReviewRepository;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -97,6 +99,23 @@ public class ReviewService {
         return reviews;
     }
 
+    public boolean setReviewByReviewId(@Positive(message = "The review id must be positive!")
+                                       long reviewId,
+                                       @NotNull(message = "The given review dto cannot be null!")
+                                       ReviewDto reviewDto) {
+        Review review = getReviewById(reviewId);
+        validateReview(review);
+        validateForDeletedReview(review);
+
+        Review newReviewToSave = updateFields(reviewDto, review);
+        newReviewToSave.setUpdatedBy("b");
+        newReviewToSave.setLastUpdatedTime(LocalDateTime.now());
+
+        reviewRepository.save(newReviewToSave);
+
+        return true;
+    }
+
     public boolean delete(boolean deleted,
                           @Positive(message = "The given ID cannot be less than zero!") long reviewId) {
         Review review = reviewRepository.findReviewByIdEquals(reviewId);
@@ -106,6 +125,20 @@ public class ReviewService {
         review.setDeleted(deleted);
         reviewRepository.save(review);
         return true;
+    }
+
+    private Review updateFields(ReviewDto reviewDto, Review newReviewToSave) {
+        if (reviewDto.getRating() != null && !reviewDto.getRating().equals(newReviewToSave.getRating())) {
+            newReviewToSave.setRating(reviewDto.getRating());
+        }
+        if (reviewDto.getComment() != null && !reviewDto.getComment().equals(newReviewToSave.getComment())) {
+            newReviewToSave.setComment(reviewDto.getComment());
+        }
+        if (reviewDto.getPhotoLink() != null && !reviewDto.getPhotoLink().equals(newReviewToSave.getPhotoLink())) {
+            newReviewToSave.setPhotoLink(reviewDto.getPhotoLink());
+        }
+
+        return newReviewToSave;
     }
 
     private void validateReview(Review review) {

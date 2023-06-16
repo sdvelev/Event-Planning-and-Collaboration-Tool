@@ -10,12 +10,12 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
-import org.mapstruct.Mapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,6 +90,17 @@ public class ReviewController {
                                                           @Positive(message = "The given id must be above 0!")
                                                           long vendorId) {
         return ResponseEntity.ok(mapper.toDtoCollection(reviewService.getReviewsByAssociatedVendorId(vendorId)));
+    }
+
+    @PutMapping(value = "/set", params = {"review_id"})
+    public boolean setReviewByReviewId(@Valid
+                                       @RequestParam("review_id")
+                                       @Positive(message = "The review id must be positive!")
+                                       long reviewId,
+                                       @RequestBody
+                                       @NotNull(message = "The given review dto cannot be null!")
+                                       ReviewDto reviewDto) {
+        return reviewService.setReviewByReviewId(reviewId, reviewDto);
     }
 
     @DeleteMapping(value = "/delete", params = {"deleted", "id"})

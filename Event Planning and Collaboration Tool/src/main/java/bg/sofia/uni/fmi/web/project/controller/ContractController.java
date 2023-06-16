@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,6 +81,17 @@ public class ContractController {
                                                             @Positive(message = "The given vendor id must be above 0!")
                                                             long vendorId) {
         return ResponseEntity.ok(mapper.toDtoCollection(contractService.getContractsByAssociatedVendorId(vendorId)));
+    }
+
+    @PutMapping(value = "/set", params = {"contract_id"})
+    public boolean setContractByContractId(@Valid
+                                           @RequestParam("contract_id")
+                                           @Positive(message = "The contract id must be positive!")
+                                           long contractId,
+                                           @RequestBody
+                                           @NotNull(message = "The given contract dto cannot be null!")
+                                           ContractDto contractUpdateDto) {
+        return contractService.setContractByContractId(contractId, contractUpdateDto);
     }
 
     @DeleteMapping(value = "/delete", params = {"deleted", "id"})

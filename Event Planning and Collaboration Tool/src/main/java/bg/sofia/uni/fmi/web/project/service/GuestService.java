@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
+import bg.sofia.uni.fmi.web.project.dto.GuestDto;
 import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.model.Guest;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -107,162 +109,22 @@ public class GuestService {
         return guests;
     }
 
-//    public boolean updateName(@NotNull(message = "The name cannot be null!")
-//                              @NotEmpty(message = "The name cannot be empty!")
-//                              @NotBlank(message = "The name cannot be blank!")
-//                              String name,
-//                              @Positive(message = "The given ID cannot be less than zero!")
-//                              long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setName(name);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateSurname(@NotNull(message = "The surname cannot be null!")
-//                                 @NotEmpty(message = "The surname cannot be empty!")
-//                                 @NotBlank(message = "The surname cannot be blank!")
-//                                 String surname,
-//                                 @Positive(message = "The given ID cannot be less than zero!")
-//                                 long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setSurname(surname);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateEmail(@NotNull(message = "The email cannot be null!")
-//                               @NotEmpty(message = "The email cannot be empty!")
-//                               @NotBlank(message = "The email cannot be blank!")
-//                               String email,
-//                               @Positive(message = "The given ID cannot be less than zero!")
-//                               long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setEmail(email);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateGuestType(@NotNull(message = "The guest type cannot be null!")
-//                                   GuestType guestType,
-//                                   @Positive(message = "The given ID cannot be less than zero!")
-//                                   long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setGuestType(guestType);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateAttendanceType(@NotNull(message = "The attendance type cannot be null!")
-//                                        AttendanceType attendanceType,
-//                                        @Positive(message = "The given ID cannot be less than zero!")
-//                                        long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setAttendanceType(attendanceType);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateInvitationIsSent(boolean isSent,
-//                                          @Positive(message = "The given ID cannot be less than zero!") long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setInvitationSent(isSent);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateCreatedBy(@NotNull(message = "The createdBy cannot be null!")
-//                                   @NotEmpty(message = "The createdBy cannot be empty!")
-//                                   @NotBlank(message = "The createdBy cannot be blank!")
-//                                   String createdBy,
-//                                   @Positive(message = "The given ID cannot be less than zero!")
-//                                   long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setCreatedBy(createdBy);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateCreationTime(
-//        @NotNull(message = "The creation date cannot be null!") LocalDateTime creationTime,
-//        @Positive(message = "The given ID cannot be less than zero!") long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setCreationTime(creationTime);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateUpdatedBy(@NotNull(message = "The updatedBy cannot be null!")
-//                                   @NotEmpty(message = "The updatedBy cannot be empty!")
-//                                   @NotBlank(message = "The updatedBy cannot be blank!")
-//                                   String updatedBy,
-//                                   @Positive(message = "The given ID cannot be less than zero!")
-//                                   long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setUpdatedBy(updatedBy);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateLastUpdatedTime(@NotNull(message = "The last updated time cannot be null!")
-//                                         LocalDateTime lastUpdatedTime,
-//                                         @Positive(message = "The given ID cannot be less than zero!")
-//                                         long guestId) {
-//        Guest guest = guestRepository.findGuestByIdEquals(guestId);
-//
-//        if (guest != null && !guest.isDeleted()) {
-//            guest.setLastUpdatedTime(lastUpdatedTime);
-//            guestRepository.save(guest);
-//            return true;
-//        }
-//
-//        return false;
-//    }
+    public boolean setGuestByGuestId(@Positive(message = "The guest id must be positive!")
+                                     long guestId,
+                                     @NotNull(message = "The given guest dto cannot be null!")
+                                     GuestDto guestDto) {
+        Guest guest = getGuestById(guestId);
+        validateGuest(guest);
+        validateForDeletedGuest(guest);
+
+        Guest newGuestToSave = updateFields(guestDto, guest);
+        newGuestToSave.setUpdatedBy("b");
+        newGuestToSave.setLastUpdatedTime(LocalDateTime.now());
+
+        guestRepository.save(newGuestToSave);
+
+        return true;
+    }
 
     public boolean delete(boolean deleted,
                           @Positive(message = "The given ID cannot be less than zero!") long guestId) {
@@ -273,6 +135,31 @@ public class GuestService {
         guest.setDeleted(deleted);
         guestRepository.save(guest);
         return true;
+    }
+
+    private Guest updateFields(GuestDto guestDto, Guest newGuestToSave) {
+        if (guestDto.getName() != null && !guestDto.getName().equals(newGuestToSave.getName())) {
+            newGuestToSave.setName(guestDto.getName());
+        }
+        if (guestDto.getSurname() != null && !guestDto.getSurname().equals(newGuestToSave.getSurname())) {
+            newGuestToSave.setSurname(guestDto.getSurname());
+        }
+        if (guestDto.getEmail() != null && !guestDto.getEmail().equals(newGuestToSave.getEmail())) {
+            newGuestToSave.setEmail(guestDto.getEmail());
+        }
+        if (guestDto.getGuestType() != null && !guestDto.getGuestType().equals(newGuestToSave.getGuestType())) {
+            newGuestToSave.setGuestType(guestDto.getGuestType());
+        }
+        if (guestDto.getAttendanceType() != null &&
+            !guestDto.getAttendanceType().equals(newGuestToSave.getAttendanceType())) {
+
+            newGuestToSave.setAttendanceType(guestDto.getAttendanceType());
+        }
+        if (guestDto.isInvitationSent() != newGuestToSave.isInvitationSent()) {
+            newGuestToSave.setInvitationSent(guestDto.isInvitationSent());
+        }
+
+        return newGuestToSave;
     }
 
     private void validateGuest(Guest guest) {

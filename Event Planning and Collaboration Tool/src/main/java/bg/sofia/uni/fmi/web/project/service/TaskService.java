@@ -1,9 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
-import bg.sofia.uni.fmi.web.project.enums.TaskProgress;
-import bg.sofia.uni.fmi.web.project.model.Event;
-import bg.sofia.uni.fmi.web.project.model.Participant;
-import bg.sofia.uni.fmi.web.project.model.Review;
+import bg.sofia.uni.fmi.web.project.dto.TaskDto;
 import bg.sofia.uni.fmi.web.project.model.Task;
 import bg.sofia.uni.fmi.web.project.repository.TaskRepository;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
@@ -126,143 +123,22 @@ public class TaskService {
         return tasks;
     }
 
-//    public boolean updateName(@NotNull(message = "The name cannot be null!")
-//                              @NotEmpty(message = "The name cannot be empty!")
-//                              @NotBlank(message = "The name cannot be blank!")
-//                              String name,
-//                              @Positive(message = "The given ID cannot be less than zero!")
-//                              long taskId) {
-//        Task task = taskRepository.findTaskByIdEquals(taskId);
-//
-//        if (task != null && !task.isDeleted()) {
-//            task.setName(name);
-//            taskRepository.save(task);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateDescription(@NotNull(message = "The description cannot be null!")
-//                                     @NotEmpty(message = "The description cannot be empty!")
-//                                     @NotBlank(message = "The description cannot be blank!")
-//                                     String description,
-//                                     @Positive(message = "The given ID cannot be less than zero!")
-//                                     long taskId) {
-//        Task task = taskRepository.findTaskByIdEquals(taskId);
-//
-//        if (task != null && !task.isDeleted()) {
-//            task.setDescription(description);
-//            taskRepository.save(task);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateTaskProgress(@NotNull(message = "The task progress cannot be null!") TaskProgress taskProgress,
-//                                      @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-//        Task task = taskRepository.findTaskByIdEquals(taskId);
-//
-//        if (task != null && !task.isDeleted()) {
-//            task.setTaskProgress(taskProgress);
-//            taskRepository.save(task);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateDueDate(@NotNull(message = "The due date cannot be null!") LocalDateTime dueDate,
-//                                 @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-//        Task task = taskRepository.findTaskByIdEquals(taskId);
-//
-//        if (task != null && !task.isDeleted()) {
-//            task.setDueDate(dueDate);
-//            taskRepository.save(task);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateLastNotified(@NotNull(message = "The last notified date cannot be null!")
-//                                      LocalDateTime lastNotified,
-//                                      @Positive(message = "The given ID cannot be less than zero!")
-//                                      long taskId) {
-//        Task task = taskRepository.findTaskByIdEquals(taskId);
-//
-//        if (task != null && !task.isDeleted()) {
-//            task.setLastNotified(lastNotified);
-//            taskRepository.save(task);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateCreatedBy(@NotNull(message = "The createdBy cannot be null!")
-//                                   @NotEmpty(message = "The createdBy cannot be empty!")
-//                                   @NotBlank(message = "The createdBy cannot be blank!")
-//                                   String createdBy,
-//                                   @Positive(message = "The given ID cannot be less than zero!")
-//                                   long taskId) {
-//        Task task = taskRepository.findTaskByIdEquals(taskId);
-//
-//        if (task != null && !task.isDeleted()) {
-//            task.setCreatedBy(createdBy);
-//            taskRepository.save(task);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateCreationTime(
-//        @NotNull(message = "The creation date cannot be null!") LocalDateTime creationTime,
-//        @Positive(message = "The given ID cannot be less than zero!") long taskId) {
-//        Task task = taskRepository.findTaskByIdEquals(taskId);
-//
-//        if (task != null && !task.isDeleted()) {
-//            task.setCreationTime(creationTime);
-//            taskRepository.save(task);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateUpdatedBy(@NotNull(message = "The updatedBy cannot be null!")
-//                                   @NotEmpty(message = "The updatedBy cannot be empty!")
-//                                   @NotBlank(message = "The updatedBy cannot be blank!")
-//                                   String updatedBy,
-//                                   @Positive(message = "The given ID cannot be less than zero!")
-//                                   long taskId) {
-//        Task task = taskRepository.findTaskByIdEquals(taskId);
-//
-//        if (task != null && !task.isDeleted()) {
-//            task.setUpdatedBy(updatedBy);
-//            taskRepository.save(task);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean updateLastUpdatedTime(@NotNull(message = "The last updated time cannot be null!")
-//                                         LocalDateTime lastUpdatedTime,
-//                                         @Positive(message = "The given ID cannot be less than zero!")
-//                                         long taskId) {
-//        Task task = taskRepository.findTaskByIdEquals(taskId);
-//
-//        if (task != null && !task.isDeleted()) {
-//            task.setLastUpdatedTime(lastUpdatedTime);
-//            taskRepository.save(task);
-//            return true;
-//        }
-//
-//        return false;
-//    }
+    public boolean setTaskByTaskId(@Positive(message = "The task id must be positive!")
+                                   long taskId,
+                                   @NotNull(message = "The given task dto cannot be null!")
+                                   TaskDto taskDto) {
+        Task task = getTaskById(taskId);
+        validateTask(task);
+        validateForDeletedTask(task);
+
+        Task newTaskToSave = updateFields(taskDto, task);
+        newTaskToSave.setUpdatedBy("b");
+        newTaskToSave.setLastUpdatedTime(LocalDateTime.now());
+
+        taskRepository.save(newTaskToSave);
+
+        return true;
+    }
 
     public boolean delete(boolean deleted,
                           @Positive(message = "The given ID cannot be less than zero!")
@@ -274,6 +150,26 @@ public class TaskService {
         task.setDeleted(deleted);
         taskRepository.save(task);
         return true;
+    }
+
+    private Task updateFields(TaskDto taskDto, Task newTaskToSave) {
+        if (taskDto.getName() != null && !taskDto.getName().equals(newTaskToSave.getName())) {
+            newTaskToSave.setName(taskDto.getName());
+        }
+        if (taskDto.getDescription() != null && !taskDto.getDescription().equals(newTaskToSave.getDescription())) {
+            newTaskToSave.setDescription(taskDto.getDescription());
+        }
+        if (taskDto.getTaskProgress() != null && !taskDto.getTaskProgress().equals(newTaskToSave.getTaskProgress())) {
+            newTaskToSave.setTaskProgress(taskDto.getTaskProgress());
+        }
+        if (taskDto.getDueDate() != null && !taskDto.getDueDate().equals(newTaskToSave.getDueDate())) {
+            newTaskToSave.setDueDate(taskDto.getDueDate());
+        }
+        if (taskDto.getLastNotified() != null && !taskDto.getLastNotified().equals(newTaskToSave.getLastNotified())) {
+            newTaskToSave.setLastNotified(taskDto.getLastNotified());
+        }
+
+        return newTaskToSave;
     }
 
     private void validateTask(Task task) {

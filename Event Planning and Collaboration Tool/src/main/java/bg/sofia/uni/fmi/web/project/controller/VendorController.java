@@ -1,6 +1,5 @@
 package bg.sofia.uni.fmi.web.project.controller;
 
-import bg.sofia.uni.fmi.web.project.dto.GuestDto;
 import bg.sofia.uni.fmi.web.project.dto.VendorDto;
 import bg.sofia.uni.fmi.web.project.enums.VendorType;
 import bg.sofia.uni.fmi.web.project.mapper.VendorMapper;
@@ -16,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,18 +88,29 @@ public class VendorController {
 
     @GetMapping(value = "/search", params = {"name", "surname"})
     public ResponseEntity<List<VendorDto>> findByNameAndSurname(@Valid
-                                                               @RequestParam("name")
-                                                               @NotNull(message = "The given name cannot be null!")
-                                                               @NotEmpty(message = "The given name cannot be empty!")
-                                                               @NotBlank(message = "The given name cannot be blank!")
-                                                               String name,
-                                                               @Valid
-                                                               @RequestParam("surname")
-                                                               @NotNull(message = "The given surname cannot be null!")
-                                                               @NotEmpty(message = "The given surname cannot be empty!")
-                                                               @NotBlank(message = "The given surname cannot be blank!")
-                                                               String surname) {
+                                                                @RequestParam("name")
+                                                                @NotNull(message = "The given name cannot be null!")
+                                                                @NotEmpty(message = "The given name cannot be empty!")
+                                                                @NotBlank(message = "The given name cannot be blank!")
+                                                                String name,
+                                                                @Valid
+                                                                @RequestParam("surname")
+                                                                @NotNull(message = "The given surname cannot be null!")
+                                                                @NotEmpty(message = "The given surname cannot be empty!")
+                                                                @NotBlank(message = "The given surname cannot be blank!")
+                                                                String surname) {
         return ResponseEntity.ok(mapper.toDtoCollection(vendorService.getVendorsByNameAndSurname(name, surname)));
+    }
+
+    @PutMapping(value = "/set", params = {"vendor_id"})
+    public boolean setVendorByVendorId(@Valid
+                                       @RequestParam("vendor_id")
+                                       @Positive(message = "The vendor id must be positive!")
+                                       long vendorId,
+                                       @RequestBody
+                                       @NotNull(message = "The given vendor dto cannot be null!")
+                                       VendorDto vendorDto) {
+        return vendorService.setVendorByVendorId(vendorId, vendorDto);
     }
 
     @DeleteMapping(value = "/delete", params = {"deleted", "id"})

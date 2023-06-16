@@ -1,8 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.model.Review;
-import bg.sofia.uni.fmi.web.project.model.Vendor;
-import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;

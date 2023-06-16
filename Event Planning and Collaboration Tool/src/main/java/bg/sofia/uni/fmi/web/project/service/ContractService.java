@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
+import bg.sofia.uni.fmi.web.project.dto.ContractDto;
 import bg.sofia.uni.fmi.web.project.model.Contract;
 import bg.sofia.uni.fmi.web.project.repository.ContractRepository;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -84,6 +86,23 @@ public class ContractService {
         return contracts;
     }
 
+    public boolean setContractByContractId(@Positive(message = "The contract id must be positive!")
+                                           long contractId,
+                                           @NotNull(message = "The given contract dto cannot be null!")
+                                           ContractDto contractToUpdateDto) {
+        Contract contract = getContractById(contractId);
+        validateContract(contract);
+        validateForDeletedContract(contract);
+
+        Contract newContractToSave = updateFields(contractToUpdateDto, contract);
+        newContractToSave.setUpdatedBy("b");
+        newContractToSave.setLastUpdatedTime(LocalDateTime.now());
+
+        contractRepository.save(newContractToSave);
+
+        return true;
+    }
+
     public boolean delete(boolean deleted,
                           @Positive(message = "The given ID cannot be less than zero!") long vendorId) {
         Contract contract = contractRepository.findContractByIdEquals(vendorId);
@@ -93,6 +112,19 @@ public class ContractService {
         contract.setDeleted(deleted);
         contractRepository.save(contract);
         return true;
+    }
+
+    private Contract updateFields(ContractDto contractToUpdateDto, Contract newContractToSave) {
+        if (contractToUpdateDto.getTotalPrice() != null &&
+            !contractToUpdateDto.getTotalPrice().equals(newContractToSave.getTotalPrice())) {
+
+            newContractToSave.setTotalPrice(contractToUpdateDto.getTotalPrice());
+        }
+        if (contractToUpdateDto.isFinished() != newContractToSave.isFinished()) {
+            newContractToSave.setFinished(contractToUpdateDto.isFinished());
+        }
+
+        return newContractToSave;
     }
 
     private void validateContract(Contract contract) {

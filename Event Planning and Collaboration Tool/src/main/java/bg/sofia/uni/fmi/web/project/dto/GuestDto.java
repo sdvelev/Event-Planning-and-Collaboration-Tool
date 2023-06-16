@@ -2,14 +2,11 @@ package bg.sofia.uni.fmi.web.project.dto;
 
 import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
-import bg.sofia.uni.fmi.web.project.model.Event;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -57,23 +54,19 @@ public class GuestDto {
     @JsonProperty("associated_event")
     private EventDto associatedEventDto;
 
-//    @JsonProperty("created_by")
-//    @NotNull(message = "The created by cannot be null!")
-//    @NotEmpty(message = "The created by cannot be empty!")
-//    @NotBlank(message = "The created by cannot be blank!")
-//    private String createdBy;
-//
-//    @JsonProperty("creation_time")
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    @NotNull(message = "The creation time cannot be null!")
-//    private LocalDateTime creationTime;
-//
-//    @JsonProperty("updated_by")
-//    private String updatedBy;
-//
-//    @JsonProperty("last_updated_time")
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    private LocalDateTime lastUpdatedTime;
-//
-//    private boolean deleted;
+    @JsonProperty("created_by")
+    private String createdBy;
+
+    @JsonProperty("creation_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime creationTime;
+
+    @JsonProperty("updated_by")
+    private String updatedBy;
+
+    @JsonProperty("last_updated_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastUpdatedTime;
+
+    private boolean deleted;
 }

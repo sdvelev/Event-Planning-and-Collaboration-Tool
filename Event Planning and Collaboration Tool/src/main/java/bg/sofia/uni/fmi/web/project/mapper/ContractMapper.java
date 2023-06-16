@@ -2,10 +2,8 @@ package bg.sofia.uni.fmi.web.project.mapper;
 
 import bg.sofia.uni.fmi.web.project.dto.ContractDto;
 import bg.sofia.uni.fmi.web.project.model.Contract;
-import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collection;

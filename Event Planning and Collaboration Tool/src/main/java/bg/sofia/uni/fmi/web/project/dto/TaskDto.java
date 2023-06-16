@@ -1,8 +1,6 @@
 package bg.sofia.uni.fmi.web.project.dto;
 
 import bg.sofia.uni.fmi.web.project.enums.TaskProgress;
-import bg.sofia.uni.fmi.web.project.model.Event;
-import bg.sofia.uni.fmi.web.project.model.Participant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
@@ -54,17 +52,20 @@ public class TaskDto {
     @JsonProperty("associated_participant")
     private ParticipantDto associatedParticipantDto;
 
-//    @NotNull(message = "The created by cannot be null!")
-//    @NotEmpty(message = "The created by cannot be empty!")
-//    @NotBlank(message = "The created by cannot be blank!")
-//    private String createdBy;
-//
-//    @NotNull(message = "The creation time cannot be null!")
-//    private LocalDateTime creationTime;
-//
-//    private String updatedBy;
-//
-//    private LocalDateTime lastUpdatedTime;
-//
-//    private boolean deleted;
+    @JsonProperty("created_by")
+    private String createdBy;
+
+    @JsonProperty("creation_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime creationTime;
+
+    @JsonProperty("updated_by")
+    private String updatedBy;
+
+    @JsonProperty("last_updated_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastUpdatedTime;
+
+    @JsonProperty("deleted")
+    private boolean deleted;
 }

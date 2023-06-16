@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.web.project.service;
 
+import bg.sofia.uni.fmi.web.project.dto.VendorDto;
 import bg.sofia.uni.fmi.web.project.enums.VendorType;
 import bg.sofia.uni.fmi.web.project.model.Vendor;
 import bg.sofia.uni.fmi.web.project.repository.VendorRepository;
@@ -113,6 +114,23 @@ public class VendorService {
         return vendors;
     }
 
+    public boolean setVendorByVendorId(@Positive(message = "The vendor id must be positive!")
+                                       long vendorId,
+                                       @NotNull(message = "The given vendor dto cannot be null!")
+                                       VendorDto vendorDto) {
+        Vendor vendor = getVendorById(vendorId);
+        validateVendor(vendor);
+        validateForDeletedVendor(vendor);
+
+        Vendor newVendorToSave = updateFields(vendorDto, vendor);
+        newVendorToSave.setUpdatedBy("b");
+        newVendorToSave.setLastUpdatedTime(LocalDateTime.now());
+
+        vendorRepository.save(newVendorToSave);
+
+        return true;
+    }
+
     public boolean delete(boolean deleted,
                           @Positive(message = "The given ID cannot be less than zero!")
                           long vendorId) {
@@ -123,6 +141,31 @@ public class VendorService {
         vendor.setDeleted(deleted);
         vendorRepository.save(vendor);
         return true;
+    }
+
+    private Vendor updateFields(VendorDto vendorDto, Vendor newVendorToSave) {
+        if (vendorDto.getName() != null && !vendorDto.getName().equals(newVendorToSave.getName())) {
+            newVendorToSave.setName(vendorDto.getName());
+        }
+        if (vendorDto.getSurname() != null && !vendorDto.getSurname().equals(newVendorToSave.getSurname())) {
+            newVendorToSave.setSurname(vendorDto.getSurname());
+        }
+        if (vendorDto.getAddress() != null && !vendorDto.getAddress().equals(newVendorToSave.getAddress())) {
+            newVendorToSave.setAddress(vendorDto.getAddress());
+        }
+        if (vendorDto.getPhoneNumber() != null &&
+            !vendorDto.getPhoneNumber().equals(newVendorToSave.getPhoneNumber())) {
+
+            newVendorToSave.setPhoneNumber(vendorDto.getPhoneNumber());
+        }
+        if (vendorDto.getEmail() != null && !vendorDto.getEmail().equals(newVendorToSave.getEmail())) {
+            newVendorToSave.setEmail(vendorDto.getEmail());
+        }
+        if (vendorDto.getVendorType() != null && !vendorDto.getVendorType().equals(newVendorToSave.getVendorType())) {
+            newVendorToSave.setVendorType(vendorDto.getVendorType());
+        }
+
+        return newVendorToSave;
     }
 
     private void validateVendor(Vendor vendor) {

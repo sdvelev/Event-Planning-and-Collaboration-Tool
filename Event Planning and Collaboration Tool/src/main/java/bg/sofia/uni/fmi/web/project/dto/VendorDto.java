@@ -1,8 +1,7 @@
 package bg.sofia.uni.fmi.web.project.dto;
 
 import bg.sofia.uni.fmi.web.project.enums.VendorType;
-import bg.sofia.uni.fmi.web.project.model.Contract;
-import bg.sofia.uni.fmi.web.project.model.Review;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -12,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -59,18 +59,20 @@ public class VendorDto {
     @JsonProperty("vendor_reviews")
     Set<ReviewDto> vendorReviewsDto;
 
-//    @Column(length = 255, nullable = false)
-//    private String createdBy;
-//
-//    @Column(nullable = false)
-//    private LocalDateTime creationTime;
-//
-//    @Column(length = 255)
-//    private String updatedBy;
-//
-//    @Column
-//    private LocalDateTime lastUpdatedTime;
-//
-//    @Column(columnDefinition = "boolean default false", nullable = false)
-//    private boolean deleted;
+    @JsonProperty("created_by")
+    private String createdBy;
+
+    @JsonProperty("creation_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime creationTime;
+
+    @JsonProperty("updated_by")
+    private String updatedBy;
+
+    @JsonProperty("last_updated_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastUpdatedTime;
+
+    @JsonProperty("deleted")
+    private boolean deleted;
 }
