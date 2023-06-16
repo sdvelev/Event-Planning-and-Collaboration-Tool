@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 public class GuestDto {
 
     @JsonProperty("id")
-//    @Positive(message = "The guest id cannot be negative or zero!")
     private long id;
 
     @JsonProperty("name")
