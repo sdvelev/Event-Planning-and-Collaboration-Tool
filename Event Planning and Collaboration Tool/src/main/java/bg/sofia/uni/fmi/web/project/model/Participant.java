@@ -70,8 +70,8 @@ public class Participant {
     @JoinColumn(name = "event_id")
     private Event associatedEvent;
 
-//    @OneToMany(mappedBy = "participant")
-//    private Set<Task> associatedTasks;
+    @OneToMany(mappedBy = "participant")
+    private Set<Task> associatedTasks;
 
     @Override
     public boolean equals(Object o) {

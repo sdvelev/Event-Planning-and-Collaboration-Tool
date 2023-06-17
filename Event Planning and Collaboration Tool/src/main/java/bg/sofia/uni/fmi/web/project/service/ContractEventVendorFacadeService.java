@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Validated
@@ -30,13 +31,13 @@ public class ContractEventVendorFacadeService {
                             Long vendorId) {
 
         validateForExistingContract(eventId, vendorId);
-        Event event = eventService.getEventById(eventId);
-        validateEvent(event);
+        Optional<Event> event = eventService.getEventById(eventId);
+        validateEvent(event.get());
 
         Vendor vendor = vendorService.getVendorById(vendorId);
         validateVendor(vendor);
 
-        contractToSave.setAssociatedEvent(event);
+        contractToSave.setAssociatedEvent(event.get());
         contractToSave.setAssociatedVendor(vendor);
 
         contractToSave.setCreatedBy("a");

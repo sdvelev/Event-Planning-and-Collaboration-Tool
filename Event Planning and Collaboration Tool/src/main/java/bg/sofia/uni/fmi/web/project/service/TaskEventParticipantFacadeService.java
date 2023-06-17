@@ -39,20 +39,20 @@ public class TaskEventParticipantFacadeService {
         validateForExistingReview(taskToSave.getName(), eventId, participantId);
 
         TaskProgress newTaskProgress = TaskProgress.valueOf(taskProgress.toUpperCase());
-        Event event = eventService.getEventById(eventId);
-        validateEvent(event);
+        Optional<Event> event = eventService.getEventById(eventId);
+        validateEvent(event.get());
 
         Optional<Participant> participant = participantService.getParticipantById(participantId);
         validateParticipant(participant);
 
         taskToSave.setTaskProgress(newTaskProgress);
-        taskToSave.setAssociatedEvent(event);
+        taskToSave.setAssociatedEvent(event.get());
         taskToSave.setParticipant(participant.get());
         taskToSave.setCreatedBy("a");
         taskToSave.setCreationTime(LocalDateTime.now());
         taskToSave.setDeleted(false);
 
-        event.getAssociatedTasks().add(taskToSave);
+        event.get().getAssociatedTasks().add(taskToSave);
         participant.get().getAssociatedTasks().add(taskToSave);
 
         return taskService.addTask(taskToSave);

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Validated
@@ -41,18 +42,18 @@ public class GuestEventFacadeService {
         GuestType newGuestType = GuestType.valueOf(guestType.toUpperCase());
         AttendanceType newAttendanceType = AttendanceType.valueOf(attendanceType.toUpperCase());
 
-        Event event = eventService.getEventById(eventId);
-        validateEvent(event);
+        Optional<Event> event = eventService.getEventById(eventId);
+        validateEvent(event.get());
 
         guestToSave.setGuestType(newGuestType);
         guestToSave.setAttendanceType(newAttendanceType);
-        guestToSave.setAssociatedEvent(event);
+        guestToSave.setAssociatedEvent(event.get());
 
         guestToSave.setCreatedBy("a");
         guestToSave.setCreationTime(LocalDateTime.now());
         guestToSave.setDeleted(false);
 
-        event.getAssociatedGuests().add(guestToSave);
+        event.get().getAssociatedGuests().add(guestToSave);
 
         return guestService.addGuest(guestToSave);
     }
