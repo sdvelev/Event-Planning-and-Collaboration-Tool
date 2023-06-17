@@ -1,31 +1,19 @@
 package bg.sofia.uni.fmi.web.project.mapper;
 
+import bg.sofia.uni.fmi.web.project.dto.BudgetDto;
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
+import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.model.Event;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-@Component
-public class EventMapper {
+import java.util.List;
 
-    public EventDto toDto(Event entity) {
+@Mapper(componentModel = "spring")
+public interface EventMapper {
+    EventMapper INSTANCE = Mappers.getMapper(EventMapper.class);
+    EventDto toDto (Event model);
+    Event toEntity(EventDto dto);
 
-        return EventDto.builder()
-            .id(entity.getId())
-            .name(entity.getName())
-            .date(entity.getDate())
-            .location(entity.getLocation())
-            .description(entity.getDescription())
-            .build();
-    }
-
-    public Event toEntity(EventDto eventDto) {
-
-        return Event.builder()
-            .id(eventDto.getId())
-            .name(eventDto.getName())
-            .date(eventDto.getDate())
-            .location(eventDto.getLocation())
-            .description(eventDto.getDescription())
-            .build();
-    }
+    List<EventDto> toDtoList(List<Event> modelList);
 }

@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.web.project.model;
 
-import bg.sofia.uni.fmi.web.project.enums.UserRole;
+import bg.sofia.uni.fmi.web.project.enums.ExpenditureCategory;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,27 +19,37 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Table(name = "participant")
+@Table(name = "budget")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Participant {
+public class Budget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column(name = "description")
     @NotNull
-    private UserRole userRole;
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "expenditure_category")
+    @NotNull
+    private ExpenditureCategory expenditureCategory;
+
+    @Column(name = "amount")
+    private BigDecimal amount;
+
+    @Column(name = "approved", columnDefinition = "boolean default false")
+    private boolean approved;
 
     //Audit fields
 
@@ -59,26 +68,18 @@ public class Participant {
     //Soft Deletion
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
-//    @NotNull
     private boolean deleted;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User associatedUser;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event associatedEvent;
 
-//    @OneToMany(mappedBy = "participant")
-//    private Set<Task> associatedTasks;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Participant that = (Participant) o;
-        return id.equals(that.id);
+        Budget budget = (Budget) o;
+        return id.equals(budget.id);
     }
 
     @Override

@@ -1,47 +1,19 @@
 package bg.sofia.uni.fmi.web.project.mapper;
 
+import bg.sofia.uni.fmi.web.project.dto.BudgetDto;
 import bg.sofia.uni.fmi.web.project.dto.UserDto;
+import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.model.User;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-@Component
-public class UserMapper {
+import java.util.List;
 
-    public UserDto toDto(User entity) {
+@Mapper(componentModel = "spring")
+public interface UserMapper {
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+    UserDto toDto (User model);
+    User toEntity(UserDto dto);
 
-        if (entity == null) {
-            return null;
-        }
-
-        return UserDto.builder()
-            .id(entity.getId())
-            .username(entity.getUsername())
-            .password(entity.getPassword())
-            .name(entity.getName())
-            .surname(entity.getSurname())
-            .email(entity.getEmail())
-            .profilePhotoLink(entity.getProfilePhotoLink())
-            .verified(entity.isVerified())
-            .address(entity.getAddress())
-            .build();
-    }
-
-    public User toEntity(UserDto userDto) {
-
-        if (userDto == null) {
-            return null;
-        }
-
-        return User.builder()
-            .id(userDto.getId())
-            .username(userDto.getUsername())
-            .password(userDto.getPassword())
-            .name(userDto.getName())
-            .surname(userDto.getSurname())
-            .email(userDto.getEmail())
-            .profilePhotoLink(userDto.getProfilePhotoLink())
-            .verified(userDto.isVerified())
-            .address(userDto.getAddress())
-            .build();
-    }
+    List<UserDto> toDtoList(List<User> modelList);
 }
