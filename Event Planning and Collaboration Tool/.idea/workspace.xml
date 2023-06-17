@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="28458208-e38a-4b12-86fa-20cfea38dba3" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2R16A7bD3Cv3mdjBTgZBErUSzDr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelOrder2&quot;: &quot;2&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth2&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/git/Event-Planning-and-Collaboration-Tool/Event Planning and Collaboration Tool&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;5b6f9cb4759892586e0f0566f63febfb&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="bg.sofia.uni.fmi.web.project.config" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\git\Event-Planning-and-Collaboration-Tool\Event Planning and Collaboration Tool\src\main\java\bg\sofia\uni\fmi\web\project\tbd" />
+      <recent name="D:\git\Event-Planning-and-Collaboration-Tool\Event Planning and Collaboration Tool\src\main\java\bg\sofia\uni\fmi\web\project\model" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="EventPlanningAndCollaborationToolApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="Event Planning and Collaboration Tool" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="bg.sofia.uni.fmi.web.project.EventPlanningAndCollaborationToolApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="28458208-e38a-4b12-86fa-20cfea38dba3" name="Changes" comment="" />
+      <created>1686405099635</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1686405099635</updated>
+      <workItem from="1686405102107" duration="594000" />
+      <workItem from="1686405721373" duration="264000" />
+      <workItem from="1686477663658" duration="19212000" />
+      <workItem from="1686560247556" duration="6376000" />
+      <workItem from="1686572386768" duration="3629000" />
+      <workItem from="1686755003185" duration="418000" />
+      <workItem from="1686756216386" duration="8444000" />
+      <workItem from="1686769629735" duration="1129000" />
+      <workItem from="1686770798791" duration="4053000" />
+      <workItem from="1686776285484" duration="789000" />
+      <workItem from="1686821686048" duration="12852000" />
+      <workItem from="1686904700035" duration="6836000" />
+      <workItem from="1686994185652" duration="6773000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.StackOverflowError" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
