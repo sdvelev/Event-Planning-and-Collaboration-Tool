@@ -4,7 +4,6 @@ import bg.sofia.uni.fmi.web.project.dto.ContractDto;
 import bg.sofia.uni.fmi.web.project.mapper.ContractMapper;
 import bg.sofia.uni.fmi.web.project.service.ContractEventVendorFacadeService;
 import bg.sofia.uni.fmi.web.project.service.ContractService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -32,11 +31,13 @@ public class ContractController {
     private final ContractMapper mapper;
 
     @PostMapping(params = {"assigned_event_id", "assigned_vendor_id"})
-    public long addGuest(@Valid @NotNull(message = "The guestDto cannot be null!") @RequestBody ContractDto contractDto,
-                         @Valid @NotNull(message = "The event id cannot be null!") @RequestParam("assigned_event_id")
-                         Long eventId,
-                         @Valid @NotNull(message = "The event id cannot be null!") @RequestParam("assigned_vendor_id")
-                         Long vendorId) {
+    public long addContract(@NotNull(message = "The guestDto cannot be null!") @RequestBody ContractDto contractDto,
+                            @NotNull(message = "The event id cannot be null!") @RequestParam("assigned_event_id")
+                            @Positive(message = "The event id must be positive!")
+                            Long eventId,
+                            @Positive(message = "The vendor id must be positive!")
+                            @NotNull(message = "The vndor id cannot be null!") @RequestParam("assigned_vendor_id")
+                            Long vendorId) {
         return contractEventVendorFacadeService.addContract(mapper.toEntity(contractDto), eventId, vendorId);
     }
 
@@ -46,15 +47,13 @@ public class ContractController {
     }
 
     @GetMapping(value = "/search", params = {"id"})
-    public ResponseEntity<ContractDto> findById(@Valid
-                                                @Positive(message = "ContractID must be positive")
+    public ResponseEntity<ContractDto> findById(@Positive(message = "ContractID must be positive")
                                                 @RequestParam("id") long id) {
         return ResponseEntity.ok(mapper.toDto(contractService.getContractById(id)));
     }
 
     @GetMapping(value = "/search", params = {"total_price"})
-    public ResponseEntity<List<ContractDto>> findByTotalPrice(@Valid
-                                                              @RequestParam("total_price")
+    public ResponseEntity<List<ContractDto>> findByTotalPrice(@RequestParam("total_price")
                                                               @NotNull(message = "The given total price cannot be null!")
                                                               @Positive(message = "The given total price must be above 0!")
                                                               BigDecimal totalPrice) {
@@ -68,24 +67,21 @@ public class ContractController {
     }
 
     @GetMapping(value = "/search", params = {"event_id"})
-    public ResponseEntity<List<ContractDto>> findByEventId(@Valid
-                                                           @RequestParam("event_id")
+    public ResponseEntity<List<ContractDto>> findByEventId(@RequestParam("event_id")
                                                            @Positive(message = "The given event id must be above 0!")
                                                            long eventId) {
         return ResponseEntity.ok(mapper.toDtoCollection(contractService.getContractsByAssociatedEventId(eventId)));
     }
 
     @GetMapping(value = "/search", params = {"vendor_id"})
-    public ResponseEntity<List<ContractDto>> findByVendorId(@Valid
-                                                            @RequestParam("vendor_id")
+    public ResponseEntity<List<ContractDto>> findByVendorId(@RequestParam("vendor_id")
                                                             @Positive(message = "The given vendor id must be above 0!")
                                                             long vendorId) {
         return ResponseEntity.ok(mapper.toDtoCollection(contractService.getContractsByAssociatedVendorId(vendorId)));
     }
 
     @PutMapping(value = "/set", params = {"contract_id"})
-    public boolean setContractByContractId(@Valid
-                                           @RequestParam("contract_id")
+    public boolean setContractByContractId(@RequestParam("contract_id")
                                            @Positive(message = "The contract id must be positive!")
                                            long contractId,
                                            @RequestBody

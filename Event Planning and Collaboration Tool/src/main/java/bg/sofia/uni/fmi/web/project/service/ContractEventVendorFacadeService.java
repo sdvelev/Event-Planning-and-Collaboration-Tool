@@ -9,10 +9,12 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 
 @Service
+@Validated
 @AllArgsConstructor
 public class ContractEventVendorFacadeService {
     private final ContractService contractService;

@@ -13,11 +13,13 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@Validated
 @AllArgsConstructor
 public class TaskEventParticipantFacadeService {
     private final TaskService taskService;

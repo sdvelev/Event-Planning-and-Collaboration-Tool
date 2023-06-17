@@ -4,7 +4,6 @@ import bg.sofia.uni.fmi.web.project.dto.TaskDto;
 import bg.sofia.uni.fmi.web.project.mapper.TaskMapper;
 import bg.sofia.uni.fmi.web.project.service.TaskEventParticipantFacadeService;
 import bg.sofia.uni.fmi.web.project.service.TaskService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -35,13 +34,15 @@ public class TaskController {
     private final TaskMapper mapper;
 
     @PostMapping(params = {"assigned_event_id", "assigned_participant_id", "task_progress"})
-    public long addTask(@Valid @NotNull(message = "The guestDto cannot be null!") @RequestBody TaskDto taskDto,
-                        @Valid @NotNull(message = "The event id cannot be null!") @RequestParam("assigned_event_id")
+    public long addTask(@NotNull(message = "The guestDto cannot be null!") @RequestBody TaskDto taskDto,
+                        @NotNull(message = "The event id cannot be null!")
+                        @Positive(message = "The event id must be positive!")
+                        @RequestParam("assigned_event_id")
                         Long eventId,
-                        @Valid @NotNull(message = "The event id cannot be null!")
+                        @NotNull(message = "The event id cannot be null!")
+                        @Positive(message = "The participant id must be positive!")
                         @RequestParam("assigned_participant_id")
                         Long participantId,
-                        @Valid
                         @NotNull(message = "The guest type cannot be null!")
                         @NotEmpty(message = "The guest type cannot be empty!")
                         @NotBlank(message = "The guest type cannot be blank!")
@@ -57,7 +58,9 @@ public class TaskController {
     }
 
     @GetMapping(value = "/search", params = {"id"})
-    public ResponseEntity<TaskDto> findById(@RequestParam("id") long id) {
+    public ResponseEntity<TaskDto> findById(@RequestParam("id")
+                                            @Positive(message = "The event id must be positive!")
+                                            long id) {
         return ResponseEntity.ok(mapper.toDto(taskService.getTaskById(id)));
     }
 
@@ -138,8 +141,7 @@ public class TaskController {
     }
 
     @PutMapping(value = "/set", params = {"task_id"})
-    public boolean setTaskByTaskId(@Valid
-                                   @RequestParam("task_id")
+    public boolean setTaskByTaskId(@RequestParam("task_id")
                                    @Positive(message = "The task id must be positive!")
                                    long taskId,
                                    @RequestBody
