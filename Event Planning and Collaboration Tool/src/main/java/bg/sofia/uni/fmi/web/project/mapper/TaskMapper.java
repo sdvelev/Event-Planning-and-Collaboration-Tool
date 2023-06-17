@@ -7,7 +7,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {EventMapper.class, ParticipantMapper.class})
