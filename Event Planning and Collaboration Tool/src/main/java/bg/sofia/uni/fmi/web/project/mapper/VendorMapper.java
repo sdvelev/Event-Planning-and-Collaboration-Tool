@@ -20,23 +20,6 @@ public interface VendorMapper {
     @Mapping(source = "vendorReviewsDto", target = "vendorReviews")
     Vendor toEntity(VendorDto vendorDto);
 
-    default List<VendorDto> toDtoCollection(Collection<Vendor> vendorEntities) {
-        if (vendorEntities == null) {
-            return Collections.emptyList();
-        }
-
-        return vendorEntities.stream()
-            .map(this::toDto)
-            .toList();
-    }
-
-    default List<Vendor> toEntityCollection(Collection<VendorDto> vendorDtos) {
-        if (vendorDtos == null) {
-            return Collections.emptyList();
-        }
-
-        return vendorDtos.stream()
-            .map(this::toEntity)
-            .toList();
-    }
+    List<VendorDto> toDtoCollection(Collection<Vendor> vendorEntities);
+    List<Vendor> toEntityCollection(Collection<VendorDto> vendorDtos);
 }

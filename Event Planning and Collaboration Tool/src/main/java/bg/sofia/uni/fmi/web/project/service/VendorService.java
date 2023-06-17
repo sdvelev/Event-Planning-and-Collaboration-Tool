@@ -41,7 +41,7 @@ public class VendorService {
         System.out.println(vendorToSave.getSurname());
 
         Vendor vendor = vendorRepository.save(vendorToSave);
-        checkForSaveException(vendor);
+        //checkForSaveException(vendor);
         return vendor.getId();
     }
 
@@ -180,11 +180,11 @@ public class VendorService {
         }
     }
 
-    private void checkForSaveException(Vendor vendor) {
-        if (vendor == null) {
-            throw new RuntimeException("There was problem while saving the vendor in the database!");
-        }
-    }
+//    private void checkForSaveException(Vendor vendor) {
+//        if (vendor == null) {
+//            throw new RuntimeException("There was problem while saving the vendor in the database!");
+//        }
+//    }
 
     private void validateForDeletedVendor(Vendor vendor) {
         if (vendor.isDeleted()) {

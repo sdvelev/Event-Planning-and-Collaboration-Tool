@@ -10,29 +10,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {EventMapper.class})
+@Mapper(componentModel = "spring", uses = {EventMapper.class, ParticipantMapper.class})
 public interface TaskMapper {
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
 
     @Mapping(source = "associatedEvent", target = "associatedEventDto")
+    @Mapping(source = "participant", target = "associatedParticipantDto")
     TaskDto toDto(Task taskEntity);
 
     @Mapping(source = "associatedEventDto", target = "associatedEvent")
+    @Mapping(source = "associatedParticipantDto", target = "participant")
     Task toEntity(TaskDto taskDto);
 
-    default List<TaskDto> toDtoCollection(Collection<Task> tasksEntities) {
-        if (tasksEntities == null) {
-            return Collections.emptyList();
-        }
+    List<TaskDto> toDtoCollection(Collection<Task> tasksEntities);
 
-        return tasksEntities.stream().map(this::toDto).toList();
-    }
-
-    default List<Task> toEntityCollection(Collection<TaskDto> tasksDtos) {
-        if (tasksDtos == null) {
-            return Collections.emptyList();
-        }
-
-        return tasksDtos.stream().map(this::toEntity).toList();
-    }
+    List<Task> toEntityCollection(Collection<TaskDto> tasksDtos);
 }
