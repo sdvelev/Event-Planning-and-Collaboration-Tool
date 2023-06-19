@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,8 +43,9 @@ public class Task {
     @Column(length = 255, nullable = false)
     private String description;
 
-    @Column(columnDefinition = "ENUM('TO_DO', 'STARTED', 'IN_PROGRESS', 'DONE', 'COMPLETED', 'ABORTED')", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "task_progress")
+    @NotNull
     private TaskProgress taskProgress;
 
     @Column(nullable = false)
@@ -75,22 +77,19 @@ public class Task {
     @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean deleted;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(name, task.name) &&
-            Objects.equals(description, task.description) &&
-            Objects.equals(dueDate, task.dueDate) &&
-            Objects.equals(associatedEvent, task.associatedEvent) &&
-            Objects.equals(participant, task.participant) &&
-            Objects.equals(createdBy, task.createdBy) &&
-            Objects.equals(creationTime, task.creationTime);
+        return id == task.id && Objects.equals(name, task.name) &&
+            Objects.equals(description, task.description) && taskProgress == task.taskProgress &&
+            Objects.equals(dueDate, task.dueDate) && Objects.equals(lastNotified, task.lastNotified);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, dueDate, associatedEvent, participant, createdBy, creationTime);
+        return Objects.hash(id, name, description, taskProgress, dueDate, lastNotified);
     }
 }

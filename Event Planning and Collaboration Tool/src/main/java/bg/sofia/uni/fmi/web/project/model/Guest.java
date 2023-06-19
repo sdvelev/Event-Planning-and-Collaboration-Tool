@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,12 +47,14 @@ public class Guest {
     @Column(length = 255, nullable = false, unique = true)
     private String email;
 
-    @Column(columnDefinition = "ENUM('FAMILY', 'FRIENDS', 'COLLEAGUES', 'CO_WORKERS', 'PARTNER')", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "guest_type")
+    @NotNull
     private GuestType guestType;
 
-    @Column(columnDefinition = "ENUM('GOING', 'NOT_GOING', 'CONSIDERING', 'ATTENDING')", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "attendance_type")
+    @NotNull
     private AttendanceType attendanceType;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
@@ -81,19 +84,13 @@ public class Guest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Guest guest = (Guest) o;
-        return Objects.equals(name, guest.name) &&
-            Objects.equals(surname, guest.surname) &&
-            Objects.equals(email, guest.email) &&
-            guestType == guest.guestType &&
-            attendanceType == guest.attendanceType &&
-            Objects.equals(associatedEvent, guest.associatedEvent) &&
-            Objects.equals(createdBy, guest.createdBy) &&
-            Objects.equals(creationTime, guest.creationTime);
+        return id == guest.id && invitationSent == guest.invitationSent && Objects.equals(name, guest.name) &&
+            Objects.equals(surname, guest.surname) && Objects.equals(email, guest.email) &&
+            guestType == guest.guestType && attendanceType == guest.attendanceType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, surname, email, guestType, attendanceType, associatedEvent, createdBy,
-            creationTime);
+        return Objects.hash(id, name, surname, email, guestType, attendanceType, invitationSent);
     }
 }

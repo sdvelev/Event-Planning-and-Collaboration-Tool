@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,8 +50,9 @@ public class Vendor {
     @Column(length = 255, nullable = false, unique = true)
     private String email;
 
-    @Column(columnDefinition = "ENUM('CATERER', 'PHOTOGRAPHER', 'VENUE')", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "vendor_type")
+    @NotNull
     private VendorType vendorType;
 
     @OneToMany(mappedBy = "associatedVendor")
@@ -79,18 +81,14 @@ public class Vendor {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vendor vendor = (Vendor) o;
-        return Objects.equals(name, vendor.name) &&
-            Objects.equals(surname, vendor.surname) &&
-            Objects.equals(address, vendor.address) &&
-            Objects.equals(phoneNumber, vendor.phoneNumber) &&
-            Objects.equals(email, vendor.email) &&
-            vendorType == vendor.vendorType &&
-            Objects.equals(createdBy, vendor.createdBy) &&
-            Objects.equals(creationTime, vendor.creationTime);
+        return id == vendor.id && Objects.equals(name, vendor.name) &&
+            Objects.equals(surname, vendor.surname) && Objects.equals(address, vendor.address) &&
+            Objects.equals(phoneNumber, vendor.phoneNumber) && Objects.equals(email, vendor.email) &&
+            vendorType == vendor.vendorType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, surname, address, phoneNumber, email, vendorType, createdBy, creationTime);
+        return Objects.hash(id, name, surname, address, phoneNumber, email, vendorType);
     }
 }
