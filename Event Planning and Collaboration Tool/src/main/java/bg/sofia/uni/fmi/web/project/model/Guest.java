@@ -86,14 +86,13 @@ public class Guest {
             Objects.equals(email, guest.email) &&
             guestType == guest.guestType &&
             attendanceType == guest.attendanceType &&
-            Objects.equals(associatedEvent, guest.associatedEvent) &&
             Objects.equals(createdBy, guest.createdBy) &&
             Objects.equals(creationTime, guest.creationTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, surname, email, guestType, attendanceType, associatedEvent, createdBy,
+        return Objects.hash(name, surname, email, guestType, attendanceType, createdBy,
             creationTime);
     }
 }

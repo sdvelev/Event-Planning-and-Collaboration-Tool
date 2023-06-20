@@ -2,13 +2,16 @@ package bg.sofia.uni.fmi.web.project.mapper;
 
 import bg.sofia.uni.fmi.web.project.dto.GuestDto;
 import bg.sofia.uni.fmi.web.project.model.Guest;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-17T16:05:18+0300",
+    date = "2023-06-17T17:18:14+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
@@ -65,5 +68,33 @@ public class GuestMapperImpl implements GuestMapper {
         guest.deleted( guestDto.isDeleted() );
 
         return guest.build();
+    }
+
+    @Override
+    public List<GuestDto> toDtoCollection(Collection<Guest> guestsEntities) {
+        if ( guestsEntities == null ) {
+            return null;
+        }
+
+        List<GuestDto> list = new ArrayList<GuestDto>( guestsEntities.size() );
+        for ( Guest guest : guestsEntities ) {
+            list.add( toDto( guest ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Guest> toEntityCollection(Collection<GuestDto> guestDtos) {
+        if ( guestDtos == null ) {
+            return null;
+        }
+
+        List<Guest> list = new ArrayList<Guest>( guestDtos.size() );
+        for ( GuestDto guestDto : guestDtos ) {
+            list.add( toEntity( guestDto ) );
+        }
+
+        return list;
     }
 }

@@ -25,10 +25,8 @@ public class ReviewService {
 
     public long addReview(@NotNull(message = "The given vendor cannot be null!")
                           Review reviewToSave) {
-        Review review = reviewRepository.save(reviewToSave);
-        checkForSaveException(review);
 
-        return review.getId();
+        return reviewRepository.save(reviewToSave).getId();
     }
 
     public List<Review> getAllReviews() {
@@ -150,12 +148,6 @@ public class ReviewService {
     private void validateReviewsList(List<Review> reviews) {
         if (reviews == null) {
             throw new ResourceNotFoundException("There are no such reviews in the database or have been deleted!");
-        }
-    }
-
-    private void checkForSaveException(Review review) {
-        if (review == null) {
-            throw new RuntimeException("There was problem while saving the review in the database!");
         }
     }
 

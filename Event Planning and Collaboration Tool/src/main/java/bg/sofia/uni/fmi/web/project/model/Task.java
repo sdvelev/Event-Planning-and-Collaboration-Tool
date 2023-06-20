@@ -83,7 +83,6 @@ public class Task {
         return Objects.equals(name, task.name) &&
             Objects.equals(description, task.description) &&
             Objects.equals(dueDate, task.dueDate) &&
-            Objects.equals(associatedEvent, task.associatedEvent) &&
             Objects.equals(participant, task.participant) &&
             Objects.equals(createdBy, task.createdBy) &&
             Objects.equals(creationTime, task.creationTime);
@@ -91,6 +90,6 @@ public class Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, dueDate, associatedEvent, participant, createdBy, creationTime);
+        return Objects.hash(name, description, dueDate, participant, createdBy, creationTime);
     }
 }

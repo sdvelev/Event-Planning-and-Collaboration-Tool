@@ -23,10 +23,7 @@ public class ContractService {
 
     public long addContract(@NotNull(message = "The given vendor cannot be null!")
                             Contract contractToSave) {
-        Contract contract = contractRepository.save(contractToSave);
-        checkForSaveException(contract);
-
-        return contract.getId();
+        return contractRepository.save(contractToSave).getId();
     }
 
     public List<Contract> getAllContracts() {
@@ -136,12 +133,6 @@ public class ContractService {
     private void validateContractsList(List<Contract> contracts) {
         if (contracts == null) {
             throw new ResourceNotFoundException("There are no such contracts in the database or have been deleted!");
-        }
-    }
-
-    private void checkForSaveException(Contract contract) {
-        if (contract == null) {
-            throw new RuntimeException("There was problem while saving the contract in the database!");
         }
     }
 

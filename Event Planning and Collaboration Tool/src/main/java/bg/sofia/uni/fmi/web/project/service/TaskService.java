@@ -23,10 +23,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     public long addTask(@NotNull(message = "The given task cannot be null!") Task taskToSave) {
-        Task task = taskRepository.save(taskToSave);
-        checkForSaveException(task);
-
-        return task.getId();
+        return taskRepository.save(taskToSave).getId();
     }
 
     public List<Task> getAllTasks() {
@@ -181,12 +178,6 @@ public class TaskService {
     private void validateTasksList(List<Task> tasks) {
         if (tasks == null) {
             throw new ResourceNotFoundException("There are no such tasks in the database or have been deleted!");
-        }
-    }
-
-    private void checkForSaveException(Task task) {
-        if (task == null) {
-            throw new RuntimeException("There was problem while saving the task in the database!");
         }
     }
 

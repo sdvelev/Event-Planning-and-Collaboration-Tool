@@ -26,10 +26,8 @@ public class GuestService {
 
     public long addGuest(@NotNull(message = "The given guest cannot be null!")
                          Guest guestToSave) {
-        Guest guest = guestRepository.save(guestToSave);
-        checkForSaveException(guest);
 
-        return guest.getId();
+        return guestRepository.save(guestToSave).getId();
     }
 
     public List<Guest> getAllGuests() {
@@ -171,12 +169,6 @@ public class GuestService {
     private void validateGuestsList(List<Guest> guests) {
         if (guests == null) {
             throw new ResourceNotFoundException("There are no such guests in the database or have been deleted!");
-        }
-    }
-
-    private void checkForSaveException(Guest guest) {
-        if (guest == null) {
-            throw new RuntimeException("There was problem while saving the guest in the database!");
         }
     }
 

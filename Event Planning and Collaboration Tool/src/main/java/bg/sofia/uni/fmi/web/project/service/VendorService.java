@@ -38,11 +38,7 @@ public class VendorService {
         vendorToSave.setCreationTime(LocalDateTime.now());
         vendorToSave.setDeleted(false);
 
-        System.out.println(vendorToSave.getSurname());
-
-        Vendor vendor = vendorRepository.save(vendorToSave);
-        //checkForSaveException(vendor);
-        return vendor.getId();
+        return vendorRepository.save(vendorToSave).getId();
     }
 
     public List<Vendor> getAllVendors() {
@@ -179,12 +175,6 @@ public class VendorService {
             throw new ResourceNotFoundException("There are no such vendors in the database or have been deleted!");
         }
     }
-
-//    private void checkForSaveException(Vendor vendor) {
-//        if (vendor == null) {
-//            throw new RuntimeException("There was problem while saving the vendor in the database!");
-//        }
-//    }
 
     private void validateForDeletedVendor(Vendor vendor) {
         if (vendor.isDeleted()) {

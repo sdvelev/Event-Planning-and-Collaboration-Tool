@@ -1,0 +1,750 @@
+{
+	"info": {
+		"_postman_id": "614fd89e-281d-4cd3-a9a6-1b68150e7be3",
+		"name": "Event planning and collaboration tool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Guests",
+			"item": [
+				{
+					"name": "Get all guests",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/guests",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add guest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Iliyan\",\r\n    \"surname\": \"Mariyanov\",\r\n    \"email\": \"i@gmail.com\",\r\n    \"guest_type\": \"FAMILY\",\r\n    \"attendance_type\": \"GOING\", \r\n    \"invitation_sent\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/guests?assigned_event_id=1&guest_type=famiLy&attendance_type=going",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guests"
+							],
+							"query": [
+								{
+									"key": "assigned_event_id",
+									"value": "1"
+								},
+								{
+									"key": "guest_type",
+									"value": "famiLy"
+								},
+								{
+									"key": "attendance_type",
+									"value": "going"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get guest by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/guests/search?id=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guests",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get guest by email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/guests/search?email=iliyan@gmail.com",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guests",
+								"search"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "iliyan@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get guests by name and surname",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/guests/search?name=Iliyan&surname=Mariyanov",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guests",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Iliyan"
+								},
+								{
+									"key": "surname",
+									"value": "Mariyanov"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get guests by event ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/guests/search?event_id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guests",
+								"search"
+							],
+							"query": [
+								{
+									"key": "event_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get guests by guest type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/guests/search?guest_type=friends",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guests",
+								"search"
+							],
+							"query": [
+								{
+									"key": "guest_type",
+									"value": "friends"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get guests by attendance type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/guests/search?attendance_type=considering",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guests",
+								"search"
+							],
+							"query": [
+								{
+									"key": "attendance_type",
+									"value": "considering"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete guest",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/guests/delete?deleted=true&id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guests",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "deleted",
+									"value": "true"
+								},
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Get all tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"By food\",\r\n    \"description\": \"You need to go to the shop and by food\",\r\n    \"due_date\": \"2023-06-10 16:08:00\",\r\n    \"last_notified\": \"2023-06-10 16:50:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/tasks?assigned_event_id=1&assigned_participant_id=1&task_progress=in_progress",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "assigned_event_id",
+									"value": "1"
+								},
+								{
+									"key": "assigned_participant_id",
+									"value": "1"
+								},
+								{
+									"key": "task_progress",
+									"value": "in_progress"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks/search?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks/search?name=By food",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "By food"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task by event ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks/search?event_id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "event_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task by created by",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks/search?created_by=a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "created_by",
+									"value": "a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task by due date after",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks/search?due_date_after=2023-06-10 16:07:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "due_date_after",
+									"value": "2023-06-10 16:07:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task by due date before",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks/search?due_date_before=2023-06-10 16:09:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "due_date_before",
+									"value": "2023-06-10 16:09:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task by due date after and due date before",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tasks/search?due_date_before=2023-06-10 16:09:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "due_date_before",
+									"value": "2023-06-10 16:09:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete task",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get all reviews",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Add review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 3.5,\r\n    \"comment\": \"Some comments here\",\r\n    \"photo_link\": \"path/to/photo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/reviews?assigned_vendor_id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reviews"
+							],
+							"query": [
+								{
+									"key": "assigned_vendor_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get review by id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get review by comment",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get reviews by rating",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get reviews by photo link",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get reviews by vendor id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Remove review",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contracts",
+			"item": [
+				{
+					"name": "Get all contracts",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Add contract",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get contract by id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get all contracts by total price",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get all contracts by finished",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get all contracts by event id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get all contracts by vendor id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Contract",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vendors",
+			"item": [
+				{
+					"name": "Get all vendors",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Add vendor",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get vendor by id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get vendor by email",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get vendor by phone number",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get all vendors by vendor type",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Remove vendor",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
