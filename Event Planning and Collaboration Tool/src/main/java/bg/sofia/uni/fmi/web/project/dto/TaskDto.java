@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Data
 @Builder
@@ -34,8 +35,26 @@ public class TaskDto {
     @NotBlank(message = "The description cannot be blank!")
     private String description;
 
-    @JsonProperty("task_progress")
+
     private TaskProgress taskProgress;
+
+    @JsonProperty("task_progress")
+    public void setTaskProgress(String taskProgress) {
+        if (taskProgress != null) {
+            String uppercaseTaskProgress = taskProgress.toUpperCase();
+
+            boolean isValidValue = Arrays.stream(TaskProgress.values())
+                .map(Enum::name)
+                .map(String::toUpperCase)
+                .anyMatch(enumValue -> enumValue.equals(uppercaseTaskProgress));
+
+            if (!isValidValue) {
+                throw new IllegalArgumentException("The provided task progress is not valid!");
+            }
+
+            this.taskProgress = TaskProgress.valueOf(uppercaseTaskProgress);
+        }
+    }
 
     @JsonProperty("due_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

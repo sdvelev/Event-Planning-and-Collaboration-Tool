@@ -21,7 +21,7 @@ import java.util.Optional;
 @Service
 @Validated
 @AllArgsConstructor
-public class TaskEventParticipantFacadeService {
+public class TaskFacadeService {
     private final TaskService taskService;
     private final EventService eventService;
     private final ParticipantService participantService;
@@ -31,26 +31,20 @@ public class TaskEventParticipantFacadeService {
                         @NotNull(message = "The event id cannot be null!")
                         Long eventId,
                         @NotNull(message = "The event id cannot be null!")
-                        Long participantId,
-                        @NotNull(message = "The guest type cannot be null!")
-                        @NotEmpty(message = "The guest type cannot be empty!")
-                        @NotBlank(message = "The guest type cannot be blank!")
-                        String taskProgress) {
+                        Long participantId) {
         validateForExistingReview(taskToSave.getName(), eventId, participantId);
 
-        TaskProgress newTaskProgress = TaskProgress.valueOf(taskProgress.toUpperCase());
         Optional<Event> event = eventService.getEventById(eventId);
         validateEvent(event.get());
 
         Optional<Participant> participant = participantService.getParticipantById(participantId);
         validateParticipant(participant);
 
-        taskToSave.setTaskProgress(newTaskProgress);
+
         taskToSave.setAssociatedEvent(event.get());
         taskToSave.setParticipant(participant.get());
         taskToSave.setCreatedBy("a");
         taskToSave.setCreationTime(LocalDateTime.now());
-        taskToSave.setDeleted(false);
 
         event.get().getAssociatedTasks().add(taskToSave);
         participant.get().getAssociatedTasks().add(taskToSave);

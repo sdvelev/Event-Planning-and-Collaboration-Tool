@@ -2,8 +2,8 @@ package bg.sofia.uni.fmi.web.project.controller;
 
 import bg.sofia.uni.fmi.web.project.dto.ReviewDto;
 import bg.sofia.uni.fmi.web.project.mapper.ReviewMapper;
+import bg.sofia.uni.fmi.web.project.service.ReviewFacadeService;
 import bg.sofia.uni.fmi.web.project.service.ReviewService;
-import bg.sofia.uni.fmi.web.project.service.ReviewVendorFacadeService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -29,7 +29,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
-    private final ReviewVendorFacadeService reviewVendorFacadeService;
+    private final ReviewFacadeService reviewFacadeService;
     private final ReviewMapper mapper;
 
     @PostMapping(params = {"assigned_vendor_id"})
@@ -40,7 +40,7 @@ public class ReviewController {
                           @NotNull(message = "The vendor id cannot be null!")
                           @Positive(message = "The vendor id must be above 0!")
                           long vendorId) {
-        return reviewVendorFacadeService.addReview(mapper.toEntity(reviewDto), vendorId);
+        return reviewFacadeService.addReview(mapper.toEntity(reviewDto), vendorId);
     }
 
     @GetMapping
@@ -52,15 +52,6 @@ public class ReviewController {
     public ResponseEntity<ReviewDto> findById(@Positive(message = "ReviewID must be positive")
                                               @RequestParam("id") long id) {
         return ResponseEntity.ok(mapper.toDto(reviewService.getReviewById(id)));
-    }
-
-    @GetMapping(value = "/search", params = {"comment"})
-    public ResponseEntity<List<ReviewDto>> findByComment(@RequestParam("comment")
-                                                         @NotNull(message = "The comment cannot be null!")
-                                                         @NotEmpty(message = "The comment cannot be empty!")
-                                                         @NotBlank(message = "The comment cannot be blank!")
-                                                         String comment) {
-        return ResponseEntity.ok(mapper.toDtoCollection(reviewService.getReviewsByComment(comment)));
     }
 
     @GetMapping(value = "/search", params = {"rating"})
@@ -97,12 +88,10 @@ public class ReviewController {
         return reviewService.setReviewByReviewId(reviewId, reviewDto);
     }
 
-    @DeleteMapping(value = "/delete", params = {"deleted", "id"})
-    public boolean deleteGuest(@RequestParam("deleted")
-                               boolean deleted,
-                               @Positive(message = "The given ID cannot be less than zero!")
+    @DeleteMapping(value = "/delete", params = {"id"})
+    public boolean deleteGuest(@Positive(message = "The given ID cannot be less than zero!")
                                @RequestParam("id")
                                long reviewId) {
-        return reviewService.delete(deleted, reviewId);
+        return reviewService.delete(reviewId);
     }
 }

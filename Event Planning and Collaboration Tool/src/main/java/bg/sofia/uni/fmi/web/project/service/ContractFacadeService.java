@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 @Validated
 @AllArgsConstructor
-public class ContractEventVendorFacadeService {
+public class ContractFacadeService {
     private final ContractService contractService;
     private final EventService eventService;
     private final VendorService vendorService;
@@ -42,9 +42,8 @@ public class ContractEventVendorFacadeService {
 
         contractToSave.setCreatedBy("a");
         contractToSave.setCreationTime(LocalDateTime.now());
-        contractToSave.setDeleted(false);
 
-        //event.setContract()
+//        event.get().se
         vendor.getVendorContracts().add(contractToSave);
 
         return contractService.addContract(contractToSave);
@@ -63,16 +62,8 @@ public class ContractEventVendorFacadeService {
     }
 
     private void validateForExistingContract(long eventId, long vendorId) {
-        if (!validateForExistingContractByEventId(eventId) && !validateForExistingContractByVendorId(vendorId)) {
+        if (contractService.getContractByEventIdAndVendorId(eventId, vendorId) != null) {
             throw new ConflictException("There is already such contract in the database!");
         }
-    }
-
-    private boolean validateForExistingContractByEventId(long eventId) {
-        return contractService.getContractsByAssociatedEventId(eventId).isEmpty();
-    }
-
-    private boolean validateForExistingContractByVendorId(long vendorId) {
-        return contractService.getContractsByAssociatedVendorId(vendorId).isEmpty();
     }
 }

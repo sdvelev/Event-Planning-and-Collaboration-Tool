@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Data
 @Builder
@@ -41,11 +42,45 @@ public class GuestDto {
     @NotBlank(message = "The email cannot be blank!")
     private String email;
 
-    @JsonProperty("guest_type")
     private GuestType guestType;
 
-    @JsonProperty("attendance_type")
+    @JsonProperty("guest_type")
+    public void setGuestType(String guestType) {
+        if (guestType != null) {
+            String uppercaseGuestType = guestType.toUpperCase();
+
+            boolean isValidValue = Arrays.stream(GuestType.values())
+                .map(Enum::name)
+                .map(String::toUpperCase)
+                .anyMatch(enumValue -> enumValue.equals(uppercaseGuestType));
+
+            if (!isValidValue) {
+                throw new IllegalArgumentException("The provided guest type is not valid!");
+            }
+
+            this.guestType = GuestType.valueOf(uppercaseGuestType);
+        }
+    }
+
     private AttendanceType attendanceType;
+
+    @JsonProperty("attendance_type")
+    public void setAttendanceType(String attendanceType) {
+        if (attendanceType != null) {
+            String uppercaseAttendanceType = attendanceType.toUpperCase();
+
+            boolean isValidValue = Arrays.stream(AttendanceType.values())
+                .map(Enum::name)
+                .map(String::toUpperCase)
+                .anyMatch(enumValue -> enumValue.equals(uppercaseAttendanceType));
+
+            if (!isValidValue) {
+                throw new IllegalArgumentException("The provided attendance type is not valid!");
+            }
+
+            this.attendanceType = AttendanceType.valueOf(uppercaseAttendanceType);
+        }
+    }
 
     @JsonProperty("invitation_sent")
     private boolean invitationSent;

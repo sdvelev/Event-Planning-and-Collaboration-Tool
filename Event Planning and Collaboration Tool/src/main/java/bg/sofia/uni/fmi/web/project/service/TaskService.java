@@ -3,7 +3,6 @@ package bg.sofia.uni.fmi.web.project.service;
 import bg.sofia.uni.fmi.web.project.dto.TaskDto;
 import bg.sofia.uni.fmi.web.project.model.Task;
 import bg.sofia.uni.fmi.web.project.repository.TaskRepository;
-import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -27,18 +26,15 @@ public class TaskService {
     }
 
     public List<Task> getAllTasks() {
-        List<Task> tasks = taskRepository.findAll().parallelStream()
-            .filter(t -> !t.isDeleted())
-            .toList();
-
+        List<Task> tasks = taskRepository.findAll();
         validateTasksList(tasks);
+
         return tasks;
     }
 
     public Task getTaskById(@Positive(message = "The given ID cannot be less than zero!") long id) {
         Task task = taskRepository.findTaskByIdEquals(id);
         validateTask(task);
-        validateForDeletedTask(task);
 
         return task;
     }
@@ -47,31 +43,25 @@ public class TaskService {
                                      @NotEmpty(message = "The name cannot be empty!")
                                      @NotBlank(message = "The name cannot be blank!")
                                      String name) {
-        List<Task> tasks = taskRepository.findTasksByNameEquals(name).parallelStream()
-            .filter(t -> !t.isDeleted())
-            .toList();
-
+        List<Task> tasks = taskRepository.findTasksByNameEquals(name);
         validateTasksList(tasks);
+
         return tasks;
     }
 
     public List<Task> getTasksByEventId(@Positive(message = "The given ID cannot be less than zero!")
                                         long eventId) {
-        List<Task> tasks = taskRepository.findTasksByAssociatedEventIdEquals(eventId).parallelStream()
-            .filter(t -> !t.isDeleted())
-            .toList();
-
+        List<Task> tasks = taskRepository.findTasksByAssociatedEventIdEquals(eventId);
         validateTasksList(tasks);
+
         return tasks;
     }
 
     public List<Task> getTasksByParticipantId(@Positive(message = "The given ID cannot be less than zero!")
                                               long participantId) {
-        List<Task> tasks = taskRepository.findTasksByParticipantIdEquals(participantId).parallelStream()
-            .filter(t -> !t.isDeleted())
-            .toList();
-
+        List<Task> tasks = taskRepository.findTasksByAndParticipantIdEquals(participantId);
         validateTasksList(tasks);
+
         return tasks;
     }
 
@@ -79,31 +69,9 @@ public class TaskService {
                                           @NotEmpty(message = "The name cannot be empty!")
                                           @NotBlank(message = "The name cannot be blank!")
                                           String name) {
-        List<Task> tasks = taskRepository.findTaskByCreatedByEquals(name).parallelStream()
-            .filter(t -> !t.isDeleted())
-            .toList();
-
+        List<Task> tasks = taskRepository.findTaskByCreatedByEquals(name);
         validateTasksList(tasks);
-        return tasks;
-    }
 
-    public List<Task> getTaskByDueDateAfter(@NotNull(message = "The date after cannot be null!")
-                                            LocalDateTime localDateTimeAfter) {
-        List<Task> tasks = taskRepository.findTaskByDueDateAfter(localDateTimeAfter).parallelStream()
-            .filter(t -> !t.isDeleted())
-            .toList();
-
-        validateTasksList(tasks);
-        return tasks;
-    }
-
-    public List<Task> getTaskByDueDateBefore(@NotNull(message = "The date before cannot be null!")
-                                             LocalDateTime localDateTimeBefore) {
-        List<Task> tasks = taskRepository.findTaskByDueDateBefore(localDateTimeBefore).parallelStream()
-            .filter(t -> !t.isDeleted())
-            .toList();
-
-        validateTasksList(tasks);
         return tasks;
     }
 
@@ -112,9 +80,7 @@ public class TaskService {
                                               @NotNull(message = "The date before cannot be null!")
                                               LocalDateTime localDateTimeBefore) {
         List<Task> tasks =
-            taskRepository.findTaskByDueDateBetween(localDateTimeAfter, localDateTimeBefore).parallelStream()
-                .filter(t -> !t.isDeleted())
-                .toList();
+            taskRepository.findTaskByDueDateBetween(localDateTimeAfter, localDateTimeBefore);
 
         validateTasksList(tasks);
         return tasks;
@@ -126,7 +92,6 @@ public class TaskService {
                                    TaskDto taskDto) {
         Task task = getTaskById(taskId);
         validateTask(task);
-        validateForDeletedTask(task);
 
         Task newTaskToSave = updateFields(taskDto, task);
         newTaskToSave.setUpdatedBy("b");
@@ -137,14 +102,11 @@ public class TaskService {
         return true;
     }
 
-    public boolean delete(boolean deleted,
-                          @Positive(message = "The given ID cannot be less than zero!")
-                          long taskId) {
-        Task task = taskRepository.findTaskByIdEquals(taskId);
+    public boolean delete(@Positive(message = "The given ID cannot be less than zero!") long taskId) {
+        Task task = getTaskById(taskId);
         validateTask(task);
-        validateForDeletedTask(task);
 
-        task.setDeleted(deleted);
+        task.setDeleted(true);
         taskRepository.save(task);
         return true;
     }
@@ -178,12 +140,6 @@ public class TaskService {
     private void validateTasksList(List<Task> tasks) {
         if (tasks == null) {
             throw new ResourceNotFoundException("There are no such tasks in the database or have been deleted!");
-        }
-    }
-
-    private void validateForDeletedTask(Task task) {
-        if (task.isDeleted()) {
-            throw new MethodNotAllowed("The current record has already been deleted!");
         }
     }
 }

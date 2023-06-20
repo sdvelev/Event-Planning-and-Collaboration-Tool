@@ -30,15 +30,10 @@ public class VendorController {
     private final VendorService vendorService;
     private final VendorMapper mapper;
 
-    @PostMapping(params = {"vendor_type"})
-    public long addVendor(@NotNull(message = "The guestDto cannot be null!") @RequestBody VendorDto vendorDto,
-                          @RequestParam("vendor_type")
-                          @NotNull(message = "The vendor type cannot be null!")
-                          @NotEmpty(message = "The vendor type cannot be empty!")
-                          @NotBlank(message = "The vendor type cannot be blank!")
-                          String vendorType) {
+    @PostMapping()
+    public long addVendor(@NotNull(message = "The guestDto cannot be null!") @RequestBody VendorDto vendorDto) {
         System.out.println(vendorDto.getSurname());
-        return vendorService.addVendor(mapper.toEntity(vendorDto), vendorType);
+        return vendorService.addVendor(mapper.toEntity(vendorDto));
     }
 
     @GetMapping
@@ -105,12 +100,10 @@ public class VendorController {
         return vendorService.setVendorByVendorId(vendorId, vendorDto);
     }
 
-    @DeleteMapping(value = "/delete", params = {"deleted", "id"})
-    public boolean deleteGuest(@RequestParam("deleted")
-                               boolean deleted,
-                               @Positive(message = "The given ID cannot be less than zero!")
+    @DeleteMapping(value = "/delete", params = {"id"})
+    public boolean deleteGuest(@Positive(message = "The given ID cannot be less than zero!")
                                @RequestParam("id")
                                long vendorId) {
-        return vendorService.delete(deleted, vendorId);
+        return vendorService.delete(vendorId);
     }
 }

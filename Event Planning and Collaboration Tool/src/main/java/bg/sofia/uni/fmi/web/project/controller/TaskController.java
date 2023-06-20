@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.web.project.controller;
 
 import bg.sofia.uni.fmi.web.project.dto.TaskDto;
 import bg.sofia.uni.fmi.web.project.mapper.TaskMapper;
-import bg.sofia.uni.fmi.web.project.service.TaskEventParticipantFacadeService;
+import bg.sofia.uni.fmi.web.project.service.TaskFacadeService;
 import bg.sofia.uni.fmi.web.project.service.TaskService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,10 +30,10 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskController {
     private final TaskService taskService;
-    private final TaskEventParticipantFacadeService taskEventParticipantFacadeService;
+    private final TaskFacadeService taskFacadeService;
     private final TaskMapper mapper;
 
-    @PostMapping(params = {"assigned_event_id", "assigned_participant_id", "task_progress"})
+    @PostMapping(params = {"assigned_event_id", "assigned_participant_id"})
     public long addTask(@NotNull(message = "The guestDto cannot be null!") @RequestBody TaskDto taskDto,
                         @NotNull(message = "The event id cannot be null!")
                         @Positive(message = "The event id must be positive!")
@@ -42,14 +42,8 @@ public class TaskController {
                         @NotNull(message = "The event id cannot be null!")
                         @Positive(message = "The participant id must be positive!")
                         @RequestParam("assigned_participant_id")
-                        Long participantId,
-                        @NotNull(message = "The guest type cannot be null!")
-                        @NotEmpty(message = "The guest type cannot be empty!")
-                        @NotBlank(message = "The guest type cannot be blank!")
-                        @RequestParam("task_progress")
-                        String taskProgress) {
-        return taskEventParticipantFacadeService.addTask(mapper.toEntity(taskDto), eventId, participantId,
-            taskProgress);
+                        Long participantId) {
+        return taskFacadeService.addTask(mapper.toEntity(taskDto), eventId, participantId);
     }
 
     @GetMapping
@@ -96,17 +90,6 @@ public class TaskController {
         return ResponseEntity.ok(mapper.toDtoCollection(taskService.getTasksByCreatedBy(createdBy)));
     }
 
-    @GetMapping(value = "/search", params = {"due_date_after"})
-    public ResponseEntity<List<TaskDto>> getTasksByDueDateAfter(@NotNull(message = "The due date after cannot be null!")
-                                                                @NotEmpty(message = "The due date after cannot be empty!")
-                                                                @NotBlank(message = "The due date after cannot be blank!")
-                                                                @RequestParam("due_date_after")
-                                                                String dueDateAfter) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return ResponseEntity.ok(
-            mapper.toDtoCollection(taskService.getTaskByDueDateAfter(LocalDateTime.parse(dueDateAfter, formatter))));
-    }
 
     @GetMapping(value = "/search", params = {"due_date_after", "due_date_before"})
     public ResponseEntity<List<TaskDto>> getTasksByDueDateBetween(
@@ -127,19 +110,6 @@ public class TaskController {
                 LocalDateTime.parse(dueDateBefore, formatter))));
     }
 
-    @GetMapping(value = "/search", params = {"due_date_before"})
-    public ResponseEntity<List<TaskDto>> getTasksByDueDateBefore(
-        @NotNull(message = "The due date before cannot be null!")
-        @NotEmpty(message = "The due date before cannot be empty!")
-        @NotBlank(message = "The due date before cannot be blank!")
-        @RequestParam("due_date_before")
-        String dueDateBefore) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return ResponseEntity.ok(
-            mapper.toDtoCollection(taskService.getTaskByDueDateBefore(LocalDateTime.parse(dueDateBefore, formatter))));
-    }
-
     @PutMapping(value = "/set", params = {"task_id"})
     public boolean setTaskByTaskId(@RequestParam("task_id")
                                    @Positive(message = "The task id must be positive!")
@@ -150,12 +120,10 @@ public class TaskController {
         return taskService.setTaskByTaskId(taskId, taskDto);
     }
 
-    @DeleteMapping(value = "/delete", params = {"deleted", "id"})
-    public boolean deleteTask(@RequestParam("deleted")
-                              boolean deleted,
-                              @Positive(message = "The given ID cannot be less than zero!")
+    @DeleteMapping(value = "/delete", params = {"id"})
+    public boolean deleteTask(@Positive(message = "The given ID cannot be less than zero!")
                               @RequestParam("id")
                               long taskId) {
-        return taskService.delete(deleted, taskId);
+        return taskService.delete(taskId);
     }
 }

@@ -4,7 +4,7 @@ import bg.sofia.uni.fmi.web.project.dto.GuestDto;
 import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.mapper.GuestMapper;
-import bg.sofia.uni.fmi.web.project.service.GuestEventFacadeService;
+import bg.sofia.uni.fmi.web.project.service.GuestFacadeService;
 import bg.sofia.uni.fmi.web.project.service.GuestService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,28 +30,20 @@ import java.util.List;
 @AllArgsConstructor
 public class GuestController {
     private final GuestService guestService;
-    private final GuestEventFacadeService guestEventFacadeService;
+    private final GuestFacadeService guestFacadeService;
     private final GuestMapper mapper;
 
-    @PostMapping(params = {"assigned_event_id", "guest_type"})
+    @PostMapping(params = {"assigned_event_id"})
     public long addGuest(@NotNull(message = "The guestDto cannot be null!")
                          @RequestBody
                          GuestDto guestDto,
                          @NotNull(message = "The event id cannot be null!")
                          @Positive(message = "The event id must be positive!")
                          @RequestParam("assigned_event_id")
-                         Long eventId,
-                         @NotNull(message = "The guest type cannot be null!")
-                         @NotEmpty(message = "The guest type cannot be empty!")
-                         @NotBlank(message = "The guest type cannot be blank!")
-                         @RequestParam("guest_type")
-                         String guestType,
-                         @NotNull(message = "The attendance type cannot be null!")
-                         @NotEmpty(message = "The attendance type cannot be empty!")
-                         @NotBlank(message = "The attendance type cannot be blank!")
-                         @RequestParam("attendance_type")
-                         String attendanceType) {
-        return guestEventFacadeService.addGuest(mapper.toEntity(guestDto), eventId, guestType, attendanceType);
+                         Long eventId) {
+        System.out.println(guestDto.getGuestType());
+        System.out.println(guestDto.getAttendanceType());
+        return guestFacadeService.addGuest(mapper.toEntity(guestDto), eventId);
     }
 
     @GetMapping
@@ -127,12 +119,10 @@ public class GuestController {
         return guestService.setGuestByGuestId(guestId, guestDto);
     }
 
-    @DeleteMapping(value = "/delete", params = {"deleted", "id"})
-    public boolean deleteGuest(@RequestParam("deleted")
-                               boolean deleted,
-                               @Positive(message = "The given ID cannot be less than zero!")
+    @DeleteMapping(value = "/delete", params = {"id"})
+    public boolean deleteGuest(@Positive(message = "The given ID cannot be less than zero!")
                                @RequestParam("id")
                                long guestId) {
-        return guestService.delete(deleted, guestId);
+        return guestService.delete(guestId);
     }
 }
