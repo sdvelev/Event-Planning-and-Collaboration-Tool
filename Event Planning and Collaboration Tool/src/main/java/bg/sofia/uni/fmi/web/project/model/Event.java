@@ -42,6 +42,9 @@ public class Event {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "picture_link")
+    private String pictureLink;
+
     @OneToMany(mappedBy = "associatedEvent")
     private Set<Participant> associatedParticipants;
 

@@ -164,6 +164,10 @@ public class EventService {
             eventToUpdate.setDescription(eventFieldsToChange.getDescription());
         }
 
+        if (eventFieldsToChange.getPictureLink() != null) {
+            eventToUpdate.setPictureLink(eventFieldsToChange.getPictureLink());
+        }
+
         return eventToUpdate;
     }
 }

@@ -32,4 +32,7 @@ public class EventDto {
 
     @JsonProperty("description")
     private String description;
+
+    @JsonProperty("picture_link")
+    private String pictureLink;
 }
