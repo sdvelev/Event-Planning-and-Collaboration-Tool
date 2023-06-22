@@ -48,7 +48,7 @@ public class VendorDto {
     @NotBlank(message = "The phone number cannot be blank!")
     private String phoneNumber;
 
-    @JsonProperty("email")
+        @JsonProperty("email")
     @NotNull(message = "The email cannot be null!")
     @NotEmpty(message = "The email cannot be empty!")
     @NotBlank(message = "The email cannot be blank!")

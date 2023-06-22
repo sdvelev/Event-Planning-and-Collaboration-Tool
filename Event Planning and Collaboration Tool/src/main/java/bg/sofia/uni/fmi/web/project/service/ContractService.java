@@ -61,8 +61,8 @@ public class ContractService {
     public List<Contract> getContractsByAssociatedVendorId(@Positive(message = "The given vendor id must be above 0!")
                                                            long vendorId) {
         List<Contract> contracts = contractRepository.findContractsAssociatedVendorIdEquals(vendorId);
-
         validateContractsList(contracts);
+
         return contracts;
     }
 
