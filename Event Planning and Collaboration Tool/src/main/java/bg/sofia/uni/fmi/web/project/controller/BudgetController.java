@@ -67,6 +67,15 @@ public class BudgetController {
         throw new ResourceNotFoundException("Budget with such an id cannot be found");
     }
 
+    @GetMapping(value = "/search", params = {"event_id"})
+    public List<BudgetDto> getAllBudgetsByEventId(@RequestParam("event_id")
+                                                      @NotNull(message = "The provided event id cannot be null")
+                                                      @Positive(message = "The provided event id must be positive")
+                                                      Long eventId) {
+
+        return budgetMapper.toDtoList(budgetEventFacadeService.getAllBudgetsForEvent(eventId));
+    }
+
     @GetMapping(value = "/description", params = {"id"})
     public String getDescriptionById(@RequestParam("id")
                                          @NotNull(message = "The provided budget id cannot be null")

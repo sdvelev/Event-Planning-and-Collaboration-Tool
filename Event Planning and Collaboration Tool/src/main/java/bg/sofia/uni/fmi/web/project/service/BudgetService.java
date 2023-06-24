@@ -5,12 +5,14 @@ import bg.sofia.uni.fmi.web.project.enums.ExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.repository.BudgetRepository;
+import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.server.MethodNotAllowedException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -41,6 +43,12 @@ public class BudgetService {
         return budgetRepository.findAll()
             .parallelStream()
             .filter(budget -> !budget.isDeleted())
+            .collect(Collectors.toList());
+    }
+
+    public List<Budget> getBudgetsByEvent(Event event) {
+        return getBudgets().stream()
+            .filter(budget -> budget.getAssociatedEvent().equals(event))
             .collect(Collectors.toList());
     }
 
