@@ -1,7 +1,8 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.dto.ExpenseDto;
-import bg.sofia.uni.fmi.web.project.enums.ExpenditureCategory;
+import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
+import bg.sofia.uni.fmi.web.project.enums.ExpenseExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Expense;
 import bg.sofia.uni.fmi.web.project.repository.ExpenseRepository;
@@ -45,6 +46,14 @@ public class ExpenseService {
             .collect(Collectors.toList());
     }
 
+    public List<Expense> getExpensesByEvent(
+        @NotNull(message = "The provided event be null")
+        Event event) {
+        return getExpenses().stream()
+            .filter(expense -> expense.getAssociatedEvent().equals(event))
+            .collect(Collectors.toList());
+    }
+
     public Optional<Expense> getExpenseById(
         @NotNull(message = "The provided expense id cannot be null")
         @Positive(message = "The provided expense id must be positive")
@@ -71,7 +80,7 @@ public class ExpenseService {
         throw new ResourceNotFoundException("Expense with such an id cannot be found");
     }
 
-    public ExpenditureCategory getExpenditureCategoryByExpenseId(
+    public ExpenseExpenditureCategory getExpenditureCategoryByExpenseId(
         @NotNull(message = "The provided expense id cannot be null")
         @Positive(message = "The provided expense id must be positive")
         Long id) {
@@ -156,9 +165,9 @@ public class ExpenseService {
             expenseToUpdate.setDescription(expenseFieldsToChange.getDescription());
         }
 
-        if (expenseFieldsToChange.getExpenditureCategory() != null) {
-            expenseToUpdate.setExpenditureCategory(expenseFieldsToChange.getExpenditureCategory());
-        }
+//        if (expenseFieldsToChange.getExpenditureCategory() != null) {
+//            expenseToUpdate.setExpenditureCategory(expenseFieldsToChange.getExpenditureCategory());
+//        }
 
         if (expenseFieldsToChange.getAmount() != null) {
             expenseToUpdate.setAmount(expenseFieldsToChange.getAmount());

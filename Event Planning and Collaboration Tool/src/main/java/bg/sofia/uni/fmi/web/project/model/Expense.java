@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.web.project.model;
 
-import bg.sofia.uni.fmi.web.project.enums.ExpenditureCategory;
+import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
+import bg.sofia.uni.fmi.web.project.enums.ExpenseExpenditureCategory;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,7 +44,7 @@ public class Expense {
     @Enumerated(EnumType.STRING)
     @Column(name = "expenditure_category")
     @NotNull
-    private ExpenditureCategory expenditureCategory;
+    private ExpenseExpenditureCategory expenditureCategory;
 
     @Column(name = "amount")
     private BigDecimal amount;

@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.web.project.dto;
 
-import bg.sofia.uni.fmi.web.project.enums.ExpenditureCategory;
+import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
+import bg.sofia.uni.fmi.web.project.enums.ExpenseExpenditureCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,7 @@ public class ExpenseDto {
     private String description;
 
     @JsonProperty("expenditure_category")
-    private ExpenditureCategory expenditureCategory;
+    private ExpenseExpenditureCategory expenditureCategory;
 
     @JsonProperty("amount")
     private BigDecimal amount;
