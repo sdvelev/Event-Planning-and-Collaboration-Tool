@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.web.project.dto;
 
-import bg.sofia.uni.fmi.web.project.enums.ExpenditureCategory;
-import bg.sofia.uni.fmi.web.project.enums.UserRole;
+import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,14 +22,14 @@ public class BudgetDto {
     @JsonProperty("description")
     private String description;
 
-    private ExpenditureCategory expenditureCategory;
+    private BudgetExpenditureCategory expenditureCategory;
 
     @JsonProperty("expenditure_category")
     public void setExpenditureCategory(String expenditureCategory) {
         if (expenditureCategory != null) {
             String uppercaseExpenditureCategory = expenditureCategory.toUpperCase();
 
-            boolean isValidValue = Arrays.stream(ExpenditureCategory.values())
+            boolean isValidValue = Arrays.stream(BudgetExpenditureCategory.values())
                 .map(Enum::name)
                 .map(String::toUpperCase)
                 .anyMatch(enumValue -> enumValue.equals(uppercaseExpenditureCategory));
@@ -39,7 +38,7 @@ public class BudgetDto {
                 throw new IllegalArgumentException("The provided expenditure category is not valid.");
             }
 
-            this.expenditureCategory = ExpenditureCategory.valueOf(uppercaseExpenditureCategory);
+            this.expenditureCategory = BudgetExpenditureCategory.valueOf(uppercaseExpenditureCategory);
         }
     }
 

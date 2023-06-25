@@ -1,18 +1,16 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.dto.BudgetDto;
-import bg.sofia.uni.fmi.web.project.enums.ExpenditureCategory;
+import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.repository.BudgetRepository;
-import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.server.MethodNotAllowedException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -46,7 +44,9 @@ public class BudgetService {
             .collect(Collectors.toList());
     }
 
-    public List<Budget> getBudgetsByEvent(Event event) {
+    public List<Budget> getBudgetsByEvent(
+        @NotNull(message = "The provided event cannot be null")
+        Event event) {
         return getBudgets().stream()
             .filter(budget -> budget.getAssociatedEvent().equals(event))
             .collect(Collectors.toList());
@@ -78,7 +78,7 @@ public class BudgetService {
         throw new ResourceNotFoundException("Budget with such an id cannot be found");
     }
 
-    public ExpenditureCategory getExpenditureCategoryByBudgetId(
+    public BudgetExpenditureCategory getExpenditureCategoryByBudgetId(
         @NotNull(message = "The provided budget id cannot be null")
         @Positive(message = "The provided budget id must be positive")
         Long id) {
@@ -126,7 +126,7 @@ public class BudgetService {
         if (optionalBudgetToUpdate.isPresent() && !optionalBudgetToUpdate.get().isDeleted()) {
 
             Budget budgetToUpdate = setBudgetNonNullFields(budgetFieldsToChange,
-                optionalBudgetToUpdate.get());;
+                optionalBudgetToUpdate.get());
             budgetToUpdate.setLastUpdatedTime(LocalDateTime.now());
             budgetRepository.save(budgetToUpdate);
             return true;
@@ -162,13 +162,13 @@ public class BudgetService {
             budgetToUpdate.setDescription(budgetFieldsToChange.getDescription());
         }
 
-        if (budgetFieldsToChange.getAmount() != null) {
-            budgetToUpdate.setAmount(budgetFieldsToChange.getAmount());
-        }
+//        if (budgetFieldsToChange.getAmount() != null) {
+//            budgetToUpdate.setAmount(budgetFieldsToChange.getAmount());
+//        }
 
-        if (budgetFieldsToChange.getExpenditureCategory() != null) {
-            budgetToUpdate.setExpenditureCategory(budgetFieldsToChange.getExpenditureCategory());
-        }
+//        if (budgetFieldsToChange.getExpenditureCategory() != null) {
+//            budgetToUpdate.setExpenditureCategory(budgetFieldsToChange.getExpenditureCategory());
+//        }
 
         if (budgetFieldsToChange.isApproved()) {
             budgetToUpdate.setApproved(budgetFieldsToChange.isApproved());

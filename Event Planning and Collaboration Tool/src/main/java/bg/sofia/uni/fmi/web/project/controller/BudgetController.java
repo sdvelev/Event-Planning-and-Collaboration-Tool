@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.web.project.controller;
 
 import bg.sofia.uni.fmi.web.project.dto.BudgetDto;
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
-import bg.sofia.uni.fmi.web.project.enums.ExpenditureCategory;
+import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.mapper.BudgetMapper;
 import bg.sofia.uni.fmi.web.project.mapper.EventMapper;
 import bg.sofia.uni.fmi.web.project.model.Budget;
@@ -10,7 +10,6 @@ import bg.sofia.uni.fmi.web.project.service.BudgetEventFacadeService;
 import bg.sofia.uni.fmi.web.project.service.BudgetService;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.MethodNotAllowedException;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/budgets")
@@ -86,7 +83,7 @@ public class BudgetController {
     }
 
     @GetMapping(value = "/expenditure_category", params = {"id"})
-    public ExpenditureCategory getBudgetExpenditureCategoryById(@RequestParam("id")
+    public BudgetExpenditureCategory getBudgetExpenditureCategoryById(@RequestParam("id")
                                                                     @NotNull(message = "The provided budget id cannot be null")
                                                                     @Positive(message = "The provided budget id must be positive")
                                                                     Long id)  {
@@ -129,12 +126,16 @@ public class BudgetController {
         throw new ApiBadRequest("There was a problem in creating a budget");
     }
 
-    @DeleteMapping(params = {"id"})
+    @DeleteMapping(params = {"id", "assigned_event_id"})
     public boolean removeBudgetById(@RequestParam("id")
                                         @NotNull(message = "The provided budget id cannot be null")
                                         @Positive(message = "The provided budget id must be positive")
-                                        Long budgetId) {
-        return budgetService.deleteBudget(budgetId);
+                                        Long budgetId,
+                                    @NotNull(message = "The provided associated event id cannot be null")
+                                    @Positive(message = "The provided associated event id must be positive")
+                                    @RequestParam("assigned_event_id")
+                                    Long assignedEventId) {
+        return budgetEventFacadeService.deleteBudgetWithCategoryLogic(assignedEventId, budgetId);
     }
 
     @PutMapping(value = "/set", params = {"budget_id"})
