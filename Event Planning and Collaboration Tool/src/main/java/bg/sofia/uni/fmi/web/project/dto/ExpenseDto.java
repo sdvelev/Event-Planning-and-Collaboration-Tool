@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 @Data
 @Builder
@@ -22,8 +23,25 @@ public class ExpenseDto {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("expenditure_category")
     private ExpenseExpenditureCategory expenditureCategory;
+
+    @JsonProperty("expenditure_category")
+    public void setExpenditureCategory(String expenditureCategory) {
+        if (expenditureCategory != null) {
+            String uppercaseExpenditureCategory = expenditureCategory.toUpperCase();
+
+            boolean isValidValue = Arrays.stream(BudgetExpenditureCategory.values())
+                .map(Enum::name)
+                .map(String::toUpperCase)
+                .anyMatch(enumValue -> enumValue.equals(uppercaseExpenditureCategory));
+
+            if (!isValidValue) {
+                throw new IllegalArgumentException("The provided expenditure category is not valid.");
+            }
+
+            this.expenditureCategory = ExpenseExpenditureCategory.valueOf(uppercaseExpenditureCategory);
+        }
+    }
 
     @JsonProperty("amount")
     private BigDecimal amount;
