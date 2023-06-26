@@ -66,9 +66,9 @@ public class BudgetController {
 
     @GetMapping(value = "/search", params = {"event_id"})
     public List<BudgetDto> getAllBudgetsByEventId(@RequestParam("event_id")
-                                                      @NotNull(message = "The provided event id cannot be null")
-                                                      @Positive(message = "The provided event id must be positive")
-                                                      Long eventId) {
+                                                  @NotNull(message = "The provided event id cannot be null")
+                                                  @Positive(message = "The provided event id must be positive")
+                                                  Long eventId) {
 
         return budgetMapper.toDtoList(budgetEventFacadeService.getAllBudgetsForEvent(eventId));
     }

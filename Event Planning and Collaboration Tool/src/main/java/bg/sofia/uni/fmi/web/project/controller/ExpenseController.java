@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.web.project.controller;
 
+import bg.sofia.uni.fmi.web.project.dto.BudgetDto;
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
 import bg.sofia.uni.fmi.web.project.dto.ExpenseDto;
 import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/expenses")
@@ -63,6 +65,28 @@ public class ExpenseController {
         }
 
         throw new ResourceNotFoundException("Expense with such an id cannot be found");
+    }
+
+    @GetMapping(value = "/search", params = {"event_id"})
+    public List<ExpenseDto> getAllExpensesByEventId(@RequestParam("event_id")
+                                                  @NotNull(message = "The provided event id cannot be null")
+                                                  @Positive(message = "The provided event id must be positive")
+                                                  Long eventId) {
+
+        return expenseMapper.toDtoList(expenseEventFacadeService.getAllExpensesForEvent(eventId));
+    }
+
+    @GetMapping(value = "/search", params = {"event_id", "expenditure_category"})
+    public List<ExpenseDto> getAllExpensesWithExpenditureCategoryByEventId(@RequestParam("event_id")
+                                                    @NotNull(message = "The provided event id cannot be null")
+                                                    @Positive(message = "The provided event id must be positive")
+                                                    Long eventId,
+                                                    @RequestParam("expenditure_category")
+                                                    @NotNull(message = "The provided expenditure category cannot be null")
+                                                    ExpenseExpenditureCategory expenditureCategory) {
+        return expenseMapper.toDtoList(expenseEventFacadeService.getAllExpensesForEvent(eventId)).stream()
+            .filter(expenseDto -> expenseDto.getExpenditureCategory().equals(expenditureCategory))
+            .collect(Collectors.toList());
     }
 
     @GetMapping(value = "/expenditure_category", params = {"id"})
