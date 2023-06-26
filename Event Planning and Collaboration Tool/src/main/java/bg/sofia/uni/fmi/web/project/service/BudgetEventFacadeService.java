@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.web.project.service;
 import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.model.Event;
+import bg.sofia.uni.fmi.web.project.model.Expense;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
@@ -22,11 +23,13 @@ public class BudgetEventFacadeService {
 
     private final BudgetService budgetService;
     private final EventService eventService;
+    private final ExpenseService expenseService;
 
     @Autowired
-    public BudgetEventFacadeService(BudgetService budgetService, EventService eventService) {
+    public BudgetEventFacadeService(BudgetService budgetService, EventService eventService, ExpenseService expenseService) {
         this.budgetService = budgetService;
         this.eventService = eventService;
+        this.expenseService = expenseService;
     }
 
     @Transactional
@@ -117,6 +120,7 @@ public class BudgetEventFacadeService {
         throw new ResourceNotFoundException("There is not an event with such id");
     }
 
+    @Transactional
     public boolean deleteBudgetWithCategoryLogic( @NotNull(message = "The provided associated event id cannot be null")
                                                   @Positive(message = "The provided associated event id must be positive")
                                                   Long eventIdToAssociate,
@@ -129,8 +133,29 @@ public class BudgetEventFacadeService {
         if (optionalBudgetToDelete.isPresent() && !optionalBudgetToDelete.get().isDeleted()) {
 
             Budget budgetToDelete = optionalBudgetToDelete.get();
+            if (eventService.getEventById(eventIdToAssociate).isPresent()) {
+                List<Expense> allExpensesForEvent = expenseService.getExpensesByEvent(eventService.getEventById(eventIdToAssociate).get());
+
+                for (Expense currentExpense : allExpensesForEvent) {
+                    if (currentExpense.getExpenditureCategory().toString().equals(budgetToDelete.getExpenditureCategory().toString())) {
+                        expenseService.deleteExpense(currentExpense.getId());
+                    }
+                }
+            } else {
+                throw new ResourceNotFoundException("There is not an event with such an id");
+            }
+
             if (budgetToDelete.getExpenditureCategory().equals(BudgetExpenditureCategory.ALL)) {
                 List<Budget> allBudgets = getAllBudgetsForEvent(eventIdToAssociate);
+
+                if (eventService.getEventById(eventIdToAssociate).isPresent()) {
+                    List<Expense> allExpensesForEvent = expenseService.getExpensesByEvent(eventService.getEventById(eventIdToAssociate).get());
+                    for (Expense currentExpense : allExpensesForEvent) {
+                        expenseService.deleteExpense(currentExpense.getId());
+                    }
+                } else {
+                    throw new ResourceNotFoundException("There is not an event with such an id");
+                }
 
                 for (Budget currentBudget : allBudgets) {
                     budgetService.deleteBudget(currentBudget.getId());
