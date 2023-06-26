@@ -162,9 +162,9 @@ public class BudgetService {
             budgetToUpdate.setDescription(budgetFieldsToChange.getDescription());
         }
 
-//        if (budgetFieldsToChange.getAmount() != null) {
-//            budgetToUpdate.setAmount(budgetFieldsToChange.getAmount());
-//        }
+        if (budgetFieldsToChange.getAmount() != null) {
+            budgetToUpdate.setAmount(budgetFieldsToChange.getAmount());
+        }
 
 //        if (budgetFieldsToChange.getExpenditureCategory() != null) {
 //            budgetToUpdate.setExpenditureCategory(budgetFieldsToChange.getExpenditureCategory());
