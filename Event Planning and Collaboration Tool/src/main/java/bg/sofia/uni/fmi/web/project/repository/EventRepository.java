@@ -1,21 +1,26 @@
 package bg.sofia.uni.fmi.web.project.repository;
 
 import bg.sofia.uni.fmi.web.project.model.Event;
+import bg.sofia.uni.fmi.web.project.model.Participant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    List<Event> getEventsByName(String name);
+    Optional<Event> findByIdAndDeletedFalse(Long id);
 
-    List<Event> getEventsByDate(LocalDateTime date);
+    List<Event> findAllByDeletedFalse();
+    List<Event> getEventsByNameAndDeletedFalse(String name);
 
-    List<Event> getEventsByLocation(String location);
+    List<Event> getEventsByDateAndDeletedFalse(LocalDateTime date);
 
-    List<Event> getEventsByCreatedBy(String createdBy);
+    List<Event> getEventsByLocationAndDeletedFalse(String location);
+
+    List<Event> getEventsByCreatedByAndDeletedFalse(String createdBy);
 
 }
