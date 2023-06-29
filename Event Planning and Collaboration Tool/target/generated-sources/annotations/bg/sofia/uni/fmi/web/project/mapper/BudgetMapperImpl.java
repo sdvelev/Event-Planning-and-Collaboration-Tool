@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-26T09:59:14+0300",
+    date = "2023-06-29T16:29:30+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19 (Oracle Corporation)"
 )
 @Component
@@ -33,6 +33,10 @@ public class BudgetMapperImpl implements BudgetMapper {
         budgetDto.expenditureCategory( model.getExpenditureCategory() );
         budgetDto.amount( model.getAmount() );
         budgetDto.approved( model.isApproved() );
+        budgetDto.createdBy( model.getCreatedBy() );
+        budgetDto.creationTime( model.getCreationTime() );
+        budgetDto.updatedBy( model.getUpdatedBy() );
+        budgetDto.lastUpdatedTime( model.getLastUpdatedTime() );
 
         return budgetDto.build();
     }
@@ -51,6 +55,10 @@ public class BudgetMapperImpl implements BudgetMapper {
         budget.expenditureCategory( dto.getExpenditureCategory() );
         budget.amount( dto.getAmount() );
         budget.approved( dto.isApproved() );
+        budget.createdBy( dto.getCreatedBy() );
+        budget.creationTime( dto.getCreationTime() );
+        budget.updatedBy( dto.getUpdatedBy() );
+        budget.lastUpdatedTime( dto.getLastUpdatedTime() );
 
         return budget.build();
     }

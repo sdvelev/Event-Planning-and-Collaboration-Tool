@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-26T09:59:15+0300",
+    date = "2023-06-29T16:29:30+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19 (Oracle Corporation)"
 )
 @Component
@@ -33,6 +33,10 @@ public class ExpenseMapperImpl implements ExpenseMapper {
         expenseDto.expenditureCategory( model.getExpenditureCategory() );
         expenseDto.amount( model.getAmount() );
         expenseDto.approved( model.isApproved() );
+        expenseDto.createdBy( model.getCreatedBy() );
+        expenseDto.creationTime( model.getCreationTime() );
+        expenseDto.updatedBy( model.getUpdatedBy() );
+        expenseDto.lastUpdatedTime( model.getLastUpdatedTime() );
 
         return expenseDto.build();
     }
@@ -51,6 +55,10 @@ public class ExpenseMapperImpl implements ExpenseMapper {
         expense.expenditureCategory( dto.getExpenditureCategory() );
         expense.amount( dto.getAmount() );
         expense.approved( dto.isApproved() );
+        expense.createdBy( dto.getCreatedBy() );
+        expense.creationTime( dto.getCreationTime() );
+        expense.updatedBy( dto.getUpdatedBy() );
+        expense.lastUpdatedTime( dto.getLastUpdatedTime() );
 
         return expense.build();
     }

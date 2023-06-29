@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-26T09:59:14+0300",
+    date = "2023-06-29T16:29:30+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19 (Oracle Corporation)"
 )
 @Component
@@ -29,6 +29,10 @@ public class EventMapperImpl implements EventMapper {
         eventDto.location( model.getLocation() );
         eventDto.description( model.getDescription() );
         eventDto.pictureLink( model.getPictureLink() );
+        eventDto.createdBy( model.getCreatedBy() );
+        eventDto.creationTime( model.getCreationTime() );
+        eventDto.updatedBy( model.getUpdatedBy() );
+        eventDto.lastUpdatedTime( model.getLastUpdatedTime() );
 
         return eventDto.build();
     }
@@ -47,6 +51,10 @@ public class EventMapperImpl implements EventMapper {
         event.location( dto.getLocation() );
         event.description( dto.getDescription() );
         event.pictureLink( dto.getPictureLink() );
+        event.createdBy( dto.getCreatedBy() );
+        event.creationTime( dto.getCreationTime() );
+        event.updatedBy( dto.getUpdatedBy() );
+        event.lastUpdatedTime( dto.getLastUpdatedTime() );
 
         return event.build();
     }

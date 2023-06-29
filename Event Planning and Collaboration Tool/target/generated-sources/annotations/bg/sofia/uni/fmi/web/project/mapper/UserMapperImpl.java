@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-26T09:59:14+0300",
+    date = "2023-06-29T16:29:29+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19 (Oracle Corporation)"
 )
 @Component
@@ -32,6 +32,10 @@ public class UserMapperImpl implements UserMapper {
         userDto.verified( model.isVerified() );
         userDto.profilePhotoLink( model.getProfilePhotoLink() );
         userDto.address( model.getAddress() );
+        userDto.createdBy( model.getCreatedBy() );
+        userDto.creationTime( model.getCreationTime() );
+        userDto.updatedBy( model.getUpdatedBy() );
+        userDto.lastUpdatedTime( model.getLastUpdatedTime() );
 
         return userDto.build();
     }
@@ -53,6 +57,10 @@ public class UserMapperImpl implements UserMapper {
         user.verified( dto.isVerified() );
         user.profilePhotoLink( dto.getProfilePhotoLink() );
         user.address( dto.getAddress() );
+        user.createdBy( dto.getCreatedBy() );
+        user.creationTime( dto.getCreationTime() );
+        user.updatedBy( dto.getUpdatedBy() );
+        user.lastUpdatedTime( dto.getLastUpdatedTime() );
 
         return user.build();
     }
