@@ -82,4 +82,19 @@ public class User {
 
     @OneToMany(mappedBy = "associatedUser")
     Set<Participant> participantProfiles;
+
+    @Override
+    public String toString() {
+        return "User{" +
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", name='" + name + '\'' +
+            ", surname='" + surname + '\'' +
+            ", email='" + email + '\'' +
+            ", verified=" + verified +
+            ", profilePhotoLink='" + profilePhotoLink + '\'' +
+            ", address='" + address + '\'' +
+            '}';
+    }
 }
