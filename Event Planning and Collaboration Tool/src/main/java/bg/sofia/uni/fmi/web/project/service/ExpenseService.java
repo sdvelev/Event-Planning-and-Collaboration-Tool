@@ -1,10 +1,10 @@
 package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.dto.ExpenseDto;
-import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.enums.ExpenseExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Expense;
+import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.ExpenseRepository;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotNull;
@@ -32,18 +32,17 @@ public class ExpenseService {
 
     public Expense createExpense(
         @NotNull(message = "The provided expense cannot be null")
-        Expense expenseToSave) {
+        Expense expenseToSave,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
         expenseToSave.setCreationTime(LocalDateTime.now());
-        expenseToSave.setDeleted(false);
+        expenseToSave.setCreatedBy(userToMakeChanges.getUsername());
 
         return expenseRepository.save(expenseToSave);
     }
 
     public List<Expense> getExpenses() {
-        return expenseRepository.findAll()
-            .parallelStream()
-            .filter(expense -> !expense.isDeleted())
-            .collect(Collectors.toList());
+        return expenseRepository.findAllByDeletedFalse();
     }
 
     public List<Expense> getExpensesByEvent(
@@ -59,9 +58,9 @@ public class ExpenseService {
         @Positive(message = "The provided expense id must be positive")
         Long id) {
 
-        Optional<Expense> potentialExpenseToReturn = expenseRepository.findById(id);
+        Optional<Expense> potentialExpenseToReturn = expenseRepository.findByIdAndDeletedFalse(id);
 
-        if (potentialExpenseToReturn.isPresent() && !potentialExpenseToReturn.get().isDeleted()) {
+        if (potentialExpenseToReturn.isPresent()) {
             return potentialExpenseToReturn;
         }
 
@@ -74,7 +73,7 @@ public class ExpenseService {
         Long id) {
         Optional<Expense> optionalExpense = this.getExpenseById(id);
 
-        if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
+        if (optionalExpense.isPresent()) {
             return optionalExpense.get().getDescription();
         }
         throw new ResourceNotFoundException("Expense with such an id cannot be found");
@@ -86,7 +85,7 @@ public class ExpenseService {
         Long id) {
         Optional<Expense> optionalExpense = this.getExpenseById(id);
 
-        if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
+        if (optionalExpense.isPresent()) {
             return optionalExpense.get().getExpenditureCategory();
         }
         throw new ResourceNotFoundException("Expense with such an id cannot be found");
@@ -98,7 +97,7 @@ public class ExpenseService {
         Long id) {
         Optional<Expense> optionalExpense = this.getExpenseById(id);
 
-        if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
+        if (optionalExpense.isPresent()) {
             return optionalExpense.get().getAmount();
         }
         throw new ResourceNotFoundException("Expense with such an id cannot be found");
@@ -110,7 +109,7 @@ public class ExpenseService {
         Long id) {
         Optional<Expense> optionalExpense = this.getExpenseById(id);
 
-        if (optionalExpense.isPresent() && !optionalExpense.get().isDeleted()) {
+        if (optionalExpense.isPresent()) {
             return optionalExpense.get().getAssociatedEvent();
         }
         throw new ResourceNotFoundException("Expense with such an id cannot be found");
@@ -121,15 +120,18 @@ public class ExpenseService {
         ExpenseDto expenseFieldsToChange,
         @NotNull(message = "The provided expense id cannot be null")
         @Positive(message = "The provided expense id must be positive")
-        Long expenseId) {
+        Long expenseId,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
-        Optional<Expense> optionalExpenseToUpdate = expenseRepository.findById(expenseId);
+        Optional<Expense> optionalExpenseToUpdate = expenseRepository.findByIdAndDeletedFalse(expenseId);
 
-        if (optionalExpenseToUpdate.isPresent() && !optionalExpenseToUpdate.get().isDeleted()) {
+        if (optionalExpenseToUpdate.isPresent()) {
 
             Expense expenseToUpdate = setExpenseNonNullFields(expenseFieldsToChange,
                 optionalExpenseToUpdate.get());;
             expenseToUpdate.setLastUpdatedTime(LocalDateTime.now());
+            expenseToUpdate.setUpdatedBy(userToMakeChanges.getUsername());
             expenseRepository.save(expenseToUpdate);
             return true;
         }
@@ -140,13 +142,16 @@ public class ExpenseService {
     public boolean deleteExpense(
         @NotNull(message = "The provided expense id cannot be null")
         @Positive(message = "The provided expense id must be positive")
-        Long expenseById) {
+        Long expenseById,
+        @NotNull(message = "The user who made changes cannot be null")
+        User userToMakeChanges) {
 
-        Optional<Expense> optionalExpenseToDelete = expenseRepository.findById(expenseById);
+        Optional<Expense> optionalExpenseToDelete = expenseRepository.findByIdAndDeletedFalse(expenseById);
 
-        if (optionalExpenseToDelete.isPresent() && !optionalExpenseToDelete.get().isDeleted()) {
+        if (optionalExpenseToDelete.isPresent()) {
             Expense expenseToDelete = optionalExpenseToDelete.get();
             expenseToDelete.setLastUpdatedTime(LocalDateTime.now());
+            expenseToDelete.setUpdatedBy(userToMakeChanges.getUsername());
             expenseToDelete.setDeleted(true);
             expenseRepository.save(expenseToDelete);
             return true;

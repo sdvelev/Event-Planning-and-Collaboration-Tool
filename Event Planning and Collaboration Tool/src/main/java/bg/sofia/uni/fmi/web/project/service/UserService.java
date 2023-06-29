@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -22,46 +23,47 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(@NotNull(message = "The provided user cannot be null") User userToSave) {
+    public User createUser(@NotNull(message = "The provided user cannot be null")
+                           User userToSave) {
 
-        for (User currentUser : userRepository.findByUsername(userToSave.getUsername())) {
+        for (User currentUser : userRepository.findByUsernameAndDeletedFalse(userToSave.getUsername())) {
             if (!currentUser.isDeleted()) {
                 throw new ApiBadRequest("There is already a user associated with that credentials");
             }
         }
 
-        for (User currentUser : userRepository.findByEmail(userToSave.getEmail())) {
+        for (User currentUser : userRepository.findByEmailAndDeletedFalse(userToSave.getEmail())) {
             if (!currentUser.isDeleted()) {
                 throw new ApiBadRequest("There is already a user associated with that credentials");
             }
         }
 
         userToSave.setCreationTime(LocalDateTime.now());
-        userToSave.setDeleted(false);
+        userToSave.setCreatedBy(userToSave.getUsername());
+        userToSave.setPassword(passwordEncoder.encode(userToSave.getPassword()));
 
         return userRepository.save(userToSave);
     }
 
     public List<User> getUsers() {
-        return userRepository.findAll()
-            .parallelStream()
-            .filter(user -> !user.isDeleted())
-            .collect(Collectors.toList());
+        return userRepository.findAllByDeletedFalse();
     }
 
     public Optional<User> getUserById(@NotNull(message = "The provided user id cannot be null")
                                       @Positive(message = "The provided user id must be positive")
                                       Long id) {
 
-        Optional<User> potentialUserToReturn = userRepository.findById(id);
+        Optional<User> potentialUserToReturn = userRepository.findByIdAndDeletedFalse(id);
 
-        if (potentialUserToReturn.isPresent() && !potentialUserToReturn.get().isDeleted()) {
+        if (potentialUserToReturn.isPresent()) {
             return potentialUserToReturn;
         }
 
@@ -71,7 +73,7 @@ public class UserService {
     public User getUserByEmail(@NotNull(message = "THe provided email cannot be null")
                                          @NotBlank(message = "The provided email cannot be empty or blank")
                                          String email) {
-        List<User> potentialUsersToReturn = userRepository.findByEmail(email);
+        List<User> potentialUsersToReturn = userRepository.findByEmailAndDeletedFalse(email);
 
         for (User currentUser : potentialUsersToReturn) {
             if (!currentUser.isDeleted()) {
@@ -85,7 +87,7 @@ public class UserService {
     public User getUserByUsername(@NotNull(message = "The provided username cannot be null")
                                             @NotBlank(message = "The provided username cannot be empty or blank")
                                             String username) {
-        List<User> potentialUsersToReturn = userRepository.findByUsername(username);
+        List<User> potentialUsersToReturn = userRepository.findByUsernameAndDeletedFalse(username);
 
 
         for (User currentUser : potentialUsersToReturn) {
@@ -104,11 +106,10 @@ public class UserService {
                                                        @NotBlank(message = "The provided password cannot be empty or blank")
                                                        String password) {
 
-        List<User> potentialUsersToReturn = userRepository.findByUsernameAndPassword(username, password);
-
+        List<User> potentialUsersToReturn = userRepository.findByUsernameAndDeletedFalse(username);
 
         for (User currentUser : potentialUsersToReturn) {
-            if (!currentUser.isDeleted()) {
+            if (!currentUser.isDeleted() && passwordEncoder.matches(password, currentUser.getPassword())) {
                 return currentUser;
             }
         }
@@ -124,21 +125,24 @@ public class UserService {
                                                                 String oldUsername,
                                                                 @NotNull(message = "The provided password cannot be null")
                                                                 @NotBlank(message = "The provided password cannot be empty or blank")
-                                                                String password) {
+                                                                String password,
+                                                                @NotNull(message = "The user who made changes cannot be null")
+                                                                User userToMakeChanges) {
 
-        List<User> optionalUsersToChange = userRepository.findByUsernameAndPassword(oldUsername, password);
+        List<User> optionalUsersToChange = userRepository
+            .findByUsernameAndDeletedFalse(oldUsername);
 
         for (User currentUser : optionalUsersToChange) {
 
-            if (!currentUser.isDeleted()) {
-                for (User user : userRepository.findByUsername(newUserName)) {
+            if (!currentUser.isDeleted() && passwordEncoder.matches(password, currentUser.getPassword())) {
+                for (User user : userRepository.findByUsernameAndDeletedFalse(newUserName)) {
                     if (!user.isDeleted()) {
                         throw new ApiBadRequest("The new username is already taken");
                     }
                 }
 
                 currentUser.setUsername(newUserName);
-                currentUser.setUpdatedBy(currentUser.getEmail());
+                currentUser.setUpdatedBy(userToMakeChanges.getUsername());
                 currentUser.setLastUpdatedTime(LocalDateTime.now());
                 userRepository.save(currentUser);
                 return true;
@@ -156,15 +160,17 @@ public class UserService {
                                                                 String username,
                                                                 @NotNull(message = "The provided old password cannot be null")
                                                                 @NotBlank(message = "The provided old password cannot be empty or blank")
-                                                                String oldPassword) {
+                                                                String oldPassword,
+                                                                @NotNull(message = "The user who makes changes cannot be null")
+                                                                User userToMakeChanges) {
 
-        List<User> optionalUsersToChange = userRepository.findByUsernameAndPassword(username, oldPassword);
+        List<User> optionalUsersToChange = userRepository.findByUsernameAndDeletedFalse(username);
 
         for (User currentUser : optionalUsersToChange) {
 
-            if (!currentUser.isDeleted()) {
-                currentUser.setPassword(newPassword);
-                currentUser.setUpdatedBy(currentUser.getEmail());
+            if (!currentUser.isDeleted() && passwordEncoder.matches(oldPassword, currentUser.getPassword())) {
+                currentUser.setPassword(passwordEncoder.encode(newPassword));
+                currentUser.setUpdatedBy(userToMakeChanges.getUsername());
                 currentUser.setLastUpdatedTime(LocalDateTime.now());
                 userRepository.save(currentUser);
                 return true;
@@ -208,7 +214,9 @@ public class UserService {
         UserDto userFieldsToChange,
         @NotNull(message = "The provided user id cannot be null")
         @Positive(message = "The provided user id must be positive")
-        Long userId) {
+        Long userId,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
         Optional<User> optionalUserToUpdate = userRepository.findById(userId);
 
@@ -216,6 +224,7 @@ public class UserService {
 
             User userToUpdate = setUserNonNullFields(userFieldsToChange, optionalUserToUpdate.get());;
             userToUpdate.setLastUpdatedTime(LocalDateTime.now());
+            userToUpdate.setUpdatedBy(userToMakeChanges.getUsername());
             userRepository.save(userToUpdate);
             return true;
         }
@@ -229,14 +238,17 @@ public class UserService {
         String username,
         @NotNull(message = "The provided password cannot be null")
         @NotBlank(message = "The provided password cannot be empty or blank")
-        String password) {
+        String password,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
-        List<User> optionalUsersToDelete = userRepository.findByUsernameAndPassword(username, password);
+        List<User> optionalUsersToDelete = userRepository.findByUsernameAndDeletedFalse(username);
 
         for (User currentUser : optionalUsersToDelete) {
 
-            if (!currentUser.isDeleted()) {
+            if (!currentUser.isDeleted() && passwordEncoder.matches(password, currentUser.getPassword())) {
                 currentUser.setLastUpdatedTime(LocalDateTime.now());
+                currentUser.setUpdatedBy(userToMakeChanges.getUsername());
                 currentUser.setDeleted(true);
                 userRepository.save(currentUser);
                 return currentUser;

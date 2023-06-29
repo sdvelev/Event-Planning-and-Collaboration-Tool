@@ -34,16 +34,12 @@ public class ParticipantService {
         Participant participantToSave) {
 
         participantToSave.setCreationTime(LocalDateTime.now());
-        participantToSave.setDeleted(false);
 
         return participantRepository.save(participantToSave);
     }
 
     public List<Participant> getParticipants() {
-        return participantRepository.findAll()
-            .parallelStream()
-            .filter(participant -> !participant.isDeleted())
-            .collect(Collectors.toList());
+        return participantRepository.findAllByDeletedFalse();
     }
 
     public Optional<Participant> getParticipantById(
@@ -51,9 +47,9 @@ public class ParticipantService {
         @Positive(message = "The provided participant id must be positive")
         Long id) {
 
-        Optional<Participant> potentialParticipantToReturn = participantRepository.findById(id);
+        Optional<Participant> potentialParticipantToReturn = participantRepository.findByIdAndDeletedFalse(id);
 
-        if (potentialParticipantToReturn.isPresent() && !potentialParticipantToReturn.get().isDeleted()) {
+        if (potentialParticipantToReturn.isPresent()) {
             return potentialParticipantToReturn;
         }
 
@@ -105,7 +101,9 @@ public class ParticipantService {
         @Positive(message = "The provided participant id must be positive")
         Long id,
         @NotNull(message = "The user role cannot be null")
-        UserRole userRoleToSet) {
+        UserRole userRoleToSet,
+        @NotNull(message = "The user to make changes cannot be null")
+        User userToSetChanges) {
 
         Optional<Participant> optionalParticipant = this.getParticipantById(id);
 
@@ -114,10 +112,7 @@ public class ParticipantService {
             userRoleToSet != UserRole.CREATOR) {
 
             optionalParticipant.get().setUserRole(userRoleToSet);
-            if (this.getUserByParticipantId(id) != null) {
-                optionalParticipant.get().setUpdatedBy(this.getUserByParticipantId(id).getEmail());
-            }
-
+            optionalParticipant.get().setUpdatedBy(userToSetChanges.getUsername());
             optionalParticipant.get().setLastUpdatedTime(LocalDateTime.now());
             participantRepository.save(optionalParticipant.get());
             return true;
@@ -130,41 +125,46 @@ public class ParticipantService {
         ParticipantDto participantFieldsToChange,
         @NotNull(message = "The provided participant id cannot be null")
         @Positive(message = "The provided participant id must be positive")
-        Long participantId) {
+        Long participantId,
+        @NotNull(message = "The user to make changes cannot be null")
+        User updatedUser) {
 
-        Optional<Participant> optionalParticipantToUpdate = participantRepository.findById(participantId);
+        Optional<Participant> optionalParticipantToUpdate = participantRepository.findByIdAndDeletedFalse(participantId);
 
-        if (optionalParticipantToUpdate.isPresent() && !optionalParticipantToUpdate.get().isDeleted()) {
+        if (optionalParticipantToUpdate.isPresent()) {
 
             Participant participantToUpdate = setParticipantNonNullFields(participantFieldsToChange,
                 optionalParticipantToUpdate.get());;
             participantToUpdate.setLastUpdatedTime(LocalDateTime.now());
+            participantToUpdate.setUpdatedBy(updatedUser.getUsername());
             participantRepository.save(participantToUpdate);
             return true;
         }
 
-        throw new ResourceNotFoundException("There is not an event with such an id");
+        throw new ResourceNotFoundException("There is not a participant with such an id");
     }
 
     public boolean deleteParticipant(
         @NotNull(message = "The provided participant id cannot be null")
         @Positive(message = "The provided participant id must be positive")
-        Long participantId) {
+        Long participantId,
+        @NotNull(message = "The user to make changes cannot be null")
+        User updatedUser) {
 
-        Optional<Participant> optionalParticipantToDelete = participantRepository.findById(participantId);
+        Optional<Participant> optionalParticipantToDelete = participantRepository.findByIdAndDeletedFalse(participantId);
 
-        if (optionalParticipantToDelete.isPresent() && !optionalParticipantToDelete.get().isDeleted()) {
+        if (optionalParticipantToDelete.isPresent() && optionalParticipantToDelete.get().getUserRole() != UserRole.CREATOR) {
 
             Participant participantToDelete = optionalParticipantToDelete.get();
 
             participantToDelete.setLastUpdatedTime(LocalDateTime.now());
-
+            participantToDelete.setUpdatedBy(updatedUser.getUsername());
             participantToDelete.setDeleted(true);
             participantRepository.save(participantToDelete);
             return true;
         }
 
-        throw new ResourceNotFoundException("There is not a participant with such an id");
+        throw new ResourceNotFoundException("There is not a participant with such an id or the participant is with creator role");
     }
 
     private Participant setParticipantNonNullFields(

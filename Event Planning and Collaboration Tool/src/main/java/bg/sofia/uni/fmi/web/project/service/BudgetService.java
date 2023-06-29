@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.web.project.dto.BudgetDto;
 import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.model.Event;
+import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.BudgetRepository;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotNull;
@@ -30,18 +31,17 @@ public class BudgetService {
 
     public Budget createBudget(
         @NotNull(message = "The provided expense cannot be null")
-        Budget budgetToSave) {
+        Budget budgetToSave,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
         budgetToSave.setCreationTime(LocalDateTime.now());
-        budgetToSave.setDeleted(false);
+        budgetToSave.setCreatedBy(userToMakeChanges.getUsername());
 
         return budgetRepository.save(budgetToSave);
     }
 
     public List<Budget> getBudgets() {
-        return budgetRepository.findAll()
-            .parallelStream()
-            .filter(budget -> !budget.isDeleted())
-            .collect(Collectors.toList());
+        return budgetRepository.findAllByDeletedFalse();
     }
 
     public List<Budget> getBudgetsByEvent(
@@ -56,9 +56,9 @@ public class BudgetService {
         @NotNull(message = "The provided budget id cannot be null")
         @Positive(message = "The provided budget id must be positive")
         Long id) {
-        Optional<Budget> potentialBudgetToReturn = budgetRepository.findById(id);
+        Optional<Budget> potentialBudgetToReturn = budgetRepository.findByIdAndDeletedFalse(id);
 
-        if (potentialBudgetToReturn.isPresent() && !potentialBudgetToReturn.get().isDeleted()) {
+        if (potentialBudgetToReturn.isPresent()) {
             return potentialBudgetToReturn;
         }
 
@@ -71,7 +71,7 @@ public class BudgetService {
         Long id) {
         Optional<Budget> optionalBudget = this.getBudgetById(id);
 
-        if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
+        if (optionalBudget.isPresent()) {
             return optionalBudget.get().getDescription();
         }
 
@@ -84,7 +84,7 @@ public class BudgetService {
         Long id) {
         Optional<Budget> optionalBudget = this.getBudgetById(id);
 
-        if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
+        if (optionalBudget.isPresent()) {
             return optionalBudget.get().getExpenditureCategory();
         }
         throw new ResourceNotFoundException("Budget with such an id cannot be found");
@@ -96,7 +96,7 @@ public class BudgetService {
         Long id) {
         Optional<Budget> optionalBudget = this.getBudgetById(id);
 
-        if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
+        if (optionalBudget.isPresent()) {
             return optionalBudget.get().getAmount();
         }
         throw new ResourceNotFoundException("Budget with such an id cannot be found");
@@ -108,7 +108,7 @@ public class BudgetService {
         Long id) {
         Optional<Budget> optionalBudget = this.getBudgetById(id);
 
-        if (optionalBudget.isPresent() && !optionalBudget.get().isDeleted()) {
+        if (optionalBudget.isPresent()) {
             return optionalBudget.get().getAssociatedEvent();
         }
         throw new ResourceNotFoundException("Budget with such an id cannot be found");
@@ -119,15 +119,18 @@ public class BudgetService {
         BudgetDto budgetFieldsToChange,
         @NotNull(message = "The provided budget id cannot be null")
         @Positive(message = "The provided budget id must be positive")
-        Long budgetId) {
+        Long budgetId,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
-        Optional<Budget> optionalBudgetToUpdate = budgetRepository.findById(budgetId);
+        Optional<Budget> optionalBudgetToUpdate = budgetRepository.findByIdAndDeletedFalse(budgetId);
 
-        if (optionalBudgetToUpdate.isPresent() && !optionalBudgetToUpdate.get().isDeleted()) {
+        if (optionalBudgetToUpdate.isPresent()) {
 
             Budget budgetToUpdate = setBudgetNonNullFields(budgetFieldsToChange,
                 optionalBudgetToUpdate.get());
             budgetToUpdate.setLastUpdatedTime(LocalDateTime.now());
+            budgetToUpdate.setUpdatedBy(userToMakeChanges.getUsername());
             budgetRepository.save(budgetToUpdate);
             return true;
         }
@@ -138,12 +141,15 @@ public class BudgetService {
     public boolean deleteBudget(
         @NotNull(message = "The provided budget id cannot be null")
         @Positive(message = "The provided budget id must be positive")
-        Long budgetId) {
+        Long budgetId,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
-        Optional<Budget> optionalBudgetToDelete = budgetRepository.findById(budgetId);
-        if (optionalBudgetToDelete.isPresent() && !optionalBudgetToDelete.get().isDeleted()) {
+        Optional<Budget> optionalBudgetToDelete = budgetRepository.findByIdAndDeletedFalse(budgetId);
+        if (optionalBudgetToDelete.isPresent()) {
             Budget budgetToDelete = optionalBudgetToDelete.get();
             budgetToDelete.setLastUpdatedTime(LocalDateTime.now());
+            budgetToDelete.setUpdatedBy(userToMakeChanges.getUsername());
             budgetToDelete.setDeleted(true);
             budgetRepository.save(budgetToDelete);
             return true;

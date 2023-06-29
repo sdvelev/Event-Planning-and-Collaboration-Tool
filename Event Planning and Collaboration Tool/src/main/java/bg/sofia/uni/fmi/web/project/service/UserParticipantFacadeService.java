@@ -29,12 +29,14 @@ public class UserParticipantFacadeService {
         String username,
         @NotNull(message = "The provided password cannot be null")
         @NotBlank(message = "The provided password cannot be empty or blank")
-        String password) {
+        String password,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
-        User userToDelete = userService.deleteUser(username, password);
+        User userToDelete = userService.deleteUser(username, password, userToMakeChanges);
 
         for (Participant currentParticipant : userToDelete.getParticipantProfiles()) {
-            participantService.deleteParticipant(currentParticipant.getId());
+            participantService.deleteParticipant(currentParticipant.getId(), userToMakeChanges);
         }
 
         return true;

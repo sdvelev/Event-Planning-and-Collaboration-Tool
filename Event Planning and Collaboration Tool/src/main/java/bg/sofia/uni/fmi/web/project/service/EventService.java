@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
 import bg.sofia.uni.fmi.web.project.model.Event;
+import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.repository.EventRepository;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotBlank;
@@ -27,19 +28,18 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public Event createEvent(@NotNull(message = "The provided event cannot be null") Event eventToSave) {
+    public Event createEvent(@NotNull(message = "The provided event cannot be null") Event eventToSave,
+                             @NotNull(message = "The user who makes changes cannot be null")
+                             User userToMakeChanges) {
 
         eventToSave.setCreationTime(LocalDateTime.now());
-        eventToSave.setDeleted(false);
+        eventToSave.setCreatedBy(userToMakeChanges.getUsername());
 
         return eventRepository.save(eventToSave);
     }
 
     public List<Event> getAllEvents() {
-        return eventRepository.findAll()
-            .parallelStream()
-            .filter(event -> !event.isDeleted())
-            .collect(Collectors.toList());
+        return eventRepository.findAllByDeletedFalse();
     }
 
     public Optional<Event> getEventById(
@@ -47,9 +47,9 @@ public class EventService {
         @Positive(message = "The provided event id must be positive")
         Long id) {
 
-        Optional<Event> potentialEvent = eventRepository.findById(id);
+        Optional<Event> potentialEvent = eventRepository.findByIdAndDeletedFalse(id);
 
-        if (potentialEvent.isPresent() && !potentialEvent.get().isDeleted()) {
+        if (potentialEvent.isPresent()) {
             return potentialEvent;
         }
 
@@ -61,22 +61,14 @@ public class EventService {
         @NotBlank(message = "The provided event name cannot be blank")
         String name) {
 
-        List<Event> allEventsWithName = eventRepository.getEventsByName(name);
-
-        return allEventsWithName.parallelStream()
-            .filter(event -> !event.isDeleted())
-            .collect(Collectors.toList());
+        return eventRepository.getEventsByNameAndDeletedFalse(name);
     }
 
     public List<Event> getEventsByDate(
         @NotNull(message = "The provided event date cannot be null")
         LocalDateTime date) {
 
-        List<Event> allEventsWithDate = eventRepository.getEventsByDate(date);
-
-        return allEventsWithDate.parallelStream()
-            .filter(event -> !event.isDeleted())
-            .collect(Collectors.toList());
+        return eventRepository.getEventsByDateAndDeletedFalse(date);
     }
 
     public List<Event> getEventsByLocation(
@@ -84,11 +76,7 @@ public class EventService {
         @NotBlank(message = "The provided event location cannot be blank")
         String location) {
 
-        List<Event> allEventsWithLocation = eventRepository.getEventsByLocation(location);
-
-        return allEventsWithLocation.parallelStream()
-            .filter(event -> !event.isDeleted())
-            .collect(Collectors.toList());
+        return eventRepository.getEventsByLocationAndDeletedFalse(location);
     }
 
     public List<Event> getEventsByCreatedBy(
@@ -96,11 +84,7 @@ public class EventService {
         @NotBlank(message = "The provided created by name cannot be blank")
         String createdBy) {
 
-        List<Event> allEventsWithCreatedBy = eventRepository.getEventsByCreatedBy(createdBy);
-
-        return allEventsWithCreatedBy.parallelStream()
-            .filter(event -> !event.isDeleted())
-            .collect(Collectors.toList());
+        return eventRepository.getEventsByCreatedByAndDeletedFalse(createdBy);
     }
 
     public boolean setEventById(
@@ -108,14 +92,17 @@ public class EventService {
         EventDto eventFieldsToChange,
         @NotNull(message = "The provided event id cannot be null")
         @Positive(message = "The provided event id must be positive")
-        Long eventId) {
+        Long eventId,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
-        Optional<Event> optionalEventToUpdate = eventRepository.findById(eventId);
+        Optional<Event> optionalEventToUpdate = eventRepository.findByIdAndDeletedFalse(eventId);
 
-        if (optionalEventToUpdate.isPresent() && !optionalEventToUpdate.get().isDeleted()) {
+        if (optionalEventToUpdate.isPresent()) {
 
             Event eventToUpdate = setEventNonNullFields(eventFieldsToChange, optionalEventToUpdate.get());;
             eventToUpdate.setLastUpdatedTime(LocalDateTime.now());
+            eventToUpdate.setUpdatedBy(userToMakeChanges.getUsername());
             eventRepository.save(eventToUpdate);
             return true;
         }
@@ -126,14 +113,17 @@ public class EventService {
     public Event deleteEvent(
         @NotNull(message = "The provided event id cannot be null")
         @Positive(message = "The provided event id must be positive.")
-        Long eventToDeleteId) {
+        Long eventToDeleteId,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
-        Optional<Event> optionalEventToDelete = eventRepository.findById(eventToDeleteId);
+        Optional<Event> optionalEventToDelete = eventRepository.findByIdAndDeletedFalse(eventToDeleteId);
 
-        if (optionalEventToDelete.isPresent() && !optionalEventToDelete.get().isDeleted()) {
+        if (optionalEventToDelete.isPresent()) {
 
             Event eventToDelete = optionalEventToDelete.get();
             eventToDelete.setLastUpdatedTime(LocalDateTime.now());
+            eventToDelete.setUpdatedBy(userToMakeChanges.getUsername());
             eventToDelete.setDeleted(true);
             eventRepository.save(eventToDelete);
             return eventToDelete;

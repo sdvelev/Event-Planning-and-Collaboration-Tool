@@ -5,6 +5,7 @@ import bg.sofia.uni.fmi.web.project.enums.ExpenseExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Expense;
+import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
@@ -39,7 +40,9 @@ public class ExpenseEventFacadeService {
         Expense expenseToSave,
         @NotNull(message = "The provided associated event id cannot be null")
         @Positive(message = "The provided associated event id must be positive")
-        Long eventIdToAssociate) {
+        Long eventIdToAssociate,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
         Optional<Event> potentialEventToAssociate = eventService.getEventById(eventIdToAssociate);
 
@@ -56,7 +59,7 @@ public class ExpenseEventFacadeService {
             }
 
             expenseToSave.setAssociatedEvent(potentialEventToAssociate.get());
-            expenseService.createExpense(expenseToSave);
+            expenseService.createExpense(expenseToSave, userToMakeChanges);
             potentialEventToAssociate.get().getAssociatedExpenses().add(expenseToSave);
         }
         return expenseToSave;

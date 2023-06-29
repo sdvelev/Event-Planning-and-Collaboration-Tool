@@ -37,7 +37,9 @@ public class ParticipantUserEventFacadeService {
         Long userIdToAssociate,
         @NotNull(message = "The provided associated event id cannot be null")
         @Positive(message = "The provided associated event id must be positive.")
-        Long eventIdToAssociate) {
+        Long eventIdToAssociate,
+        @NotNull(message = "The user to create participant cannot be null")
+        User userToCreateParticipant) {
 
         Optional<User> potentialUserToAssociate = userService.getUserById(userIdToAssociate);
         Optional<Event> potentialEventToAssociate = eventService.getEventById(eventIdToAssociate);
@@ -47,7 +49,7 @@ public class ParticipantUserEventFacadeService {
 
             participantToSave.setAssociatedUser(potentialUserToAssociate.get());
             participantToSave.setAssociatedEvent(potentialEventToAssociate.get());
-            participantToSave.setCreatedBy(potentialUserToAssociate.get().getEmail());
+            participantToSave.setCreatedBy(userToCreateParticipant.getUsername());
 
             participantService.createParticipant(participantToSave);
 

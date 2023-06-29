@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Expense;
+import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
@@ -38,7 +39,9 @@ public class BudgetEventFacadeService {
         Budget budgetToSave,
         @NotNull(message = "The provided associated event id cannot be null")
         @Positive(message = "The provided associated event id must be positive")
-        Long eventIdToAssociate) {
+        Long eventIdToAssociate,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
         Optional<Event> potentialEventToAssociate = eventService.getEventById(eventIdToAssociate);
 
@@ -85,7 +88,7 @@ public class BudgetEventFacadeService {
                     }
                 }
 
-                budgetService.createBudget(budgetToSave);
+                budgetService.createBudget(budgetToSave, userToMakeChanges);
                 potentialEventToAssociate.get().getAssociatedBudgets().add(budgetToSave);
                 return budgetToSave;
             }
@@ -126,7 +129,9 @@ public class BudgetEventFacadeService {
                                                   Long eventIdToAssociate,
                                                   @NotNull(message = "The provided budget id cannot be null")
                                                   @Positive(message = "The provided budget id must be positive")
-                                                 Long budgetId) {
+                                                 Long budgetId,
+                                                  @NotNull(message = "The user who makes changes cannot be null")
+                                                  User userToMakeChanges) {
 
         Optional<Budget> optionalBudgetToDelete = budgetService.getBudgetById(budgetId);
 
@@ -138,7 +143,7 @@ public class BudgetEventFacadeService {
 
                 for (Expense currentExpense : allExpensesForEvent) {
                     if (currentExpense.getExpenditureCategory().toString().equals(budgetToDelete.getExpenditureCategory().toString())) {
-                        expenseService.deleteExpense(currentExpense.getId());
+                        expenseService.deleteExpense(currentExpense.getId(), userToMakeChanges);
                     }
                 }
             } else {
@@ -151,18 +156,18 @@ public class BudgetEventFacadeService {
                 if (eventService.getEventById(eventIdToAssociate).isPresent()) {
                     List<Expense> allExpensesForEvent = expenseService.getExpensesByEvent(eventService.getEventById(eventIdToAssociate).get());
                     for (Expense currentExpense : allExpensesForEvent) {
-                        expenseService.deleteExpense(currentExpense.getId());
+                        expenseService.deleteExpense(currentExpense.getId(), userToMakeChanges);
                     }
                 } else {
                     throw new ResourceNotFoundException("There is not an event with such an id");
                 }
 
                 for (Budget currentBudget : allBudgets) {
-                    budgetService.deleteBudget(currentBudget.getId());
+                    budgetService.deleteBudget(currentBudget.getId(), userToMakeChanges);
                 }
                 return true;
             }
-            return budgetService.deleteBudget(budgetToDelete.getId());
+            return budgetService.deleteBudget(budgetToDelete.getId(), userToMakeChanges);
         }
 
         throw new ResourceNotFoundException("There is not a budget with such an id");

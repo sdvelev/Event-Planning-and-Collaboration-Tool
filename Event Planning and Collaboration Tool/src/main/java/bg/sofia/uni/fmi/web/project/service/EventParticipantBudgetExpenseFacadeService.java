@@ -4,6 +4,8 @@ import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.model.Expense;
 import bg.sofia.uni.fmi.web.project.model.Participant;
+import bg.sofia.uni.fmi.web.project.model.User;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Validated
@@ -35,13 +38,19 @@ public class EventParticipantBudgetExpenseFacadeService {
     public boolean deleteEventWithParticipants(
         @NotNull(message = "The provided event id cannot be null")
         @Positive(message = "The provided event id must be positive.")
-        Long eventToDeleteId) {
+        Long eventToDeleteId,
+        @NotNull(message = "The user who makes changes cannot be null")
+        User userToMakeChanges) {
 
-        Event eventToDelete = eventService.deleteEvent(eventToDeleteId);
+        Optional<Event> eventToDelete = eventService.getEventById(eventToDeleteId);
 
-        List<Participant> participantsCopy = eventToDelete.getAssociatedParticipants().stream().toList();
-        List<Budget> budgetsCopy = eventToDelete.getAssociatedBudgets().stream().toList();
-        List<Expense> expensesCopy = eventToDelete.getAssociatedExpenses().stream().toList();
+        if (eventToDelete.isEmpty()) {
+            throw new ResourceNotFoundException("There is not an event with such an id");
+        }
+
+        List<Participant> participantsCopy = eventToDelete.get().getAssociatedParticipants().stream().toList();
+        List<Budget> budgetsCopy = eventToDelete.get().getAssociatedBudgets().stream().toList();
+        List<Expense> expensesCopy = eventToDelete.get().getAssociatedExpenses().stream().toList();
 
 //        List<Contract> contractsCopy = eventToDelete.getAssociatedContracts().stream().toList();
 //        List<Guest> guestsCopy = eventToDelete.getAssociatedGuests().stream().toList();
@@ -50,19 +59,19 @@ public class EventParticipantBudgetExpenseFacadeService {
 
         for (Participant currentParticipant : participantsCopy) {
             if (participantService.getParticipantById(currentParticipant.getId()).isPresent()) {
-                participantService.deleteParticipant(currentParticipant.getId());
+                participantService.deleteParticipant(currentParticipant.getId(), userToMakeChanges);
             }
         }
 
         for (Budget currentBudget : budgetsCopy) {
             if (budgetService.getBudgetById(currentBudget.getId()).isPresent()) {
-                budgetService.deleteBudget(currentBudget.getId());
+                budgetService.deleteBudget(currentBudget.getId(), userToMakeChanges);
             }
         }
 
         for (Expense currentExpense : expensesCopy) {
             if (expenseService.getExpenseById(currentExpense.getId()).isPresent()) {
-                expenseService.deleteExpense(currentExpense.getId());
+                expenseService.deleteExpense(currentExpense.getId(), userToMakeChanges);
             }
         }
 
@@ -84,6 +93,7 @@ public class EventParticipantBudgetExpenseFacadeService {
 //            }
 //        }
 
+        eventService.deleteEvent(eventToDeleteId, userToMakeChanges);
         return true;
     }
 
