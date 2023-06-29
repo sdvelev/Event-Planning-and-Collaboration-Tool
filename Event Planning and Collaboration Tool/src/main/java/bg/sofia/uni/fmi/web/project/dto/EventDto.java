@@ -35,4 +35,18 @@ public class EventDto {
 
     @JsonProperty("picture_link")
     private String pictureLink;
+
+    @JsonProperty("created_by")
+    private String createdBy;
+
+    @JsonProperty("creation_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime creationTime;
+
+    @JsonProperty("updated_by")
+    private String updatedBy;
+
+    @JsonProperty("last_updated_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastUpdatedTime;
 }
