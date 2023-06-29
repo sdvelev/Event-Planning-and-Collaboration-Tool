@@ -8,8 +8,11 @@ import bg.sofia.uni.fmi.web.project.mapper.EventMapper;
 import bg.sofia.uni.fmi.web.project.model.Budget;
 import bg.sofia.uni.fmi.web.project.service.BudgetEventFacadeService;
 import bg.sofia.uni.fmi.web.project.service.BudgetService;
+import bg.sofia.uni.fmi.web.project.service.UserService;
+import bg.sofia.uni.fmi.web.project.service.security.TokenManagerService;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import static bg.sofia.uni.fmi.web.project.config.security.RequestManager.getUserByRequest;
+
 @RestController
 @RequestMapping(path = "/budgets")
 @Validated
@@ -34,13 +39,18 @@ public class BudgetController {
     private final BudgetService budgetService;
     private final BudgetEventFacadeService budgetEventFacadeService;
     private final BudgetMapper budgetMapper;
+    private final TokenManagerService tokenManagerService;
+    private final UserService userService;
 
     @Autowired
     public BudgetController(BudgetService budgetService, BudgetEventFacadeService budgetEventFacadeService,
-                            BudgetMapper budgetMapper) {
+                            BudgetMapper budgetMapper, TokenManagerService tokenManagerService,
+                            UserService userService) {
         this.budgetService = budgetService;
         this.budgetEventFacadeService = budgetEventFacadeService;
         this.budgetMapper = budgetMapper;
+        this.tokenManagerService = tokenManagerService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -115,9 +125,11 @@ public class BudgetController {
                           @NotNull(message = "The provided associated event id cannot be null")
                           @Positive(message = "The provided associated event id must be positive")
                           @RequestParam("assigned_event_id")
-                               Long assignedEventId) {
+                               Long assignedEventId,
+                          HttpServletRequest request) {
         Budget potentialBudgetToCreate = budgetEventFacadeService
-            .createBudgetWithEvent(budgetMapper.toEntity(budgetDto), assignedEventId);
+            .createBudgetWithEvent(budgetMapper.toEntity(budgetDto), assignedEventId,
+                getUserByRequest(request, tokenManagerService, userService));
 
         if (potentialBudgetToCreate != null) {
             return potentialBudgetToCreate.getId();
@@ -134,8 +146,10 @@ public class BudgetController {
                                     @NotNull(message = "The provided associated event id cannot be null")
                                     @Positive(message = "The provided associated event id must be positive")
                                     @RequestParam("assigned_event_id")
-                                    Long assignedEventId) {
-        return budgetEventFacadeService.deleteBudgetWithCategoryLogic(assignedEventId, budgetId);
+                                    Long assignedEventId,
+                                    HttpServletRequest request) {
+        return budgetEventFacadeService.deleteBudgetWithCategoryLogic(assignedEventId, budgetId,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 
     @PutMapping(value = "/set", params = {"budget_id"})
@@ -145,8 +159,9 @@ public class BudgetController {
                                            Long budgetId,
                                            @RequestBody
                                            @NotNull(message = "The provided budget dto as body of the query cannot be null")
-                                           BudgetDto budgetToUpdate) {
-        //TODO: Authorization in order to update budget
-        return budgetService.setBudgetById(budgetToUpdate, budgetId);
+                                           BudgetDto budgetToUpdate,
+                                       HttpServletRequest request) {
+        return budgetService.setBudgetById(budgetToUpdate, budgetId,
+            getUserByRequest(request,tokenManagerService, userService));
     }
 }

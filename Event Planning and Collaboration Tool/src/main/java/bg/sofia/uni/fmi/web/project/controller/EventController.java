@@ -5,9 +5,11 @@ import bg.sofia.uni.fmi.web.project.mapper.EventMapper;
 import bg.sofia.uni.fmi.web.project.model.Event;
 import bg.sofia.uni.fmi.web.project.service.EventParticipantBudgetExpenseFacadeService;
 import bg.sofia.uni.fmi.web.project.service.EventService;
+import bg.sofia.uni.fmi.web.project.service.UserService;
+import bg.sofia.uni.fmi.web.project.service.security.TokenManagerService;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -29,20 +31,30 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static bg.sofia.uni.fmi.web.project.config.security.RequestManager.getUserByRequest;
+
 @RestController
 @RequestMapping(path = "/events")
 @Validated
 public class EventController {
 
     private final EventService eventService;
+    private final UserService userService;
     private final EventParticipantBudgetExpenseFacadeService eventParticipantBudgetExpenseFacadeService;
     private final EventMapper eventMapper;
+    private final TokenManagerService tokenManagerService;
 
     @Autowired
-    public EventController(EventService eventService, EventParticipantBudgetExpenseFacadeService eventParticipantBudgetExpenseFacadeService, EventMapper eventMapper) {
+    public EventController(EventService eventService,
+                           EventParticipantBudgetExpenseFacadeService eventParticipantBudgetExpenseFacadeService,
+                           EventMapper eventMapper,
+                           TokenManagerService tokenManagerService,
+                           UserService userService) {
         this.eventService = eventService;
         this.eventParticipantBudgetExpenseFacadeService = eventParticipantBudgetExpenseFacadeService;
         this.eventMapper = eventMapper;
+        this.tokenManagerService = tokenManagerService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -53,27 +65,27 @@ public class EventController {
 
     @PostMapping
     public Long addEvent(@NotNull(message = "The provided event dto as body of the query cannot be null")
-                             @RequestBody EventDto eventDto) {
+                             @RequestBody EventDto eventDto,
+                         HttpServletRequest request) {
 
-        //TODO: Only if authorized, user will be able to create an event.
-        //      For now, everybody can create events and createdBy field will not be filled
-        //      When user creates event, record in participant table with user role CREATOR will be created
+        Event potentialEventToCreate = eventService.createEvent(eventMapper.toEntity(eventDto),
+            getUserByRequest(request, tokenManagerService, userService));
 
-        Event potentialEventToCreate = eventService.createEvent(eventMapper.toEntity(eventDto));
-
-        if (potentialEventToCreate != null) {
-            return potentialEventToCreate.getId();
+        if (potentialEventToCreate == null) {
+            throw new ApiBadRequest("There was a problem in creating an event");
         }
 
-        throw new ApiBadRequest("There was a problem in creating an event");
+        return potentialEventToCreate.getId();
     }
 
     @DeleteMapping(params = {"event_id"})
     public boolean removeEventById(@RequestParam("event_id")
                                        @NotNull(message = "The provided event id cannot be null")
                                        @Positive(message = "The provided event id must be positive")
-                                       Long eventId) {
-        return eventParticipantBudgetExpenseFacadeService.deleteEventWithParticipants(eventId);
+                                       Long eventId,
+                                   HttpServletRequest request) {
+        return eventParticipantBudgetExpenseFacadeService.deleteEventWithParticipants(eventId,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 
     @GetMapping(value = "/search", params = {"id"})
@@ -158,8 +170,10 @@ public class EventController {
                                             Long eventId,
                                             @RequestBody
                                             @NotNull(message = "The provided event dto as body of the query cannot be null")
-                                            EventDto eventToUpdate) {
-        //TODO: Authorization in order to update event
-        return eventService.setEventById(eventToUpdate, eventId);
+                                            EventDto eventToUpdate,
+                                     HttpServletRequest request) {
+
+        return eventService.setEventById(eventToUpdate, eventId,
+            getUserByRequest(request, tokenManagerService, userService ));
     }
 }

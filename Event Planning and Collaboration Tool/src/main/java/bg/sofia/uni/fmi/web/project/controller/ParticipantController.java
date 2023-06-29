@@ -6,9 +6,11 @@ import bg.sofia.uni.fmi.web.project.mapper.ParticipantMapper;
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.service.ParticipantService;
 import bg.sofia.uni.fmi.web.project.service.ParticipantUserEventFacadeService;
+import bg.sofia.uni.fmi.web.project.service.UserService;
+import bg.sofia.uni.fmi.web.project.service.security.TokenManagerService;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static bg.sofia.uni.fmi.web.project.config.security.RequestManager.getUserByRequest;
 
 @RestController
 @RequestMapping(path = "/participants")
@@ -33,16 +36,22 @@ import java.util.stream.Collectors;
 public class ParticipantController {
 
     private final ParticipantService participantService;
+    private final UserService userService;
     private final ParticipantUserEventFacadeService participantUserEventFacadeService;
     private final ParticipantMapper participantMapper;
+    private final TokenManagerService tokenManagerService;
 
     @Autowired
     public ParticipantController(ParticipantService participantService,
                                  ParticipantUserEventFacadeService participantUserEventFacadeService ,
-                                 ParticipantMapper participantMapper) {
+                                 ParticipantMapper participantMapper,
+                                 TokenManagerService tokenManagerService,
+                                 UserService userService) {
         this.participantService = participantService;
         this.participantUserEventFacadeService = participantUserEventFacadeService;
         this.participantMapper = participantMapper;
+        this.tokenManagerService = tokenManagerService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -74,27 +83,31 @@ public class ParticipantController {
                                @RequestParam("assigned_user_id") Long assignedUserId,
                                @NotNull(message = "The provided assigned event id cannot be null")
                                @Positive(message = "The provided assigned event id must be positive")
-                               @RequestParam("assigned_event_id") Long assignedEventId) {
+                               @RequestParam("assigned_event_id") Long assignedEventId,
+                               HttpServletRequest request) {
 
-        //TODO: This method will be similar to the "invite collaborator" method. However, we will use
-        //      authorization to get the user id. Moreover, confirmation by email might be required
+        // This method will be similar to the "invite collaborator" method. However, we will use
+        // authorization to get the user id. Moreover, confirmation by email might be required
 
         Participant potentialParticipantToCreate = participantUserEventFacadeService
-            .createParticipantWithUserAndEvent(participantMapper.toEntity(participantDto), assignedUserId, assignedEventId);
+            .createParticipantWithUserAndEvent(participantMapper.toEntity(participantDto), assignedUserId,
+                assignedEventId, getUserByRequest(request, tokenManagerService, userService));
 
         if (potentialParticipantToCreate != null) {
             return potentialParticipantToCreate.getId();
         }
 
-        throw new ApiBadRequest("There was a problem in creating a participant");
+        throw new ApiBadRequest("There is a problem in creating a participant");
     }
 
     @DeleteMapping(params = {"id"})
     public boolean removeParticipantById(@RequestParam("id")
                                          @NotNull(message = "The provided participant id cannot be null")
                                          @Positive(message = "The provided participant id must be positive")
-                                         Long participantId) {
-        return participantService.deleteParticipant(participantId);
+                                         Long participantId,
+                                         HttpServletRequest request) {
+        return participantService.deleteParticipant(participantId,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 
     @PatchMapping(value = "/role", params = {"participant_id", "user_role"})
@@ -104,10 +117,10 @@ public class ParticipantController {
                                               Long participantId,
                                               @RequestParam("user_role")
                                               @NotNull(message = "The provided user role cannot be null")
-                                              UserRole userRole) {
-        //TODO: This method is similar to the desired functionality of managing user roles. However, user
-        //      authorization will be used so that we can check if user has the right to change someone's role
-        return participantService.setUserRoleByParticipantId(participantId, userRole);
+                                              UserRole userRole,
+                                              HttpServletRequest request) {
+        return participantService.setUserRoleByParticipantId(participantId, userRole,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 
     @PutMapping(value = "/set", params = {"participant_id"})
@@ -115,10 +128,12 @@ public class ParticipantController {
                                    @NotNull(message = "The provided participant id cannot be null")
                                    @Positive(message = "The provided participant id must be positive")
                                    Long participantId,
-                                   @RequestBody
+                                                 @RequestBody
                                    @NotNull(message = "The provided participant dto as body of the query cannot be null")
-                                   ParticipantDto participantToUpdate) {
-        //TODO: Authorization in order to update event
-        return participantService.setParticipantById(participantToUpdate, participantId);
+                                   ParticipantDto participantToUpdate,
+                                   HttpServletRequest request) {
+
+        return participantService.setParticipantById(participantToUpdate, participantId,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 }

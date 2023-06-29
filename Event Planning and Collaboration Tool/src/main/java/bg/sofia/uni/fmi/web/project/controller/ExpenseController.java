@@ -1,17 +1,18 @@
 package bg.sofia.uni.fmi.web.project.controller;
 
-import bg.sofia.uni.fmi.web.project.dto.BudgetDto;
 import bg.sofia.uni.fmi.web.project.dto.EventDto;
 import bg.sofia.uni.fmi.web.project.dto.ExpenseDto;
-import bg.sofia.uni.fmi.web.project.enums.BudgetExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.enums.ExpenseExpenditureCategory;
 import bg.sofia.uni.fmi.web.project.mapper.EventMapper;
 import bg.sofia.uni.fmi.web.project.mapper.ExpenseMapper;
 import bg.sofia.uni.fmi.web.project.model.Expense;
 import bg.sofia.uni.fmi.web.project.service.ExpenseEventFacadeService;
 import bg.sofia.uni.fmi.web.project.service.ExpenseService;
+import bg.sofia.uni.fmi.web.project.service.UserService;
+import bg.sofia.uni.fmi.web.project.service.security.TokenManagerService;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static bg.sofia.uni.fmi.web.project.config.security.RequestManager.getUserByRequest;
+
 @RestController
 @RequestMapping(path = "/expenses")
 @Validated
@@ -37,13 +40,18 @@ public class ExpenseController {
     private final ExpenseService expenseService;
     private final ExpenseEventFacadeService expenseEventFacadeService;
     private final ExpenseMapper expenseMapper;
+    private final TokenManagerService tokenManagerService;
+    private final UserService userService;
 
     @Autowired
     public ExpenseController(ExpenseService expenseService, ExpenseEventFacadeService expenseEventFacadeService,
-                             ExpenseMapper expenseMapper) {
+                             ExpenseMapper expenseMapper, TokenManagerService tokenManagerService,
+                             UserService userService) {
         this.expenseService = expenseService;
         this.expenseEventFacadeService = expenseEventFacadeService;
         this.expenseMapper = expenseMapper;
+        this.tokenManagerService = tokenManagerService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -130,9 +138,11 @@ public class ExpenseController {
                            @RequestBody ExpenseDto expenseDto,
                            @NotNull(message = "The provided assigned event id cannot be null")
                            @Positive(message = "The provided assigned event id must be positive")
-                           @RequestParam("assigned_event_id") Long assignedEventId) {
+                           @RequestParam("assigned_event_id") Long assignedEventId,
+                           HttpServletRequest request) {
         Expense potentialExpenseToCreate = expenseEventFacadeService
-            .createExpenseWithEvent(expenseMapper.toEntity(expenseDto), assignedEventId);
+            .createExpenseWithEvent(expenseMapper.toEntity(expenseDto), assignedEventId,
+                getUserByRequest(request, tokenManagerService, userService));
 
         if (potentialExpenseToCreate != null) {
             return potentialExpenseToCreate.getId();
@@ -145,8 +155,10 @@ public class ExpenseController {
     public boolean removeExpenseById(@RequestParam("id")
                                      @NotNull(message = "The provided expense id cannot be null")
                                      @Positive(message = "The provided expense id must be positive")
-                                     Long expenseId) {
-        return expenseService.deleteExpense(expenseId);
+                                     Long expenseId,
+                                     HttpServletRequest request) {
+        return expenseService.deleteExpense(expenseId,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 
     @PutMapping(value = "/set", params = {"expense_id"})
@@ -156,8 +168,9 @@ public class ExpenseController {
                                          Long expenseId,
                                          @RequestBody
                                          @NotNull(message = "The provided expense dto as body of the query cannot be null")
-                                         ExpenseDto expenseToUpdate) {
-        //TODO: Authorization in order to update expense
-        return expenseService.setExpenseById(expenseToUpdate, expenseId);
+                                         ExpenseDto expenseToUpdate,
+                                         HttpServletRequest request) {
+        return expenseService.setExpenseById(expenseToUpdate, expenseId,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 }

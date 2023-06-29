@@ -5,15 +5,17 @@ import bg.sofia.uni.fmi.web.project.mapper.UserMapper;
 import bg.sofia.uni.fmi.web.project.model.User;
 import bg.sofia.uni.fmi.web.project.service.UserParticipantFacadeService;
 import bg.sofia.uni.fmi.web.project.service.UserService;
+import bg.sofia.uni.fmi.web.project.service.security.TokenManagerService;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,24 +26,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static bg.sofia.uni.fmi.web.project.config.security.RequestManager.getUserByRequest;
+
 @RestController
 @RequestMapping(path = "/users")
+@CrossOrigin(origins = "http://localhost:4200/")
 @Validated
 public class UserController {
 
     private final UserService userService;
     private final UserParticipantFacadeService userParticipantFacadeService;
     private final UserMapper userMapper;
+    private final TokenManagerService tokenManagerService;
 
     @Autowired
-    public UserController(UserService userService, UserParticipantFacadeService userParticipantFacadeService, UserMapper userMapper) {
+    public UserController(UserService userService, UserParticipantFacadeService userParticipantFacadeService,
+                          UserMapper userMapper, TokenManagerService tokenManagerService) {
         this.userService = userService;
         this.userParticipantFacadeService = userParticipantFacadeService;
         this.userMapper = userMapper;
+        this.tokenManagerService = tokenManagerService;
     }
 
     @GetMapping
@@ -69,8 +78,10 @@ public class UserController {
         @RequestParam("username") String username,
         @NotNull(message = "The provided password cannot be null")
         @NotBlank(message = "The provided password cannot be blank")
-        @RequestParam("password") String password) {
-       return userParticipantFacadeService.deleteUserWithParticipants(username, password);
+        @RequestParam("password") String password,
+        HttpServletRequest request) {
+       return userParticipantFacadeService.deleteUserWithParticipants(username, password,
+           getUserByRequest(request, tokenManagerService, userService));
     }
 
     @GetMapping(value = "/search", params = {"username", "password"})
@@ -129,9 +140,11 @@ public class UserController {
                                         Long userId,
                                         @RequestBody
                                         @NotNull(message = "The provided user dto as body of the query cannot be null")
-                                        UserDto userToUpdate) {
+                                        UserDto userToUpdate,
+                                   HttpServletRequest request) {
         //TODO: Authorization in order to update event
-        return userService.setUserById(userToUpdate, userId);
+        return userService.setUserById(userToUpdate, userId,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 
     @PatchMapping(value = "/settings", params = {"new_username", "old_username", "password"})
@@ -145,8 +158,10 @@ public class UserController {
         @RequestParam("old_username") String oldUsername,
         @NotNull(message = "The provided password cannot be null")
         @NotBlank(message = "The provided password cannot be blank")
-        @RequestParam("password") String password) {
-        return userService.setUsernameByProvidingOldUsernameAndPassword(newUsername, oldUsername, password);
+        @RequestParam("password") String password,
+        HttpServletRequest request) {
+        return userService.setUsernameByProvidingOldUsernameAndPassword(newUsername, oldUsername, password,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 
     @PatchMapping(value = "/settings", params = {"new_password", "username", "old_password"})
@@ -162,7 +177,9 @@ public class UserController {
         @NotNull(message = "The provided old password cannot be null")
         @NotBlank(message = "The provided old password cannot be empty or blank")
         @RequestParam("old_password")
-        String oldPassword) {
-        return userService.setPasswordByProvidingUsernameAndOldPassword(newPassword, username, oldPassword);
+        String oldPassword,
+        HttpServletRequest request) {
+        return userService.setPasswordByProvidingUsernameAndOldPassword(newPassword, username, oldPassword,
+            getUserByRequest(request, tokenManagerService, userService));
     }
 }
