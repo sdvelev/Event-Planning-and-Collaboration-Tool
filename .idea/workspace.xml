@@ -16,21 +16,18 @@
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_15_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__com_google_code_gson_gson_2_10_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_8_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__com_mysql_mysql_connector_j_8_0_32.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__com_sun_istack_istack_commons_runtime_4_1_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__com_zaxxer_HikariCP_5_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_github_classgraph_classgraph_4_8_83.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_github_classgraph_classgraph_4_8_149.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_jsonwebtoken_jjwt_api_0_11_5.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_jsonwebtoken_jjwt_gson_0_11_5.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_jsonwebtoken_jjwt_impl_0_11_5.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_micrometer_micrometer_commons_1_11_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_micrometer_micrometer_observation_1_11_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_smallrye_jandex_3_0_5.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_bean_validators_3_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_boot_starter_3_0_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_core_3_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_data_rest_3_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_oas_3_0_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_schema_3_0_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_spi_3_0_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_spring_web_3_0_0.xml" beforeDir="false" />
@@ -40,7 +37,9 @@
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_swagger_common_3_0_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_springfox_springfox_swagger_ui_3_0_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_swagger_core_v3_swagger_annotations_2_1_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_swagger_core_v3_swagger_models_2_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_swagger_core_v3_swagger_annotations_jakarta_2_2_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_swagger_core_v3_swagger_core_jakarta_2_2_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_swagger_core_v3_swagger_models_jakarta_2_2_7.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_swagger_swagger_annotations_1_5_20.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__io_swagger_swagger_models_1_5_20.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__jakarta_activation_jakarta_activation_api_2_1_2.xml" beforeDir="false" />
@@ -63,7 +62,7 @@
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_9_19.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_assertj_assertj_core_3_24_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_checkerframework_checker_qual_3_31_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_checkerframework_checker_qual_3_12_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_eclipse_angus_angus_activation_2_0_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_glassfish_jaxb_jaxb_core_4_0_2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_glassfish_jaxb_jaxb_runtime_4_0_2.xml" beforeDir="false" />
@@ -84,12 +83,13 @@
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_mockito_mockito_junit_jupiter_5_3_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_objenesis_objenesis_3_3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_ow2_asm_asm_9_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_postgresql_postgresql_42_6_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_projectlombok_lombok_1_18_26.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_2_0_7.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_slf4j_slf4j_api_2_0_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_springdoc_springdoc_openapi_starter_common_2_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_springdoc_springdoc_openapi_starter_webmvc_api_2_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_springdoc_springdoc_openapi_starter_webmvc_ui_2_0_2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_springframework_boot_spring_boot_3_1_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_3_1_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_3_1_0.xml" beforeDir="false" />
@@ -123,13 +123,140 @@
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_springframework_spring_tx_6_0_9.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_springframework_spring_web_6_0_9.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_springframework_spring_webmvc_6_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_webjars_swagger_ui_4_15_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_webjars_webjars_locator_core_0_52.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_9_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/libraries/Maven__org_yaml_snakeyaml_1_33.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/MessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/MessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/EventPlanningAndCollaborationToolApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/config/RestServiceCorsApplication$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/config/RestServiceCorsApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/config/SecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/config/security/AuthorizationFilterManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/config/security/RequestManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/config/security/RoutingFilterManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/BudgetController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/ContractController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/EventController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/ExpenseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/GuestController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/ParticipantController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/ReviewController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/TaskController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/VendorController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/controller/security/AuthenticationManagerController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/AuthenticationDto$AuthenticationDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/AuthenticationDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/BudgetDto$BudgetDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/BudgetDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/ContractDto$ContractDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/ContractDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/EventDto$EventDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/EventDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/ExpenseDto$ExpenseDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/ExpenseDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/GuestDto$GuestDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/GuestDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/ParticipantDto$ParticipantDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/ParticipantDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/ReviewDto$ReviewDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/ReviewDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/TaskDto$TaskDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/TaskDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/TokenUserIdDto$TokenUserIdDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/TokenUserIdDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/UserDto$UserDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/UserDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/VendorDto$VendorDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/dto/VendorDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/enums/AttendanceType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/enums/BudgetExpenditureCategory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/enums/ExpenseExpenditureCategory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/enums/GuestType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/enums/TaskProgress.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/enums/UserRole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/enums/VendorType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/BudgetMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/ContractMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/EventMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/ExpenseMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/GuestMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/ParticipantMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/ReviewMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/TaskMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/UserMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/mapper/VendorMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Budget$BudgetBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Budget.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Contract$ContractBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Contract.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Event$EventBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Event.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Expense$ExpenseBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Expense.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Guest$GuestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Guest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Participant$ParticipantBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Participant.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Review$ReviewBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Review.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Task$TaskBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Task.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/User$UserBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Vendor$VendorBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/model/Vendor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/BudgetRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/ContractRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/EventRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/ExpenseRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/GuestRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/ParticipantRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/ReviewRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/TaskRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/UserRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/repository/VendorRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/BudgetEventFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/BudgetService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/ContractFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/ContractService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/EventParticipantBudgetExpenseFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/EventService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/ExpenseEventFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/ExpenseService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/GuestFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/GuestService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/ParticipantService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/ParticipantUserEventFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/ReviewFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/ReviewService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/TaskFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/TaskService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/UserParticipantFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/VendorFacadeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/VendorService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/security/AuthenticationManagerService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/service/security/TokenManagerService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/validation/ApiBadRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/validation/ConflictException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/validation/MethodNotAllowed.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/validation/ResourceNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/classes/bg/sofia/uni/fmi/web/project/validation/RestExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/BudgetMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ContractMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/EventMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ExpenseMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/GuestMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ParticipantMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ReviewMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/TaskMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/UserMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/VendorMapperImpl.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +298,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/git/Event-Planning-and-Collaboration-Tool",
+    "last_opened_file_path": "D:/Event-Planning-and-Collaboration-Tool/Event Planning and Collaboration Tool",
     "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
     "spring.configuration.checksum": "46f86faa6bbf9ac94a7e459509a20ed0"
   }
@@ -225,6 +352,7 @@
       <workItem from="1688109683127" duration="4093000" />
       <workItem from="1688116010182" duration="89000" />
       <workItem from="1688116624438" duration="34000" />
+      <workItem from="1688126233573" duration="53000" />
     </task>
     <servers />
   </component>
