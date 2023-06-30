@@ -23,23 +23,7 @@ public interface ContractMapper {
     @Mapping(source = "associatedVendorDto", target = "associatedVendor")
     Contract toEntity(ContractDto contractDto);
 
-    default List<ContractDto> toDtoCollection(Collection<Contract> contractEntities) {
-        if (contractEntities == null) {
-            return Collections.emptyList();
-        }
+    List<ContractDto> toDtoCollection(Collection<Contract> contractEntities);
 
-        return contractEntities.stream()
-            .map(this::toDto)
-            .toList();
-    }
-
-    default List<Contract> toEntityCollection(Collection<ContractDto> contractDtos) {
-        if (contractDtos == null) {
-            return Collections.emptyList();
-        }
-
-        return contractDtos.stream()
-            .map(this::toEntity)
-            .toList();
-    }
+    List<Contract> toEntityCollection(Collection<ContractDto> contractDtos);
 }

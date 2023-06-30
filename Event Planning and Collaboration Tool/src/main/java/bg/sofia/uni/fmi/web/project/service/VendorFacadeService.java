@@ -12,24 +12,21 @@ import java.util.List;
 @Service
 @Validated
 @AllArgsConstructor
-public class VendorReviewFacadeService {
+public class VendorFacadeService {
     private final VendorService vendorService;
     private final ReviewService reviewService;
 
     @Transactional
-    public boolean delete(boolean deleted,
-                          @Positive(message = "The given ID cannot be less than zero!")
-                          long vendorId) {
-
+    public boolean delete(@Positive(message = "The given ID cannot be less than zero!") long vendorId) {
         removeAllAssociatedReviews(vendorId);
-        return vendorService.delete(deleted, vendorId);
+        return vendorService.delete(vendorId);
     }
 
     private void removeAllAssociatedReviews(long vendorId) {
         List<Review> reviewList = reviewService.getReviewsByAssociatedVendorId(vendorId);
         for (Review review : reviewList) {
             if (!review.isDeleted()) {
-                reviewService.delete(true, review.getId());
+                reviewService.delete(review.getId());
             }
         }
     }

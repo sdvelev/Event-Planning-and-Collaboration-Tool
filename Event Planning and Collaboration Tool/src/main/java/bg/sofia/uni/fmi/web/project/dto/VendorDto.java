@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Set;
 
 @Data
@@ -47,14 +48,31 @@ public class VendorDto {
     @NotBlank(message = "The phone number cannot be blank!")
     private String phoneNumber;
 
-    @JsonProperty("email")
+        @JsonProperty("email")
     @NotNull(message = "The email cannot be null!")
     @NotEmpty(message = "The email cannot be empty!")
     @NotBlank(message = "The email cannot be blank!")
     private String email;
 
-    @JsonProperty("vendor_type")
     private VendorType vendorType;
+
+    @JsonProperty("vendor_type")
+    public void setVendorType(String vendorType) {
+        if (vendorType != null) {
+            String uppercaseVendorType = vendorType.toUpperCase();
+
+            boolean isValidValue = Arrays.stream(VendorType.values())
+                .map(Enum::name)
+                .map(String::toUpperCase)
+                .anyMatch(enumValue -> enumValue.equals(uppercaseVendorType));
+
+            if (!isValidValue) {
+                throw new IllegalArgumentException("The provided vendor type is not valid!");
+            }
+
+            this.vendorType = VendorType.valueOf(uppercaseVendorType);
+        }
+    }
 
     @JsonProperty("vendor_reviews")
     Set<ReviewDto> vendorReviewsDto;

@@ -2,14 +2,17 @@ package bg.sofia.uni.fmi.web.project.mapper;
 
 import bg.sofia.uni.fmi.web.project.dto.ContractDto;
 import bg.sofia.uni.fmi.web.project.model.Contract;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-30T07:10:39+0300",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19 (Oracle Corporation)"
+    date = "2023-06-30T12:09:38+0300",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
 public class ContractMapperImpl implements ContractMapper {
@@ -61,5 +64,33 @@ public class ContractMapperImpl implements ContractMapper {
         contract.deleted( contractDto.isDeleted() );
 
         return contract.build();
+    }
+
+    @Override
+    public List<ContractDto> toDtoCollection(Collection<Contract> contractEntities) {
+        if ( contractEntities == null ) {
+            return null;
+        }
+
+        List<ContractDto> list = new ArrayList<ContractDto>( contractEntities.size() );
+        for ( Contract contract : contractEntities ) {
+            list.add( toDto( contract ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Contract> toEntityCollection(Collection<ContractDto> contractDtos) {
+        if ( contractDtos == null ) {
+            return null;
+        }
+
+        List<Contract> list = new ArrayList<Contract>( contractDtos.size() );
+        for ( ContractDto contractDto : contractDtos ) {
+            list.add( toEntity( contractDto ) );
+        }
+
+        return list;
     }
 }

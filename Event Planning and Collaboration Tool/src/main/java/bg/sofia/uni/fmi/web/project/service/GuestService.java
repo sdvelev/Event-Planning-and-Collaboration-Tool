@@ -5,7 +5,6 @@ import bg.sofia.uni.fmi.web.project.enums.AttendanceType;
 import bg.sofia.uni.fmi.web.project.enums.GuestType;
 import bg.sofia.uni.fmi.web.project.model.Guest;
 import bg.sofia.uni.fmi.web.project.repository.GuestRepository;
-import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,25 +25,20 @@ public class GuestService {
 
     public long addGuest(@NotNull(message = "The given guest cannot be null!")
                          Guest guestToSave) {
-        Guest guest = guestRepository.save(guestToSave);
-        checkForSaveException(guest);
 
-        return guest.getId();
+        return guestRepository.save(guestToSave).getId();
     }
 
     public List<Guest> getAllGuests() {
-        List<Guest> guests = guestRepository.findAll().parallelStream()
-            .filter(g -> !g.isDeleted())
-            .toList();
-
+        List<Guest> guests = guestRepository.findAll();
         validateGuestsList(guests);
+
         return guests;
     }
 
     public Guest getGuestById(@Positive(message = "The given id cannot be 0 or less!") long id) {
         Guest guest = guestRepository.findGuestByIdEquals(id);
         validateGuest(guest);
-        validateForDeletedGuest(guest);
 
         return guest;
     }
@@ -56,7 +50,6 @@ public class GuestService {
 
         Guest guest = guestRepository.findGuestByEmailEquals(email);
         validateGuest(guest);
-        validateForDeletedGuest(guest);
 
         return guest;
     }
@@ -70,18 +63,14 @@ public class GuestService {
                                                 @NotBlank(message = "The given surname cannot be blank!")
                                                 String surname) {
 
-        List<Guest> guests = guestRepository.findGuestByNameAndSurnameEquals(name, surname).parallelStream()
-            .filter(g -> !g.isDeleted())
-            .toList();
+        List<Guest> guests = guestRepository.findGuestByNameAndSurnameEquals(name, surname);
 
         validateGuestsList(guests);
         return guests;
     }
 
     public List<Guest> getGuestByEventId(@Positive(message = "The given id cannot be 0 or less!") long id) {
-        List<Guest> guests = guestRepository.findGuestByAssociatedEventIdEquals(id).parallelStream()
-            .filter(g -> !g.isDeleted())
-            .toList();
+        List<Guest> guests = guestRepository.findGuestByAssociatedEventIdEquals(id);
 
         validateGuestsList(guests);
         return guests;
@@ -90,9 +79,7 @@ public class GuestService {
     public List<Guest> getGuestsByGuestType(@NotNull(message = "The given guest type cannot be null!")
                                             GuestType guestType) {
 
-        List<Guest> guests = guestRepository.findGuestsByGuestTypeEquals(guestType).parallelStream()
-            .filter(g -> !g.isDeleted())
-            .toList();
+        List<Guest> guests = guestRepository.findGuestsByGuestTypeEquals(guestType);
 
         validateGuestsList(guests);
         return guests;
@@ -101,10 +88,7 @@ public class GuestService {
     public List<Guest> getGuestsBytAttendanceType(@NotNull(message = "The given attendance type cannot be null!")
                                                   AttendanceType attendanceType) {
 
-        List<Guest> guests = guestRepository.findGuestsByAttendanceTypeEquals(attendanceType).parallelStream()
-            .filter(g -> !g.isDeleted())
-            .toList();
-
+        List<Guest> guests = guestRepository.findGuestsByAttendanceTypeEquals(attendanceType);
         validateGuestsList(guests);
         return guests;
     }
@@ -115,7 +99,6 @@ public class GuestService {
                                      GuestDto guestDto) {
         Guest guest = getGuestById(guestId);
         validateGuest(guest);
-        validateForDeletedGuest(guest);
 
         Guest newGuestToSave = updateFields(guestDto, guest);
         newGuestToSave.setUpdatedBy("b");
@@ -126,13 +109,11 @@ public class GuestService {
         return true;
     }
 
-    public boolean delete(boolean deleted,
-                          @Positive(message = "The given ID cannot be less than zero!") long guestId) {
-        Guest guest = guestRepository.findGuestByIdEquals(guestId);
+    public boolean delete(@Positive(message = "The given ID cannot be less than zero!") long guestId) {
+        Guest guest = getGuestById(guestId);
         validateGuest(guest);
-        validateForDeletedGuest(guest);
 
-        guest.setDeleted(deleted);
+        guest.setDeleted(true);
         guestRepository.save(guest);
         return true;
     }
@@ -171,18 +152,6 @@ public class GuestService {
     private void validateGuestsList(List<Guest> guests) {
         if (guests == null) {
             throw new ResourceNotFoundException("There are no such guests in the database or have been deleted!");
-        }
-    }
-
-    private void checkForSaveException(Guest guest) {
-        if (guest == null) {
-            throw new RuntimeException("There was problem while saving the guest in the database!");
-        }
-    }
-
-    private void validateForDeletedGuest(Guest guest) {
-        if (guest.isDeleted()) {
-            throw new MethodNotAllowed("The current record has already been deleted!");
         }
     }
 }

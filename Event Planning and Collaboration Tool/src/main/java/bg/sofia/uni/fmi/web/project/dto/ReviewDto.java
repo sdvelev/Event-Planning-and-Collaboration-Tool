@@ -39,6 +39,10 @@ public class ReviewDto {
     @NotBlank(message = "The photo link cannot be blank!")
     private String photoLink;
 
+//    @JsonProperty("associated_vendor")
+//    @NotNull(message = "The associated vendor cannot be null!")
+//    private Vendor associatedVendor;
+
     @JsonProperty("created_by")
     private String createdBy;
 

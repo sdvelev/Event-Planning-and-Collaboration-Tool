@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.web.project.controller;
 
 import bg.sofia.uni.fmi.web.project.dto.ContractDto;
 import bg.sofia.uni.fmi.web.project.mapper.ContractMapper;
-import bg.sofia.uni.fmi.web.project.service.ContractEventVendorFacadeService;
+import bg.sofia.uni.fmi.web.project.service.ContractFacadeService;
 import bg.sofia.uni.fmi.web.project.service.ContractService;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -27,7 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ContractController {
     private final ContractService contractService;
-    private final ContractEventVendorFacadeService contractEventVendorFacadeService;
+    private final ContractFacadeService contractEventVendorFacadeService;
     private final ContractMapper mapper;
 
     @PostMapping(params = {"assigned_event_id", "assigned_vendor_id"})
@@ -50,14 +49,6 @@ public class ContractController {
     public ResponseEntity<ContractDto> findById(@Positive(message = "ContractID must be positive")
                                                 @RequestParam("id") long id) {
         return ResponseEntity.ok(mapper.toDto(contractService.getContractById(id)));
-    }
-
-    @GetMapping(value = "/search", params = {"total_price"})
-    public ResponseEntity<List<ContractDto>> findByTotalPrice(@RequestParam("total_price")
-                                                              @NotNull(message = "The given total price cannot be null!")
-                                                              @Positive(message = "The given total price must be above 0!")
-                                                              BigDecimal totalPrice) {
-        return ResponseEntity.ok(mapper.toDtoCollection(contractService.getContractsByTotalPrice(totalPrice)));
     }
 
     @GetMapping(value = "/search", params = {"finished"})
@@ -90,12 +81,10 @@ public class ContractController {
         return contractService.setContractByContractId(contractId, contractUpdateDto);
     }
 
-    @DeleteMapping(value = "/delete", params = {"deleted", "id"})
-    public boolean deleteGuest(@RequestParam("deleted")
-                               boolean deleted,
-                               @Positive(message = "The given ID cannot be less than zero!")
+    @DeleteMapping(value = "/delete", params = {"id"})
+    public boolean deleteGuest(@Positive(message = "The given ID cannot be less than zero!")
                                @RequestParam("id")
                                long contractId) {
-        return contractService.delete(deleted, contractId);
+        return contractService.delete(contractId);
     }
 }

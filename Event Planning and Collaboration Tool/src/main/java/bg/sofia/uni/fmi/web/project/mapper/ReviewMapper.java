@@ -17,23 +17,7 @@ public interface ReviewMapper {
 
     Review toEntity(ReviewDto reviewDto);
 
-    default List<ReviewDto> toDtoCollection(Collection<Review> reviewsEntities) {
-        if (reviewsEntities == null) {
-            return Collections.emptyList();
-        }
+    List<ReviewDto> toDtoCollection(Collection<Review> reviewsEntities);
 
-        return reviewsEntities.stream()
-            .map(this::toDto)
-            .toList();
-    }
-
-    default List<Review> toEntityCollection(Collection<ReviewDto> reviewDtos) {
-        if (reviewDtos == null) {
-            return Collections.emptyList();
-        }
-
-        return reviewDtos.stream()
-            .map(this::toEntity)
-            .toList();
-    }
+    List<Review> toEntityCollection(Collection<ReviewDto> reviewDtos);
 }

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="323137cd-34e3-4128-b750-c7141f5400e3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/ContractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/ContractController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/GuestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/GuestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/ReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/ReviewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/TaskController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/VendorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/controller/VendorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/dto/GuestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/dto/GuestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/dto/ReviewDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/dto/ReviewDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/dto/TaskDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/dto/TaskDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/dto/VendorDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/dto/VendorDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/mapper/ContractMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/mapper/ContractMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/mapper/GuestMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/mapper/GuestMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/mapper/ReviewMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/mapper/ReviewMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/ContractRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/ContractRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/GuestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/GuestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/ReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/ReviewRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/TaskRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/VendorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/repository/VendorRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/ContractEventVendorFacadeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/ContractService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/ContractService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/GuestEventFacadeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/GuestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/GuestService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/ReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/ReviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/ReviewVendorFacadeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/TaskEventParticipantFacadeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/TaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/VendorReviewFacadeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/VendorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event Planning and Collaboration Tool/src/main/java/bg/sofia/uni/fmi/web/project/service/VendorService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2RKnEtxMEN1FotKABZl5vjyewbD" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/git/Event-Planning-and-Collaboration-Tool/Event Planning and Collaboration Tool",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "spring.configuration.checksum": "46f86faa6bbf9ac94a7e459509a20ed0"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Event-Planning-and-Collaboration-Tool" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Event-Planning-and-Collaboration-Tool" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="323137cd-34e3-4128-b750-c7141f5400e3" name="Changes" comment="" />
+      <created>1687007531388</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1687007531388</updated>
+      <workItem from="1687007532821" duration="66000" />
+      <workItem from="1687007625796" duration="6290000" />
+      <workItem from="1687107994420" duration="7000" />
+      <workItem from="1687173412025" duration="9000" />
+      <workItem from="1687256266588" duration="1833000" />
+      <workItem from="1687289323423" duration="8913000" />
+      <workItem from="1687418672922" duration="13132000" />
+      <workItem from="1687461195425" duration="11529000" />
+      <workItem from="1687503997932" duration="7821000" />
+      <workItem from="1687516508395" duration="117000" />
+      <workItem from="1687516670637" duration="48000" />
+      <workItem from="1687516923195" duration="324000" />
+      <workItem from="1687517358182" duration="5234000" />
+      <workItem from="1687592093856" duration="642000" />
+      <workItem from="1687624856432" duration="5439000" />
+      <workItem from="1687683829873" duration="2125000" />
+      <workItem from="1687714907101" duration="9022000" />
+      <workItem from="1687760725351" duration="3423000" />
+      <workItem from="1687794141455" duration="511000" />
+      <workItem from="1687978163978" duration="2759000" />
+      <workItem from="1688066553006" duration="1227000" />
+      <workItem from="1688068011369" duration="119000" />
+      <workItem from="1688069038280" duration="583000" />
+      <workItem from="1688109683127" duration="4093000" />
+      <workItem from="1688116010182" duration="89000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -5,7 +5,6 @@ import bg.sofia.uni.fmi.web.project.enums.VendorType;
 import bg.sofia.uni.fmi.web.project.model.Vendor;
 import bg.sofia.uni.fmi.web.project.repository.VendorRepository;
 import bg.sofia.uni.fmi.web.project.validation.ConflictException;
-import bg.sofia.uni.fmi.web.project.validation.MethodNotAllowed;
 import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,31 +24,17 @@ public class VendorService {
     private final VendorRepository vendorRepository;
 
     public long addVendor(@NotNull(message = "The given vendor cannot be null!")
-                          Vendor vendorToSave,
-                          @NotNull(message = "The vendor type cannot be null!")
-                          @NotEmpty(message = "The vendor type cannot be empty!")
-                          @NotBlank(message = "The vendor type cannot be blank!")
-                          String vendorType) {
+                          Vendor vendorToSave) {
         validateForExistingVendor(vendorToSave.getName(), vendorToSave.getSurname(), vendorToSave.getEmail());
 
-        VendorType newVendorType = VendorType.valueOf(vendorType.toUpperCase());
-        vendorToSave.setVendorType(newVendorType);
         vendorToSave.setCreatedBy("a");
         vendorToSave.setCreationTime(LocalDateTime.now());
-        vendorToSave.setDeleted(false);
 
-        System.out.println(vendorToSave.getSurname());
-
-        Vendor vendor = vendorRepository.save(vendorToSave);
-        //checkForSaveException(vendor);
-        return vendor.getId();
+        return vendorRepository.save(vendorToSave).getId();
     }
 
     public List<Vendor> getAllVendors() {
-        List<Vendor> vendors = vendorRepository.findAll().parallelStream()
-            .filter(g -> !g.isDeleted())
-            .toList();
-
+        List<Vendor> vendors = vendorRepository.findAll();
         validateVendorsList(vendors);
 
         return vendors;
@@ -59,7 +44,6 @@ public class VendorService {
                                 long id) {
         Vendor vendor = vendorRepository.findVendorByIdEquals(id);
         validateVendor(vendor);
-        validateForDeletedVendor(vendor);
 
         return vendor;
     }
@@ -70,7 +54,6 @@ public class VendorService {
                                          String phoneNumber) {
         Vendor vendor = vendorRepository.findVendorByPhoneNumberEquals(phoneNumber);
         validateVendor(vendor);
-        validateForDeletedVendor(vendor);
 
         return vendor;
     }
@@ -81,7 +64,6 @@ public class VendorService {
                                    String email) {
         Vendor vendor = vendorRepository.findVendorByEmailEquals(email);
         validateVendor(vendor);
-        validateForDeletedVendor(vendor);
 
         return vendor;
     }
@@ -95,20 +77,15 @@ public class VendorService {
                                                    @NotBlank(message = "The given surname cannot be blank!")
                                                    String surname) {
 
-        List<Vendor> vendors = vendorRepository.findVendorsByNameAndSurnameEquals(name, surname).parallelStream()
-            .filter(g -> !g.isDeleted())
-            .toList();
-
+        List<Vendor> vendors = vendorRepository.findVendorsByNameAndSurnameEquals(name, surname);
         validateVendorsList(vendors);
+
         return vendors;
     }
 
     public List<Vendor> getVendorsByVendorType(@NotNull(message = "The given vendor type cannot be null!")
                                                VendorType vendorType) {
-        List<Vendor> vendors = vendorRepository.findVendorsByVendorTypeEquals(vendorType).parallelStream()
-            .filter(g -> !g.isDeleted())
-            .toList();
-
+        List<Vendor> vendors = vendorRepository.findVendorsByVendorTypeEquals(vendorType);
         validateVendorsList(vendors);
 
         return vendors;
@@ -120,7 +97,6 @@ public class VendorService {
                                        VendorDto vendorDto) {
         Vendor vendor = getVendorById(vendorId);
         validateVendor(vendor);
-        validateForDeletedVendor(vendor);
 
         Vendor newVendorToSave = updateFields(vendorDto, vendor);
         newVendorToSave.setUpdatedBy("b");
@@ -131,14 +107,12 @@ public class VendorService {
         return true;
     }
 
-    public boolean delete(boolean deleted,
-                          @Positive(message = "The given ID cannot be less than zero!")
+    public boolean delete(@Positive(message = "The given ID cannot be less than zero!")
                           long vendorId) {
-        Vendor vendor = vendorRepository.findVendorByIdEquals(vendorId);
+        Vendor vendor = getVendorById(vendorId);
         validateVendor(vendor);
-        validateForDeletedVendor(vendor);
 
-        vendor.setDeleted(deleted);
+        vendor.setDeleted(true);
         vendorRepository.save(vendor);
         return true;
     }
@@ -177,18 +151,6 @@ public class VendorService {
     private void validateVendorsList(List<Vendor> vendors) {
         if (vendors == null) {
             throw new ResourceNotFoundException("There are no such vendors in the database or have been deleted!");
-        }
-    }
-
-//    private void checkForSaveException(Vendor vendor) {
-//        if (vendor == null) {
-//            throw new RuntimeException("There was problem while saving the vendor in the database!");
-//        }
-//    }
-
-    private void validateForDeletedVendor(Vendor vendor) {
-        if (vendor.isDeleted()) {
-            throw new MethodNotAllowed("The current record has already been deleted!");
         }
     }
 
