@@ -3,6 +3,7 @@
 
 **EventCrafter** is project developed for the **Web Development with Java** course at FMI. It is a web-based platform that simplifies the event planning process by allowing users to collaborate with others, manage tasks, and track progress. It is developed with **Spring Boot** v3.1.0 for the backend, and **Angular** for the frontend. Insummary, the software allows event creation and managment by allocating tasks, planning budgets, etc. 
 
+### You can find link for the frontend part of the project [here](https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool-frontend)
 ## Functionalities
 
 The following functionlaities are supported by the platform:
