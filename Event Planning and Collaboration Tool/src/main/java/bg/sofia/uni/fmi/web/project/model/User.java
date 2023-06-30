@@ -15,6 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -82,6 +83,19 @@ public class User {
 
     @OneToMany(mappedBy = "associatedUser")
     Set<Participant> participantProfiles;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id) && username.equals(user.username) && password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password);
+    }
 
     @Override
     public String toString() {
