@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.web.project.repository;
 
 import bg.sofia.uni.fmi.web.project.model.Participant;
+import bg.sofia.uni.fmi.web.project.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,5 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
 
     Optional<Participant> findByIdAndDeletedFalse(Long id);
     List<Participant> findAllByDeletedFalse();
+    List<Participant> findAllByAssociatedUserAndDeletedFalse(User user);
 }
