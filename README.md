@@ -26,6 +26,26 @@ Models for representation of expenses and budgets are used for the purposes of b
 
 Authentication is managed by the interchange of JWT tokens. In the payload of that token, data for the currently loged user is preserved. That is used when it comes to authorization. The authorization policy is done by internal filtering and is as follows: all `GET` requests are allowed, as well as all `POST` requests that are intended for the user controller (as a mean for registration). All other requests require **Authorization** header with value in the form of **Bearer *<token>*** where *<token>* is the token associated to the current session returned by the result of the login method. When it comes to the UI in **Angular**, the browser's local storage is used for storing token information.  
 
+6. Task management
+
+Each participant, who is part of any event, is given a specific task to do, thus we need somewhere to store this data. Here comes the Task table, which stores information for the given task, consisting of name, description, task progress: `TO_DO`, `STARTED`, `IN_PROGRESS`, `DONE`, `COMPLETED`, `ABORTED`, due date, last notified date, event id, participant id + audit fields
+
+7. Guests
+
+Even though we have participants in the events, we need to have guests so, we specific management for guests, in which, when you invite a guest, automatically an email with invitation is sent to the guest email. The specific data, which we store for the guest is their name, surname, email, guest type: `FAMILY`, `FRIENDS`, `COLLEAGUES`, `CO_WORKERS`, `PARTNER`, their attendance type: `GOING`, `NOT_GOING`, `CONSIDERING`, `ATTENDING` and whether or not invitation is sent and event id.
+
+8. Vendors
+
+We have one more different actor in our system and that is the vendor. These people are external to our system and they have specific role: `CATERER`, `PHOTOGRAPHER`, `VENUE` and more will be supported in future development. These paople are tightly connected to the event with specific contracts.
+
+9. Contract management
+
+These contracts stand between the vendors and the events and for each contract there is specific total price and boolean flag whether the contract has been finished or not 
+
+10. Reviews
+
+Last but not for each vendor, there are reviews corresponding to their performance with rating from 0 to 5, some comments and photo link if needed. 
+
 ## ER Diagram
 ## Architecture & Rest API
 
