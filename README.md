@@ -47,6 +47,15 @@ These contracts stand between the vendors and the events and for each contract t
 Last but not for each vendor, there are reviews corresponding to their performance with rating from 0 to 5, some comments and photo link if needed. 
 
 ## ER Diagram
+At first you can find the ER diagram [here](https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool/blob/main/resources/Test_Event_planning_and_collaboration_tool.png). As we have already pointed out the main functionalities of our system, with ommiting the repetition we will straightly head to main idea behind it. He have used relational database because we find it really useful and secure when it comes to the personal data of the users, the correct relationship between the "tables" and last but not least we have taken this choice because of its **ACID** properties so that we will ensure the consistency of each record. Now we will talk more about the relationship types between the tables:
+ 
+ - `Users` is *many to many relationship* to `Events`, so we have the middle table `Participans` which stands as a relation between them.
+ - `Events` is the main table to which almost every table is connected to.
+ - `Events` is connected with *one to many relationship* with the tables `Budgets` and `Expenses`.
+ - `Events` also is connected with `Guests` with *one to many relationship*.
+ - `Vendors` are connected with `Events` with *many to many relationship* with the help of the `Contracts` table and
+ - Finally `Reviews` with `Vendors` with *many to one relationsip*.  
+
 ## Architecture & Rest API
 
 The preferred architecture for the **Spring Boot** application is the layered architecture. The idea behind it is that modules or components with similar functionalities are organized into horizontal layers. As a result, each layer performs a specific role within the application. For direct communication with the database JPA Repository Interfaces are used. There are service classes which communicate on top of them. Facade services are used when it comes to operations which require collaboration with more than one relation of the database schema. The implemented REST Controllers are the access and the key for the client to use the API.
