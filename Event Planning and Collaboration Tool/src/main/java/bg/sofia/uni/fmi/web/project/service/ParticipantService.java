@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -54,6 +53,10 @@ public class ParticipantService {
         }
 
         throw new ResourceNotFoundException("Participant with such an id cannot be found");
+    }
+
+    public List<Participant> getParticipantsByUser(User userToSearch) {
+        return participantRepository.findAllByAssociatedUserAndDeletedFalse(userToSearch);
     }
 
     public UserRole getUserRoleByParticipantId(
@@ -144,7 +147,28 @@ public class ParticipantService {
         throw new ResourceNotFoundException("There is not a participant with such an id");
     }
 
-    public boolean deleteParticipant(
+    public boolean deleteParticipant( @NotNull(message = "The provided participant id cannot be null")
+                              @Positive(message = "The provided participant id must be positive")
+                              Long participantId,
+                              @NotNull(message = "The user to make changes cannot be null")
+                              User updatedUser) {
+        Optional<Participant> optionalParticipantToDelete = participantRepository.findByIdAndDeletedFalse(participantId);
+
+        if (optionalParticipantToDelete.isPresent()) {
+
+            Participant participantToDelete = optionalParticipantToDelete.get();
+
+            participantToDelete.setLastUpdatedTime(LocalDateTime.now());
+            participantToDelete.setUpdatedBy(updatedUser.getUsername());
+            participantToDelete.setDeleted(true);
+            participantRepository.save(participantToDelete);
+            return true;
+        }
+
+        throw new ResourceNotFoundException("There is not a participant with such an id");
+    }
+
+    public boolean deleteParticipantByRole(
         @NotNull(message = "The provided participant id cannot be null")
         @Positive(message = "The provided participant id must be positive")
         Long participantId,

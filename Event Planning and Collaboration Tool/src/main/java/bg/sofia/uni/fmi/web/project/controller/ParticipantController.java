@@ -6,6 +6,7 @@ import bg.sofia.uni.fmi.web.project.mapper.ParticipantMapper;
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.service.ParticipantService;
 import bg.sofia.uni.fmi.web.project.service.ParticipantUserEventFacadeService;
+import bg.sofia.uni.fmi.web.project.service.UserParticipantFacadeService;
 import bg.sofia.uni.fmi.web.project.service.UserService;
 import bg.sofia.uni.fmi.web.project.service.security.TokenManagerService;
 import bg.sofia.uni.fmi.web.project.validation.ApiBadRequest;
@@ -40,18 +41,21 @@ public class ParticipantController {
     private final ParticipantUserEventFacadeService participantUserEventFacadeService;
     private final ParticipantMapper participantMapper;
     private final TokenManagerService tokenManagerService;
+    private final UserParticipantFacadeService userParticipantFacadeService;
 
     @Autowired
     public ParticipantController(ParticipantService participantService,
                                  ParticipantUserEventFacadeService participantUserEventFacadeService ,
                                  ParticipantMapper participantMapper,
                                  TokenManagerService tokenManagerService,
-                                 UserService userService) {
+                                 UserService userService,
+                                 UserParticipantFacadeService userParticipantFacadeService) {
         this.participantService = participantService;
         this.participantUserEventFacadeService = participantUserEventFacadeService;
         this.participantMapper = participantMapper;
         this.tokenManagerService = tokenManagerService;
         this.userService = userService;
+        this.userParticipantFacadeService = userParticipantFacadeService;
     }
 
     @GetMapping
@@ -73,6 +77,17 @@ public class ParticipantController {
         }
 
         throw new ResourceNotFoundException("Participant with such an id cannot be found");
+    }
+
+    @GetMapping(value = "/search", params = {"associated_user_id"})
+    public List<ParticipantDto> getAllParticipantsByUserId(@RequestParam("associated_user_id")
+                                             @NotNull(message = "The provided user id cannot be null")
+                                             @Positive(message = "The provided user id must be positive")
+                                             Long userId)  {
+
+        List<Participant> potentialParticipants = userParticipantFacadeService.getParticipantsByUserId(userId);
+
+        return participantMapper.toDtoList(potentialParticipants);
     }
 
     @PostMapping(params = {"assigned_user_id", "assigned_event_id"})
@@ -106,7 +121,7 @@ public class ParticipantController {
                                          @Positive(message = "The provided participant id must be positive")
                                          Long participantId,
                                          HttpServletRequest request) {
-        return participantService.deleteParticipant(participantId,
+        return participantService.deleteParticipantByRole(participantId,
             getUserByRequest(request, tokenManagerService, userService));
     }
 
