@@ -128,7 +128,7 @@ The **Angular** project needs to be run seperately as well. For visualization th
 
 ## Way of Working 🙌
 
-The project was realized in working as a team. There were regular meetings held mainly for syncing, discussing changes, different visions and improvements. The main division of work was purely based on the domain (the same division is valid for the **Spring Boot** application and [**Angular** project](https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool-frontend)) and is given in the following table:
+The project was realized in working as a team. There were regular meetings held mainly for syncing, discussing changes, different visions and improvements. The main division of work was purely based on the domain (the same division is valid for the **Spring Boot** application and [**Angular project**](https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool-frontend)) and is given in the following table:
 
 |[**Stefan Velev**](https://github.com/sdvelev)|[**Iliyan Yordanov**](https://github.com/Iliyan31)|
 |:------------------:|:-------------------:|
