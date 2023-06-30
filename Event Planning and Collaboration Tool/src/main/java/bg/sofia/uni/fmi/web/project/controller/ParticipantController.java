@@ -101,9 +101,6 @@ public class ParticipantController {
                                @RequestParam("assigned_event_id") Long assignedEventId,
                                HttpServletRequest request) {
 
-        // This method will be similar to the "invite collaborator" method. However, we will use
-        // authorization to get the user id. Moreover, confirmation by email might be required
-
         Participant potentialParticipantToCreate = participantUserEventFacadeService
             .createParticipantWithUserAndEvent(participantMapper.toEntity(participantDto), assignedUserId,
                 assignedEventId, getUserByRequest(request, tokenManagerService, userService));

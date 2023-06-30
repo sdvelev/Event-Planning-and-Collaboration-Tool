@@ -34,9 +34,6 @@ public class UserDto {
     @JsonProperty("email")
     private String email;
 
-//    @JsonProperty("description")
-//    private String description;
-
     @JsonProperty("verified")
     private boolean verified;
 

@@ -170,10 +170,6 @@ public class ExpenseService {
             expenseToUpdate.setDescription(expenseFieldsToChange.getDescription());
         }
 
-//        if (expenseFieldsToChange.getExpenditureCategory() != null) {
-//            expenseToUpdate.setExpenditureCategory(expenseFieldsToChange.getExpenditureCategory());
-//        }
-
         if (expenseFieldsToChange.getAmount() != null) {
             expenseToUpdate.setAmount(expenseFieldsToChange.getAmount());
         }

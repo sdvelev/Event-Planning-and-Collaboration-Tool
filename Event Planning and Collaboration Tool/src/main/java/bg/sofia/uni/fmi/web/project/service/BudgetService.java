@@ -172,10 +172,6 @@ public class BudgetService {
             budgetToUpdate.setAmount(budgetFieldsToChange.getAmount());
         }
 
-//        if (budgetFieldsToChange.getExpenditureCategory() != null) {
-//            budgetToUpdate.setExpenditureCategory(budgetFieldsToChange.getExpenditureCategory());
-//        }
-
         if (budgetFieldsToChange.isApproved()) {
             budgetToUpdate.setApproved(budgetFieldsToChange.isApproved());
         }

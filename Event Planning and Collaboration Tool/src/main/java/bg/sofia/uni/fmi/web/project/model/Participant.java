@@ -59,7 +59,6 @@ public class Participant {
     //Soft Deletion
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
-//    @NotNull
     private boolean deleted;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

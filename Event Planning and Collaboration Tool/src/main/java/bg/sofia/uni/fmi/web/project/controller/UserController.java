@@ -142,7 +142,6 @@ public class UserController {
                                         @NotNull(message = "The provided user dto as body of the query cannot be null")
                                         UserDto userToUpdate,
                                    HttpServletRequest request) {
-        //TODO: Authorization in order to update event
         return userService.setUserById(userToUpdate, userId,
             getUserByRequest(request, tokenManagerService, userService));
     }
