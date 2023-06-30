@@ -1,0 +1,1201 @@
+{
+	"info": {
+		"_postman_id": "ebde0521-ba6b-40ec-9b6a-3323ff9f33a4",
+		"name": "User_Participant_Event_Expense_Budget",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "GetUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"sdv145\",\r\n    \"password\" : \"sdv15454\",\r\n    \"email\" : \"sd154v@sdv.bg\",\r\n    \"name\" : \"Stefan\",\r\n    \"surname\" : \"Velev\",\r\n    \"address\" : \"Sofia\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users?username=sdvelev&password=sdvelev",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "sdvelev"
+								},
+								{
+									"key": "password",
+									"value": "sdvelev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/search?id=102",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "102"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserByIdNegative",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/search?id=-6",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "-6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserByUsername",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/search?username=sdvelev",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "sdvelev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserByEmail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/search?email=sdvelev@gmail.com",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "sdvelev@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserByUsernameAndPassword",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/search?username=sdvelev&password=sdvelev",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "sdvelev"
+								},
+								{
+									"key": "password",
+									"value": "sdvelev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetUsernameByOldUsernameAndPassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/settings?new_username=SDVELEV&old_username=sdvelev&password=sdvelev",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"settings"
+							],
+							"query": [
+								{
+									"key": "new_username",
+									"value": "SDVELEV"
+								},
+								{
+									"key": "old_username",
+									"value": "sdvelev"
+								},
+								{
+									"key": "password",
+									"value": "sdvelev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetPasswordByUsernameAndOldPassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/settings?new_password=SDVELEV&username=sdvelev&old_password=sdvelev",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"settings"
+							],
+							"query": [
+								{
+									"key": "new_password",
+									"value": "SDVELEV"
+								},
+								{
+									"key": "username",
+									"value": "sdvelev"
+								},
+								{
+									"key": "old_password",
+									"value": "sdvelev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetUserByUserId",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"Korten\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users/set?user_id=102",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"set"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "102"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Participants",
+			"item": [
+				{
+					"name": "GetParticipants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/participants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetParticipantById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/participants/search?id=352",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "352"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddParticipant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_role\" : \"PLANNER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/participants?assigned_user_id=102&assigned_event_id=252",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants"
+							],
+							"query": [
+								{
+									"key": "assigned_user_id",
+									"value": "102"
+								},
+								{
+									"key": "assigned_event_id",
+									"value": "252"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteParticipant",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/participants?id=402",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "402"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetUserRoleByParticipantId",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/participants/role?participant_id=352&user_role=PLANNER",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants",
+								"role"
+							],
+							"query": [
+								{
+									"key": "participant_id",
+									"value": "352"
+								},
+								{
+									"key": "user_role",
+									"value": "PLANNER"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetParticipantByParticipantId",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_role\" : \"CREATOR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/participants/set?participant_id=352",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"participants",
+								"set"
+							],
+							"query": [
+								{
+									"key": "participant_id",
+									"value": "352"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "GetEvents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEventById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events/search?id=152",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "152"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEventByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events/search?name=Trip to London",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Trip to London"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEventByLocation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events/search?location=London%20City",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"search"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "London%20City"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEventByDate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events/search?date=2024-10-30T10%3A00%3A00",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"search"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2024-10-30T10%3A00%3A00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddEvent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Trip to NY\",\r\n    \"date\" : \"2023-04-30 10:00:00\",\r\n    \"location\" : \"New York\",\r\n    \"description\" : \"Travelling to USA with visit of NY and some other cities\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/events",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetEventByEventId",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Trip to USA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/events/set?event_id=202",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"set"
+							],
+							"query": [
+								{
+									"key": "event_id",
+									"value": "202"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteEvent",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events?event_id=202",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "event_id",
+									"value": "202"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Expenses",
+			"item": [
+				{
+					"name": "GetExpenses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/expenses",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetExpenseById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/expenses/search?id=202",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "202"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetExpenseDescriptionById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/expenses/description?id=202",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses",
+								"description"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "202"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetExpenseExpenditureCategoryById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/expenses/expenditure_category?id=202",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses",
+								"expenditure_category"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "202"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetExpenseAmountById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/expenses/amount?id=202",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses",
+								"amount"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "202"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetExpenseAssociatedEventById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/expenses/event?id=202",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses",
+								"event"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "202"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddExpense",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\" : \"Expenses for plane tickets\",\r\n    \"expenditure_category\" : \"OTHER\",\r\n    \"amount\" : \"160\",\r\n    \"approved\" : \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/expenses?assigned_event_id=152",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses"
+							],
+							"query": [
+								{
+									"key": "assigned_event_id",
+									"value": "152"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetExpenseById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\" : \"Updated expenses for plane tickets\",\r\n    \"amount\" : \"666\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/expenses/set?expense_id=203",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses",
+								"set"
+							],
+							"query": [
+								{
+									"key": "expense_id",
+									"value": "203"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteExpense",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\" : \"Expenses for plane tickets\",\r\n    \"expenditure_category\" : \"OTHER\",\r\n    \"amount\" : \"160\",\r\n    \"approved\" : \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/expenses?id=202",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"expenses"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "202"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Budgets",
+			"item": [
+				{
+					"name": "GetBudgets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/budgets",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"budgets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBudgetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/budgets/search?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"budgets",
+								"search"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBudgetDescriptionById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/budgets/description?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"budgets",
+								"description"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBudgetExpenditureCategoryById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/budgets/expenditure_category?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"budgets",
+								"expenditure_category"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBudgetAmountById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/budgets/amount?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"budgets",
+								"amount"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBudgetAssociatedEventById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/budgets/event?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"budgets",
+								"event"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddBudget",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\" : \"Budget for plane tickets\",\r\n    \"expenditure_category\" : \"OTHER\",\r\n    \"amount\" : \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/budgets?assigned_event_id=152",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"budgets"
+							],
+							"query": [
+								{
+									"key": "assigned_event_id",
+									"value": "152"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetBudgetById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\" : \"Updated budget for plane tickets\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/budgets/set?budget_id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"budgets",
+								"set"
+							],
+							"query": [
+								{
+									"key": "budget_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteBudget",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\" : \"Expenses for plane tickets\",\r\n    \"expenditure_category\" : \"OTHER\",\r\n    \"amount\" : \"160\",\r\n    \"approved\" : \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/budgets?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"budgets"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
