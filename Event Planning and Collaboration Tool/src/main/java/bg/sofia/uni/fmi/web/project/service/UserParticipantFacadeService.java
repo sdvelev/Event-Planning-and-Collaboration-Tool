@@ -2,12 +2,17 @@ package bg.sofia.uni.fmi.web.project.service;
 
 import bg.sofia.uni.fmi.web.project.model.Participant;
 import bg.sofia.uni.fmi.web.project.model.User;
+import bg.sofia.uni.fmi.web.project.validation.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -40,5 +45,18 @@ public class UserParticipantFacadeService {
         }
 
         return true;
+    }
+
+    public List<Participant> getParticipantsByUserId(
+        @NotNull(message = "The provided user id cannot be null")
+        @Positive(message = "The provided user id must be positive")
+        Long userId) {
+
+        Optional<User> associatedUser = userService.getUserById(userId);
+        if (associatedUser.isPresent()) {
+            return participantService.getParticipantsByUser(associatedUser.get());
+        }
+
+        throw new ResourceNotFoundException("User with such an id cannot be found");
     }
 }
