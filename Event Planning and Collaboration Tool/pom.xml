@@ -19,6 +19,15 @@
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <org.springframework.security.version>6.1.1</org.springframework.security.version>
         <io.jsonwebtoken.version>0.11.5</io.jsonwebtoken.version>
+        <org.springdoc.version>2.1.0</org.springdoc.version>
+        <javax.mail.version>1.4.7</javax.mail.version>
+        <javax.activation.version>1.1.1</javax.activation.version>
+        <nl.martjndward.version>5.1.1</nl.martjndward.version>
+        <org.bouncycastle.version>1.70</org.bouncycastle.version>
+        <com.vaadin.version>24.1.1</com.vaadin.version>
+        <dev.hilla.version>2.1.1</dev.hilla.version>
+        <javax.annotation.version>1.3.2</javax.annotation.version>
+        <org.apache.maven.plugins.version>3.8.1</org.apache.maven.plugins.version>
     </properties>
     <dependencies>
         <dependency>
@@ -86,50 +95,48 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.1.0</version>
+            <version>${org.springdoc.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1.4.7</version>
+            <version>${javax.mail.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
-            <version>1.1.1</version>
+            <version>${javax.activation.version}</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>nl.martijndwars</groupId>
             <artifactId>web-push</artifactId>
-            <version>5.1.1</version>
+            <version>${nl.martjndward.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.70</version>
+            <version>${org.bouncycastle.version}</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>flow-server</artifactId>
-            <version>24.1.1</version>
+            <version>${com.vaadin.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>dev.hilla</groupId>
             <artifactId>endpoint</artifactId>
-            <version>2.1.1</version>
+            <version>${dev.hilla.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
+            <version>${javax.annotation.version}</version>
         </dependency>
     </dependencies>
 
@@ -138,7 +145,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${org.apache.maven.plugins.version}</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
