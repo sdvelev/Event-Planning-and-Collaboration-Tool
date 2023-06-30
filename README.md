@@ -1,3 +1,4 @@
+<img src="https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool/blob/main/resources/Event.jpg" alt="Events picture">
 # EventCrafter 🕐✈️
 ## Introduction
 
