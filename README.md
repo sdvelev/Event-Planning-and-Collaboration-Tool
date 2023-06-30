@@ -1,7 +1,7 @@
 # EventCrafter 🕐✈️
 ## Introduction
 
-**EventCrafter** is project developed for the **Web Development with Java** course at FMI. It is a web-based platform that simplifies the event planning process by allowing users to collaborate with others, manage tasks, and track progress. It is developed with **Spring Boot** v3.1.0 for the backend, and **Angular** for the frontend. Insummary, the software allows event creation and managment by allocating tasks, planning budgets, etc. 
+**EventCrafter** is project developed for the **Web Development with Java** course at FMI. It is a web-based platform that simplifies the event planning process by allowing users to collaborate with others, manage tasks, and track progress. It is developed with **Spring Boot** v3.1.0 for the backend, and **Angular** v16.1.0 with **Node.js** version 18.16.0 for the frontend. Insummary, the software allows event creation and managment by allocating tasks, planning budgets, etc. 
 
 ### You can find link for the frontend part of the project [here](https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool-frontend)
 ## Functionalities ⚙️
@@ -125,6 +125,37 @@ The **Angular** project needs to be run seperately as well. For visualization th
 - `dev.hilla` Endpoint version 2.1.1
 - `javax.annotation` Javax annotation api version 1.3.2
 - `org.apache.maven.plugins.version` version 3.8.1
+
+### For frontend:
+- `@adobe/lit-mobx`: "^2.2.0"
+- `@adobe/lit-mobx`: "^2.2.0",
+- `@angular/animations`: "^16.1.0",
+- `@angular/common`: "^16.1.0",
+- `@angular/compiler`: "^16.1.0",
+- `@angular/core`: "^16.1.0",
+- `@angular/forms`: "^16.1.0",
+- `@angular/material`: "^16.1.1",
+- `@angular/platform-browser`: "^16.1.0",
+- `@angular/platform-browser-dynamic`: "^16.1.0",
+- `@angular/router`: "^16.1.0",
+- `bootstrap`: "^5.3.0",
+- `lit`: "^2.7.5",
+- `rxjs`: "~7.8.0",
+- `tslib`: "^2.3.0",
+- `zone.js`: "~0.13.0"
+
+#### Dev angular dependencies:
+- `@angular-devkit/build-angular`: "^16.1.0"
+- `@angular/cli`: "~16.1.0"
+- `@angular/compiler-cli`: "^16.1.0"
+- `@types/jasmine`: "~4.3.0",
+- `jasmine-core`: "~4.6.0",
+- `karma`: "~6.4.0",
+- `karma-chrome-launcher`: "~3.2.0",
+- `karma-coverage`: "~2.2.0",
+- `karma-jasmine`: "~5.1.0",
+- `karma-jasmine-html-reporter`: "~2.1.0",
+- `typescript`: "~5.1.3"
 
 ## Way of Working 🙌
 
