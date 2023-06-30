@@ -43,10 +43,11 @@ public class MailClientService {
     private Properties configureProperties() {
         Properties prop = new Properties();
         prop.put("mail.smtp.auth", true);
-        prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", "smtp.office365.com");
         prop.put("mail.smtp.port", "587");
         prop.put("mail.smtp.ssl.trust", "smtp.office365.com");
+        prop.setProperty("mail.smtp.starttls.enable", "true");
+        prop.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
 
         return prop;
     }

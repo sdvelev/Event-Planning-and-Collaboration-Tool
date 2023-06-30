@@ -23,7 +23,6 @@ import java.util.Optional;
 public class GuestFacadeService {
     private final GuestService guestService;
     private final EventService eventService;
-
     private final MailClientService mailClientService;
 
     @Transactional
