@@ -74,6 +74,31 @@ Each feature of the app was tested on two different databases - **PostgreSQL** a
 The **Angular** project needs to be run seperately as well. For visualization the **Angular Live Development Server** is usually listening on [localhost:4200](http://localhost:4200/). For proper communication with the backend, it is highly recommended for the backend to be started first so that the requests sent from the browser in the frontend can be delivered and answered in correct way.
 
 ## Libraries
+
+### Here is a list with all dependencies and their versions:  
+
+- `Java` version 19
+- `Spring Boot Starter Web`.
+- `Spring boot starter data jpa`.
+- `Postgresql`
+- `Spring boot starter validation`
+- `Lombok`
+- `Spring boot starter test`
+- `Mapstruct` version 1.5.3.Final
+- `Spring security core` version 6.1.1
+- `jjwt-api` version 0.11.5
+- `jjwt-impl` version 0.11.5
+- `jjwt-gson` version 0.11.5
+- `Springdoc openapi starter webmvc ui` (Swagger) version 2.1.0
+- `Javax mail` version 1.4.7
+- `Javax activation` version 1.1.1
+- `nl.martijndwars` Web push version 5.1.1
+- `org.bouncycastle` bcprov-jdk15on version 1.70
+- `com.vaadin` Flow server version 24.1.1
+- `dev.hilla` Endpoint version 2.1.1
+- `javax.annotation` Javax annotation api version 1.3.2
+- `org.apache.maven.plugins.version` version 3.8.1
+
 ## Way of Working
 
 The project was realized in working as a team. There were regular meetings held mainly for syncing, discussing changes, different visions and improvements. The main division of work was purely based on the domain (the same division is valid for the **Spring Boot** application and **Angular** project) and is given in the following table:
