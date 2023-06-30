@@ -24,6 +24,8 @@ public class GuestFacadeService {
     private final GuestService guestService;
     private final EventService eventService;
 
+    private final MailClientService mailClientService;
+
     @Transactional
     public long addGuest(@NotNull(message = "The given guest cannot be null!")
                          Guest guestToSave,
@@ -40,6 +42,8 @@ public class GuestFacadeService {
         guestToSave.setCreationTime(LocalDateTime.now());
 
         event.get().getAssociatedGuests().add(guestToSave);
+
+        mailClientService.sendEmail(guestToSave.getEmail(), event.get());
 
         return guestService.addGuest(guestToSave);
     }
