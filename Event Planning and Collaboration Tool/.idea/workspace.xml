@@ -5,39 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4aaaacef-77c5-46b0-be1f-2004beaeaa61" name="Changes" comment="refactor: update code">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_classgraph_classgraph_4_8_160.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_annotations_2_2_10.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_annotations_jakarta_2_2_9.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_core_jakarta_2_2_9.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_models_jakarta_2_2_9.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_3_31_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_6_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springdoc_springdoc_openapi_starter_common_2_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springdoc_springdoc_openapi_starter_webmvc_api_2_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springdoc_springdoc_openapi_starter_webmvc_ui_2_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_webjars_swagger_ui_4_18_2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bg/sofia/uni/fmi/web/project/controller/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bg/sofia/uni/fmi/web/project/controller/NotificationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bg/sofia/uni/fmi/web/project/service/GuestFacadeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bg/sofia/uni/fmi/web/project/service/GuestFacadeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bg/sofia/uni/fmi/web/project/service/MailClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bg/sofia/uni/fmi/web/project/service/MailClientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bg/sofia/uni/fmi/web/project/service/NotificationsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bg/sofia/uni/fmi/web/project/service/NotificationsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bg/sofia/uni/fmi/web/project/service/GuestFacadeService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bg/sofia/uni/fmi/web/project/service/GuestFacadeService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bg/sofia/uni/fmi/web/project/service/MailClientService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bg/sofia/uni/fmi/web/project/service/MailClientService$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bg/sofia/uni/fmi/web/project/service/MailClientService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bg/sofia/uni/fmi/web/project/service/MailClientService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/BudgetMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/BudgetMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ContractMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ContractMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/EventMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/EventMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ExpenseMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ExpenseMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/GuestMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/GuestMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ParticipantMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ParticipantMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ReviewMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/ReviewMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/TaskMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/TaskMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/UserMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/UserMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/VendorMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/bg/sofia/uni/fmi/web/project/mapper/VendorMapperImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
