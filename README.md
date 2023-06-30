@@ -4,9 +4,10 @@
 **EventCrafter** is project developed for the **Web Development with Java** course at FMI. It is a web-based platform that simplifies the event planning process by allowing users to collaborate with others, manage tasks, and track progress. It is developed with **Spring Boot** v3.1.0 for the backend, and **Angular** for the frontend. Insummary, the software allows event creation and managment by allocating tasks, planning budgets, etc. 
 
 ### You can find link for the frontend part of the project [here](https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool-frontend)
-## Functionalities
+## Functionalities ⚙️
 
 The following functionlaities are supported by the platform:
+
 1. User Managment
    
 In **EventCrafter** user profiles can be created. Each user is associated with fields such as `id`, `username`, `password`, `name`, `surname`, `email`, `address`. Audit fields as `createdBy`, `creationTime`, `updatedBy` and `lastUpdatedTime` are used for tracking changes. Soft deletion is achieved by `deleted` boolean variable which gets true whenever user is tried to be deleted.
@@ -57,24 +58,49 @@ At first you can find the ER diagram [here](https://github.com/Iliyan31/Event-Pl
  - `Vendors` are connected with `Events` with *many to many relationship* with the help of the `Contracts` table and
  - Finally `Reviews` with `Vendors` with *many to one relationsip*.  
 
-## Architecture & Rest API
+## Architecture & Rest API 🏛️ & 🌐
 
 The preferred architecture for the **Spring Boot** application is the layered architecture. The idea behind it is that modules or components with similar functionalities are organized into horizontal layers. As a result, each layer performs a specific role within the application. For direct communication with the database JPA Repository Interfaces are used. There are service classes which communicate on top of them. Facade services are used when it comes to operations which require collaboration with more than one relation of the database schema. The implemented REST Controllers are the access and the key for the client to use the API.
 
 For all of the tables in the database there are related models, dto-s, mappers, repositories, services and controllers. **Swagger** documentation of the API can be seen and tested from [localhost:8080/swagger.html](http://localhost:8080/swagger.html) when the **Spring Boot** application is started. Another available documentation can be found [here]().  
 
-## Backend
-## Key Features
+## Backend 👨‍💻
+As we already mentioned, we have built up our system based on the layered architecture and \
+all the classes in the packages `model`, `dto`, `repository`, `service`, `controller` are serving the corresponding to them tables from the database and they are :
 
+- Users
+- Participants
+- Events
+- Tasks
+- Guests
+- Budgets
+- Expenses
+- Contracts
+- Vendors
+- Reviews
+  
+When it comes to the backend we can look at things as follows based on the packages:
+
+   1. `model` - This package contains the needed files managing the data for the relational database
+   2. `dto` - This package represents the classes which represent the data which we will allow the usert to see
+   3. `mapper` - Contains the classes responsible for conversion from model to dto and back.
+   4. `enums` - Contains the needed Enum classes for the models.
+   5. `repository` - The *JpaRepository* interfaces for connection with the database and the needed queries.
+   6. `service` - Contains all the business logic of our platform. Here we can find the standart service classes from the above mentioned tables and specific ones, which are facade, serving their interrelationship.
+   7. `controller` - package that holds all classes with **REST endpoints** for the above mentioned tables.
+   8. `validation` - Of course of the validation.
+   9. `config` - Classes needed for security purpouses and Authorisation & Authentication   
+
+## Key Features 🔑
 The fundamental features of the project are the **Spring Boot** beans and other classes which lay the foundations of the app. Our key features are all the **business logic** which can be found in each of the services, especially the facade services. Moreover, the **frontend** developed with **HTML**, **CSS** and **TypeScript** on **Angular** was definitely a challange which really worth it. Most of the endpoints can be seen in the UI wrapped inside graphical elements. Another key feature is the **authentication** and **authorization** procedure. Working with tokens and passing them with every request demanded paying attention to small details. Problems with CORS policy were among the most frequently faced issues when it came to communication with applications on different ports. The opportunity of **sending invitations as emails** to each guest is another distinct feature of our platform which improves additionally the functionality.  
 
-## Startup Steps
+## Startup Steps 🏃‍♂️
 
 Each feature of the app was tested on two different databases - **PostgreSQL** and **MySQL**. In the `pom.xml` and `application.properties` files the configurations for the variant with the **PostgreSQL** can be found. All of the dependencies are required in order to start the application. Local database needs to be available and set with preferred names and passwords which to be replaced afterwards in the `application.properties` file. For sending emails valid email and password of the sender have to be provided in the `application.properties`. For working with notifications valid public and private keys need to be placed there as well. They can be easily generated with the help of terminal by running `npx web-push generate-vapid-keys [--json]`. 
 
 The **Angular** project needs to be run seperately as well. For visualization the **Angular Live Development Server** is usually listening on [localhost:4200](http://localhost:4200/). For proper communication with the backend, it is highly recommended for the backend to be started first so that the requests sent from the browser in the frontend can be delivered and answered in correct way.
 
-## Libraries
+## Libraries 📚
 
 ### Here is a list with all dependencies and their versions:  
 
@@ -100,7 +126,7 @@ The **Angular** project needs to be run seperately as well. For visualization th
 - `javax.annotation` Javax annotation api version 1.3.2
 - `org.apache.maven.plugins.version` version 3.8.1
 
-## Way of Working
+## Way of Working 🙌
 
 The project was realized in working as a team. There were regular meetings held mainly for syncing, discussing changes, different visions and improvements. The main division of work was purely based on the domain (the same division is valid for the **Spring Boot** application and [**Angular** project](https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool-frontend)) and is given in the following table:
 
