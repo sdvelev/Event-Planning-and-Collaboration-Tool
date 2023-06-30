@@ -1,5 +1,5 @@
 # EventCrafter 🕐✈️
-## Summary
+## Introduction
 
 **EventCrafter** is project developed for the **Web Development with Java** course at FMI. It is a web-based platform that simplifies the event planning process by allowing users to collaborate with others, manage tasks, and track progress. It is developed with **Spring Boot** v3.1.0 for the backend, and **Angular** for the frontend. Insummary, the software allows event creation and managment by allocating tasks, planning budgets, etc. 
 
@@ -78,8 +78,8 @@ The **Angular** project needs to be run seperately as well. For visualization th
 ### Here is a list with all dependencies and their versions:  
 
 - `Java` version 19
-- `Spring Boot Starter Web`.
-- `Spring boot starter data jpa`.
+- `Spring Boot Starter Web`
+- `Spring boot starter data jpa`
 - `Postgresql`
 - `Spring boot starter validation`
 - `Lombok`
@@ -103,13 +103,13 @@ The **Angular** project needs to be run seperately as well. For visualization th
 
 The project was realized in working as a team. There were regular meetings held mainly for syncing, discussing changes, different visions and improvements. The main division of work was purely based on the domain (the same division is valid for the **Spring Boot** application and **Angular** project) and is given in the following table:
 
-|**Stefan Velev**||
+|[**Stefan Velev**](https://github.com/sdvelev)|[**Iliyan Yordanov**](https://github.com/Iliyan31)|
 |:------------------:|:-------------------:|
-|User Management||
-|Participant Management||
-|Event Management||
-|Budget Management||
-|Expense Management||
-|Authentication & Authorization||
+|User Management|Task Management|
+|Participant Management|Guest management|
+|Event Management|Contract Management|
+|Budget Management|Vendor Management|
+|Expense Management|Reviews management|
+|Authentication & Authorization|Mail service and push notifications|
 
 For more details, see our **ClickUp** WorkSpace: ...
