@@ -1,7 +1,7 @@
 # EventCrafter 🕐✈️
 
 <p align="center">
-<img width="760px" src="https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool/blob/main/resources/Event.jpg" alt="Events picture">
+<img width="740px" src="https://github.com/Iliyan31/Event-Planning-and-Collaboration-Tool/blob/main/resources/Event.jpg" alt="Events picture">
 </p>
 
 ## Introduction
