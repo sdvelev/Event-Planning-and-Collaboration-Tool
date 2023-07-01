@@ -58,37 +58,37 @@ public class EventParticipantBudgetExpenseFacadeService {
 
 
         for (Participant currentParticipant : participantsCopy) {
-            if (participantService.getParticipantById(currentParticipant.getId()).isPresent()) {
+            if (!currentParticipant.isDeleted() && participantService.getParticipantById(currentParticipant.getId()).isPresent()) {
                 participantService.deleteParticipant(currentParticipant.getId(), userToMakeChanges);
             }
         }
 
         for (Budget currentBudget : budgetsCopy) {
-            if (budgetService.getBudgetById(currentBudget.getId()).isPresent()) {
+            if (!currentBudget.isDeleted() && budgetService.getBudgetById(currentBudget.getId()).isPresent()) {
                 budgetService.deleteBudget(currentBudget.getId(), userToMakeChanges);
             }
         }
 
         for (Expense currentExpense : expensesCopy) {
-            if (expenseService.getExpenseById(currentExpense.getId()).isPresent()) {
+            if (!currentExpense.isDeleted() && expenseService.getExpenseById(currentExpense.getId()).isPresent()) {
                 expenseService.deleteExpense(currentExpense.getId(), userToMakeChanges);
             }
         }
 
 //        for (Contract currentContract : contractsCopy) {
-//            if (contractService.getContractById(currentContract.getId()).isPresent()) {
+//            if (!currentContract.isDeleted() && contractService.getContractById(currentContract.getId()).isPresent()) {
 //                contractService.deleteContract(currentContract.getId());
 //            }
 //        }
 //
 //        for (Guest currentGuest : guestsCopy) {
-//            if (guestService.getExpenseById(currentGuest.getId()).isPresent()) {
+//            if (!currentGuest.isDeleted() && guestService.getExpenseById(currentGuest.getId()).isPresent()) {
 //                guestService.deleteGuest(currentGuest.getId());
 //            }
 //        }
 //
 //        for (Task currentTask : tasksCopy) {
-//            if (taskService.getTaskById(currentTask.getId()).isPresent()) {
+//            if (!currentTask.isDeleted() && taskService.getTaskById(currentTask.getId()).isPresent()) {
 //                taskService.deleteTask(currentTask.getId());
 //            }
 //        }
