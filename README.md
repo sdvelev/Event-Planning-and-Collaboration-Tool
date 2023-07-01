@@ -194,4 +194,4 @@ The project was realized in working as a team. There were regular meetings held 
 |Expense Management|Reviews Management|
 |Authentication & Authorization|Mail service and push notifications|
 
-For more details, see our [ClickUp WorkSpace]()
+For more details, see our [ClickUp WorkSpace](https://sharing.clickup.com/9004097564/l/h/8caz80w-21/0b4ccb4fff02a54)
