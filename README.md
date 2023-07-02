@@ -17,7 +17,7 @@
 
 The following functionalities are supported by the platform:
 
-1. User Managment
+1. User Management
    
 In **EventCrafter** user profiles can be created. Each user is associated with fields such as `id`, `username`, `password`, `name`, `surname`, `email`, `address`. Audit fields as `createdBy`, `creationTime`, `updatedBy` and `lastUpdatedTime` are used for tracking changes. Soft deletion is achieved by `deleted` boolean variable which gets true whenever user is tried to be deleted.
 
@@ -44,7 +44,7 @@ Models for representation of expenses and budgets are used for the purposes of b
 </p>
 5. Authentication and Authorization
 
-Authentication is managed by the interchange of JWT tokens. In the payload of that token, data for the currently loged user is preserved. That is used when it comes to authorization. The authorization policy is done by internal filtering and is as follows: all `GET` requests are allowed, as well as all `POST` requests that are intended for the user controller (as a mean for registration). All other requests require **Authorization** header with value in the form of **Bearer *<token>*** where *<token>* is the token associated to the current session returned by the result of the login method. When it comes to the UI in **Angular**, the browser's local storage is used for storing token information.  
+Authentication is managed by the interchange of JWT tokens. In the payload of that token, data for the currently loged user is preserved. That is used when it comes to authorization. The authorization policy is done by internal filtering and is as follows: all `GET` requests are allowed, as well as all `POST` requests that are intended for the login and user controller (as a mean for registration). All other requests require **Authorization** header with value in the form of **Bearer *<token>*** where *<token>* is the token associated to the current session returned by the result of the login method. When it comes to the UI in **Angular**, the browser's local storage is used for storing token information.  
 
 6. Task management
 
