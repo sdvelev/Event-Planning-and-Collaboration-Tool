@@ -41,7 +41,9 @@ public class UserParticipantFacadeService {
         User userToDelete = userService.deleteUser(username, password, userToMakeChanges);
 
         for (Participant currentParticipant : userToDelete.getParticipantProfiles()) {
-            participantService.deleteParticipant(currentParticipant.getId(), userToMakeChanges);
+            if (!currentParticipant.isDeleted()) {
+                participantService.deleteParticipant(currentParticipant.getId(), userToMakeChanges);
+            }
         }
 
         return true;
